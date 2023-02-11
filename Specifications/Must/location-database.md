@@ -1,8 +1,8 @@
 File created: 11/02/23
 Authors: Kai Barber-Harris
-Reviewers:
-Last review date:
-Review comments:
+Reviewers: 
+Last review date: 
+Review comments: 
 
 # Overview
 The project needs to have a well-formatted database of locations of water fountains, bins, food shops, and bus stops.
@@ -62,3 +62,4 @@ The data collection should simply be made directly into `locations.json`.
   - This is an extremely small improvement, likely only saving a few hundred KB of data per open.
   - This would lend itself to splitting `locations.json` into a set of unique `json` files, so we only send the file which has been updated.
   - An optimisation we could make at the end of the project to show off, if we have time.
+- Depending on how Django implements databases and stores their information, having our own `json` may be overkill and useless. However, it provides a rigid framework in which we can collect data, which plays nicely with Python, Java, and C.
