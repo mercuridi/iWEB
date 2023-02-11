@@ -51,17 +51,17 @@
     }
   ]
 
-  "FBus stops" : [
+  "Bus stops" : [
     {
-    "Name" : "Example name 1",
-    "Location" : "Description of location 1",
+    "Name" : "Example name 7",
+    "Location" : "Description of location 7",
     "Geolocation" : "Latitude, Longitude",
     "Other information" : "",
     "Report references" : ""
     },
     {
-    "Name" : "Example name 2",
-    "Location" : "Description of location 2",
+    "Name" : "Example name 8",
+    "Location" : "Description of location 8",
     "Geolocation" : "Latitude, Longitude",
     "Other information" : "",
     "Report references" : ""
