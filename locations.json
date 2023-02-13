@@ -2,69 +2,97 @@
 
   "Fountains" : [
     {
-    "Name" : "Example name 1",
-    "Location" : "Description of location 1",
-    "Geolocation" : "Latitude, Longitude",
-    "Other information" : "",
-    "Report references" : ""
+      "Name" : "The Ram Fountain",
+      "Location" : "In the corner of the Ram on the right hand side; visible from just inside the door",
+      "Geolocation" : "50.73514N, 3.53438W",
+      "Other information" : "",
+      "Report references" : ""
     },
     {
-    "Name" : "Example name 2",
-    "Location" : "Description of location 2",
-    "Geolocation" : "Latitude, Longitude",
-    "Other information" : "",
-    "Report references" : ""
+      "Name" : "Terrace Fountain",
+      "Location" : "In the north-west corner of the Terrace",
+      "Geolocation" : "50.73514N, 3.53433W",
+      "Other information" : "Currently out of order",
+      "Report references" : ""
+    },
+    {
+      "Name" : "Harrison Fountain",
+      "Location" : "Down the corridor on the left from the front entrance of Harrison",
+      "Geolocation" : "50.73604N, 3.53455W",
+      "Other information" : "",
+      "Report references" : ""
     }
   ]
   
   "Canteens" : [
     {
-    "Name" : "Example name 3",
-    "Location" : "Description of location 3",
-    "Geolocation" : "Latitude, Longitude",
-    "Other information" : "",
-    "Report references" : ""
+      "Name" : "The Ram",
+      "Location" : "Between DH1 and the Forum; next to DH1 Marketplace",
+      "Geolocation" : "50.73514N, 3.53438W",
+      "Other information" : "",
+      "Report references" : ""
+    },    
+    {
+      "Name" : "DH1 Marketplace",
+      "Location" : "Between DH1 and the Forum; next to the Ram",
+      "Geolocation" : "50.73506N, 3.53417W",
+      "Other information" : "Options are somewhat limited",
+      "Report references" : ""
     },
     {
-    "Name" : "Example name 4",
-    "Location" : "Description of location 4",
-    "Geolocation" : "Latitude, Longitude",
-    "Other information" : "",
-    "Report references" : ""
+      "Name" : "Barisca Cafe",
+      "Location" : "Inside Peter Chalk, on the left from the front door",
+      "Geolocation" : "50.73632N, 3.53580W",
+      "Other information" : "",
+      "Report references" : ""
+    },
+    {
+      "Name" : "Comida",
+      "Location" : "At the end of DH1 closest to the Forum",
+      "Geolocation" : "50.73499N, 3.53440W",
+      "Other information" : "",
+      "Report references" : ""
     }
   ]
 
   "Bins" : [
     {
-    "Name" : "Example name 5",
-    "Location" : "Description of location 5",
-    "Geolocation" : "Latitude, Longitude",
-    "Other information" : "",
-    "Report references" : ""
+      "Name" : "Sanctuary Bins",
+      "Location" : "Inside the Sanctuary on either side of the doors",
+      "Geolocation" : "50.73577N, 3.53455W",
+      "Other information" : "",
+      "Report references" : ""
     },
     {
-    "Name" : "Example name 6",
-    "Location" : "Description of location 6",
-    "Geolocation" : "Latitude, Longitude",
-    "Other information" : "",
-    "Report references" : ""
+      "Name" : "Terrace Bins",
+      "Location" : "On the north-east wall of the terrace; right from the entrance near the stairs from DH1",
+      "Geolocation" : "50.73508N, 3.53436W",
+      "Other information" : "",
+      "Report references" : ""
+    },
+    {
+      "Name" : "Peter Chalk Entrance Bins",
+      "Location" : "In front of the main entrance to Peter Chalk",
+      "Geolocation" : "50.73627N, 3.53583W",
+      "Other information" : "",
+      "Report references" : ""
+    },
+    {
+      "Name" : "Harrison Entrance Bins",
+      "Location" : "Next to the entrance to the Engine Room cafe on the ground floor of Harrison",
+      "Geolocation" : "50.73735N, 3.53300W",
+      "Other information" : "",
+      "Report references" : ""
     }
   ]
 
   "Bus stops" : [
     {
-    "Name" : "Example name 7",
-    "Location" : "Description of location 7",
-    "Geolocation" : "Latitude, Longitude",
-    "Other information" : "",
-    "Report references" : ""
-    },
-    {
-    "Name" : "Example name 8",
-    "Location" : "Description of location 8",
-    "Geolocation" : "Latitude, Longitude",
-    "Other information" : "",
-    "Report references" : ""
+      "Name" : "Stocker Road",
+      "Location" : "On the road just downhill between the Forum and Peter Chalk",
+      "Geolocation" : "50.73604N, 3.53455W",
+      "Other information" : "",
+      "Report references" : ""
     }
   ]
   
