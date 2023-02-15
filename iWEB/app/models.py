@@ -1,3 +1,5 @@
+# Dimitar: Location model
+
 from django.db import models
 
 # Location model
