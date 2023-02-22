@@ -1,0 +1,45 @@
+<!--Leaderboard html-->
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<!--Set parameters-->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href='leaderboard.css' rel='stylesheet'>
+		<script src='script.js'></script>
+		<script>
+			window.playername = '{{username}}' || localStorage.getItem('playername');
+		</script>
+		<!--Title-->
+		<title>Leader Board</title>
+	</head>
+
+	<body onload='getLeaders()'>
+		<!--Displayed Title-->
+		<h1>Leader Board</h1>
+
+
+		<!--Display all of the highscores-->
+		<div class='center' id='container'>
+            <div class="row">
+                <div class="name">Player1</div><div class="score">430</div>
+              </div>
+            
+              <div class="row">
+                <div class="name">Player2</div><div class="score">580</div>
+              </div>
+            
+              <div class="row">
+                <div class="name">Player3</div><div class="score">310</div>
+              </div>
+            
+              <div class="row">
+                <div class="name">Player4</div><div class="score">640</div>
+              </div>
+            
+              <div class="row">
+                <div class="name">Player5</div><div class="score">495</div>
+              </div>
+	</body>
+
+</html>
