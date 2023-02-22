@@ -1,0 +1,4 @@
+iWEB/app/__pycache__/*.*.pyc
+iWEB/app/migrations/__pycache__/*.pyc
+iWEB/iWEB/__pycache__/*.pyc
+.vscode/launch.json
