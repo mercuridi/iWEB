@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('test', views.test,name='test'),
+    path('contactus', views.contactus, name='contactus'),
     path('leaderboard',views.leaderboard,name='leaderboard'),
     path('home', views.home, name='home'),
     path('addLocation', views.addLocation, name='add-location'),

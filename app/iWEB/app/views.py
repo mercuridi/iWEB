@@ -11,6 +11,9 @@ from leaderboard.leaderboard import Leaderboard
 from django.contrib.auth.models import User
 
 # Create your views here.
+def contactus(request):
+    return render(request, 'contactus.html')
+
 def leaderboard(request):
     userList = User.objects.values()
     
