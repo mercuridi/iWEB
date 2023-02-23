@@ -9,6 +9,8 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 
 # Create your views here.
+def test(request):
+    return render(request, 'test.html')
 
 def home(request):
     all_items = Item.objects.all
