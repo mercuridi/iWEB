@@ -9,6 +9,9 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 
 # Create your views here.
+def contactus(request):
+    return render(request, 'contactus.html')
+
 def leaderboard(request):
     return render(request, 'leaderboard.html')
 
