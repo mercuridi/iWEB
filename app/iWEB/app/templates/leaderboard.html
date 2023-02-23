@@ -37,7 +37,20 @@
             
               <div class="row">
                 <div class="name">Player5</div><div class="score">495</div>
-              </div>
+		</div>
+
+		<div class = 'centre' id = 'container2'>
+			{% if values %}
+			<ol> {% for item in values %}
+				  <li>{{ item.username }} {{item.score}}</li>
+				  {% endfor %}
+			</ol>
+		   {% else %}
+				<p>No data found</p>
+			{% endif %}
+		</div>
+
+
 	</body>
 
 </html>

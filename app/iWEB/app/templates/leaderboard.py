@@ -2,7 +2,6 @@ from leaderboard.leaderboard import Leaderboard
 from django.contrib.auth.models import User
 
 userList = User.objects.values()
-print (userList)
 
 #create new leaderboard
 highscore_lb = Leaderboard('highscores')
@@ -22,7 +21,8 @@ SCORE_KEY = 'score'
 RANK_KEY = 'rank'
 
 #ranking members
-
+def getLeaders():
+  return userList
 #add members using rank_member
 for index in range(1, 6):
   highscore_lb.rank_member('member_%s' % index, index)
