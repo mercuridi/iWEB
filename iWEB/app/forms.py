@@ -11,13 +11,15 @@ class LocationForm(ModelForm):
         fields = ['type', 'building', 'longitude', 'latitude', 'information', 'usable']
         
 class NewUserForm(UserCreationForm):
+    streak = forms.IntegerField(initial = 0, disabled = True)
+    points = forms.IntegerField(initial = 0, disabled = True)
     
-	class Meta:
-		model = User
-		fields = ('username', 'email', 'password1', 'password2')
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2','streak', 'points']
 
-	def save(self, commit=True):
-		user = super(NewUserForm, self).save(commit=False)
-		if commit:
-			user.save()
-		return user
+    def save(self, commit=True):
+        user = super(NewUserForm, self).save(commit=False)
+        if commit:
+            user.save()
+        return user
