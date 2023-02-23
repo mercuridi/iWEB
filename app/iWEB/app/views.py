@@ -9,6 +9,9 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 
 # Create your views here.
+def leaderboard(request):
+    return render(request, 'leaderboard.html')
+
 def test(request):
     return render(request, 'test.html')
 
