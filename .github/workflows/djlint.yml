@@ -25,5 +25,4 @@ jobs:
     - name: Reformat HTML with djlint and relint to check
       run: | 
         djlint app/iWEB/app/templates/ --profile=django
-        djlint . --reformat
         djlint . --lint
