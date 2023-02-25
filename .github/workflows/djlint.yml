@@ -24,6 +24,6 @@ jobs:
         pip install djlint
     - name: Analyse HTML with djlint
       run: | 
-        djlint iWEB/app/iWEB/app/templates/ --profile=django
+        djlint app/iWEB/app/templates/ --profile=django
         djlint . --extension=html.j2 --lint
         djlint . --extension=html.j2 --check
