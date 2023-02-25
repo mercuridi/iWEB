@@ -10,10 +10,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: setup-python
-    - uses: actions/setup-python@v4
+      uses: actions/setup-python@v4
       with:
         python-version: '3.11'
     - name: install-pylint
-    - run: pip install pylint
+      run: pip install pylint
     - name: run pylint
-    - run: find . -name '*.py' -exec pylint {} \;
+      run: find . -name '*.py' -exec pylint {} \;
