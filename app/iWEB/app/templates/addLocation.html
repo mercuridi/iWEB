@@ -2,9 +2,8 @@
     <h1>Thank you for submitting your location!</h1>
 {% else %}
     <h1>Submit a location</h1>
-
     <form action ="" method=POST>
-        {% csrf_token%}
+        {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Add Location">
     </form>
