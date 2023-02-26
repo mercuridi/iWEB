@@ -1,0 +1,1 @@
+# note that django-related tests should be written in app/iWEB/app/templates/tests.py
