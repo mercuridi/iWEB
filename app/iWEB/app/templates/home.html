@@ -1,48 +1,43 @@
 <html>
-
-<li><a href="{% url 'add-location' %}">Add Location</a></li>
-<body>
-
-<h2>Items in the shop:</h2>
-
-<table style="width:30%">
-  <tr>
-    <th>Item Name</th>
-    <th>Description</th>
-    <th>Price (WEBBS)</th>
-  </tr>
-  {% for item in all_items %}
-  <tr>
-    <td> {{ item.name }}</td>
-    <td> {{ item.description }} </td>
-    <td> {{ item.price }} </td>
-    
-  </tr>
-  {% endfor %}
-</table>
-
-<h2>Locations:</h2>
-
-<table style="width:30%">
-  <tr>
-    <th>Type</th>
-    <th>Building</th>
-    <th>Longitude</th>
-    <th>Latitude</th>
-    <th>Information</th>
-    <th>Is it usable?</th>
-  </tr>
-  {% for location in all_locations %}
-  <tr>
-    <td> {{ location.type }}</td>
-    <td> {{ location.building }} </td>
-    <td> {{ location.longitude }} </td>
-    <td> {{ location.latitude }} </td>
-    <td> {{ location.information }} </td>
-    <td> {{ location.usable }} </td>
-    
-  </tr>
-  {% endfor %}
-</table>
-</body>
+    <li>
+        <a href="{% url 'add-location' %}">Add Location</a>
+    </li>
+    <body>
+        <h2>Items in the shop:</h2>
+        <table style="width:30%">
+            <tr>
+                <th>Item Name</th>
+                <th>Description</th>
+                <th>Price (WEBBS)</th>
+            </tr>
+            {% for item in all_items %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.price }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <h2>Locations:</h2>
+        <table style="width:30%">
+            <tr>
+                <th>Type</th>
+                <th>Building</th>
+                <th>Longitude</th>
+                <th>Latitude</th>
+                <th>Information</th>
+                <th>Is it usable?</th>
+            </tr>
+            {% for location in all_locations %}
+                <tr>
+                    <td>{{ location.type }}</td>
+                    <td>{{ location.building }}</td>
+                    <td>{{ location.longitude }}</td>
+                    <td>{{ location.latitude }}</td>
+                    <td>{{ location.information }}</td>
+                    <td>{{ location.usable }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </body>
 </html>
