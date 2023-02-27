@@ -2,13 +2,12 @@
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
-from .models import Location, Item
+from .models import Location, Item, User
 from .forms import LocationForm, NewUserForm
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from leaderboard.leaderboard import Leaderboard
-from django.contrib.auth.models import User
 
 # Create your views here.
 def contactus(request):
@@ -16,11 +15,12 @@ def contactus(request):
 
 def leaderboard(request):
     userList = User.objects.values()
-    
     return render(request, 'leaderboard.html',{'values':userList})
 
 def test(request):
-    return render(request, 'test.html')
+    userList = User.objects.values()
+    itemList = Location.objects.values()
+    return render(request, 'test.html',{'scores':userList, 'closest_things': itemList})
 
 def home(request):
     all_items = Item.objects.all

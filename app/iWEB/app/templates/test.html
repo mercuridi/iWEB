@@ -1,5 +1,5 @@
 <!-- PARAMETERS:-->
-<!-- closest_things is a list of the closest objects, each one requires a name (bin, water filling station, etc) and a location (probably in words for this section)-->
+<!-- closest_things is a list of the closest objects, each one requires a type (bin, water filling station, etc) and a location (probably in words for this section)-->
 <!-- scores is a list of the top 5 players plus the current user, each one requiring a name and a score sorted in descending order-->
 <!DOCTYPE html>
 <html>
@@ -22,17 +22,6 @@
             /* Remove margins from "page content" on small screens */
             @media only screen and (max-width: 600px) {#main {margin-left: 0}}
         </style>
-        <!-- Closest things parsed into the parameter closest_things-->
-        <div class = 'centre' id = 'closest_things'>
-			{% if closest_things %}
-			<ol> {% for item in closest_things %}
-				  <li>{{ item.name }} {{item.location}}</li>
-				  {% endfor %}
-			</ol>
-		   {% else %}
-				<p>No data found</p>
-			{% endif %}
-		</div>
     </head>
     <body class="w3-black">
 
@@ -88,6 +77,17 @@
             <!-- Header/Home -->
             <header class="w3-container w3-padding-32 w3-center w3-black" id="home">
                 <h1 class="w3-jumbo"><span class="w3-hide-small">Welcome to </span>iWEB</h1>
+                <!-- Closest things parsed into the parameter closest_things-->
+                    <div class = 'centre' id = 'closest_things'>
+                        {% if closest_things %}
+                        <ol> {% for item in closest_things %}
+                            <li>{{item.type}}: {{item.building}}, {{item.information}}</li>
+                            {% endfor %}
+                        </ol>
+                    {% else %}
+                            <p>No data found</p>
+                        {% endif %}
+                    </div>
             </header>
 
             <!-- Map Section -->
