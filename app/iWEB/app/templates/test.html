@@ -1,6 +1,8 @@
 <!-- PARAMETERS:-->
 <!-- closest_things is a list of the closest objects, each one requires a type (bin, water filling station, etc) and a location (probably in words for this section)-->
 <!-- scores is a list of the top 5 players plus the current user, each one requiring a name and a score sorted in descending order-->
+<!-- submitted is a boolean on if the request to add a location has gone through or not-->
+<!-- locationForm is the form containing what data needs to be inputted to the database-->
 <!DOCTYPE html>
 <html>
     <head>
@@ -100,7 +102,17 @@
             <!-- Report Section -->
             <div class="w3-content w3-justify w3-text-grey w3-padding-64" id="report">
                 <h2 class="w3-text-light-grey">Report</h2>
-                <iframe src = "addLocation.html" title="Report location"></iframe>
+                    {% if submitted %}
+                        <h1>Thank you for submitting your location!</h1>
+                    {% else %}
+                        <h1>Submit a location</h1>
+
+                        <form action ="" method=POST>
+                            {% csrf_token%}
+                            {{ locationForm.as_p }}
+                            <input type="submit" value="Add Location">
+                        </form>
+                    {% endif %}
             </div>
             <!-- End Report Section-->
 

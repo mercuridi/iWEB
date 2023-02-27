@@ -20,7 +20,18 @@ def leaderboard(request):
 def test(request):
     userList = User.objects.values()
     itemList = Location.objects.values()
-    return render(request, 'test.html',{'scores':userList, 'closest_things': itemList})
+    submitted = False
+    if request.method == "POST":
+        form = LocationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/addLocation?submitted=True')
+    else:
+        form = LocationForm
+        if 'submitted' in request.GET:
+            submitted = True
+    form = LocationForm
+    return render(request, 'test.html',{'scores':userList, 'closest_things': itemList,'locationForm': LocationForm, 'submitted': submitted})
 
 def home(request):
     all_items = Item.objects.all
@@ -39,7 +50,7 @@ def addLocation(request):
         if 'submitted' in request.GET:
             submitted = True
     form = LocationForm
-    return render(request, 'addLocation.html', {'form': LocationForm, 'submitted': submitted})
+    return render(request, 'addLocation.html', {'locationForm': LocationForm, 'submitted': submitted})
     
 def register_request(request):
     if request.method == "POST":

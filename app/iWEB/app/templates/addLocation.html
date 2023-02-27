@@ -5,7 +5,7 @@
 
     <form action ="" method=POST>
         {% csrf_token%}
-        {{ form.as_p }}
+        {{ locationForm.as_p }}
         <input type="submit" value="Add Location">
     </form>
 {% endif %}
