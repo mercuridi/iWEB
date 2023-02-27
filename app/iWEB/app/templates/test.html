@@ -1,3 +1,6 @@
+<!-- PARAMETERS:-->
+<!-- closest_things is a list of the closest objects, each one requires a name (bin, water filling station, etc) and a location (probably in words for this section)-->
+<!-- scores is a list of the top 5 players plus the current user, each one requiring a name and a score sorted in descending order-->
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,6 +22,17 @@
             /* Remove margins from "page content" on small screens */
             @media only screen and (max-width: 600px) {#main {margin-left: 0}}
         </style>
+        <!-- Closest things parsed into the parameter closest_things-->
+        <div class = 'centre' id = 'closest_things'>
+			{% if closest_things %}
+			<ol> {% for item in closest_things %}
+				  <li>{{ item.name }} {{item.location}}</li>
+				  {% endfor %}
+			</ol>
+		   {% else %}
+				<p>No data found</p>
+			{% endif %}
+		</div>
     </head>
     <body class="w3-black">
 
@@ -93,7 +107,18 @@
             <!-- Leaderboard Section -->
             <div class="w3-content w3-justify w3-text-grey w3-padding-64" id="leaderboard">
                 <h2 class="w3-text-light-grey">Leaderboard</h2>
-                <iframe src = "leaderboard.html" title="Leaderboard"></iframe>
+
+                <!-- Leaderboard content-->
+                <div class = 'centre' id = 'container2'>
+                    {% if scores %}
+                    <ol> {% for item in scores %}
+                          <li>{{ item.username }} {{item.score}}</li>
+                          {% endfor %}
+                    </ol>
+                   {% else %}
+                        <p>No data found</p>
+                    {% endif %}
+                </div>
             </div>
             <!-- End Leaderboard Section-->
 
