@@ -84,6 +84,7 @@
                 <h1 class="w3-jumbo"><span class="w3-hide-small">Welcome to </span>iWEB</h1>
                 <!-- Closest things parsed into the parameter closest_things-->
                     <div class = 'centre' id = 'closest_things'>
+                        <a>Your closest options are:</a>
                         {% if closest_things %}
                         <ol> {% for item in closest_things %}
                             <li>{{item.type}}: {{item.building}}, {{item.information}}</li>
@@ -168,7 +169,7 @@
                                     <label for="subject">Report</label>
                                 </li>
                                 <li>
-                                    <textarea id="subject" name="subject" placeholder="Report a change..." style="height:200px" required></textarea>
+                                    <textarea id="subject" name="subject" placeholder="Report a change..." style="height:100px" required></textarea>
                                 </li>
                                 <li>
                                     <button type="submit">Submit</button>

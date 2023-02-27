@@ -10,13 +10,6 @@ from django.contrib.auth.forms import AuthenticationForm
 from leaderboard.leaderboard import Leaderboard
 
 # Create your views here.
-def contactus(request):
-    return render(request, 'contactus.html')
-
-def leaderboard(request):
-    userList = User.objects.values()
-    return render(request, 'leaderboard.html',{'values':userList})
-
 def test(request):
     userList = User.objects.values()
     itemList = Location.objects.values()
