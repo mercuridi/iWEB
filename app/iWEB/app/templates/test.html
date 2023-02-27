@@ -138,7 +138,33 @@
             <!-- Contact Section -->
             <div class="w3-padding-64 w3-content w3-text-grey" id="contactus">
                 <h2 class="w3-text-light-grey">Contact Me</h2>
-                <iframe src = "contactus.html" title="Contact us"></iframe>
+                    <head>
+                        <title>Link CSS to HTML</title>
+                        <link rel="stylesheet" type="text/css" href="contactus.css">
+                    </head>
+                    <div class="container">
+                        <form action="https://formsubmit.co/exetertestcontacts@gmail.com" method="POST">
+                            <ul style='list-style-type:none'>
+                                <li>
+                                    <label for="fname">First Name</label>
+                                    <input type="text" id="fname" name="firstname" placeholder="Your name.." required>
+                                </li>
+                                <li>
+                                    <label for="email">Email</label>
+                                    <input type="text" id="email" name="email" placeholder="Your email address.." required>
+                                </li>
+                                <li>
+                                    <label for="subject">Report</label>
+                                </li>
+                                <li>
+                                    <textarea id="subject" name="subject" placeholder="Report a change..." style="height:200px" required></textarea>
+                                </li>
+                                <li>
+                                    <button type="submit">Submit</button>
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
                 </form>
         <!-- End Contact Section -->
             </div>
