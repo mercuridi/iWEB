@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
-
+"""Module defining the web app's different directories and structures.
+"""
 urlpatterns = [
     path('test', views.test,name='test'),
     path('home', views.home, name='home'),
