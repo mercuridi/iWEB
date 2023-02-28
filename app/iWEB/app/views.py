@@ -19,17 +19,20 @@ def test(request):
     userList = User.objects.values()
     locList = Location.objects.values()
     itemList = Item.objects.all
+
+    #add location
     submitted = False
     if request.method == "POST":
         form = LocationForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/addLocation?submitted=True')
+            return HttpResponseRedirect('/addLocation?submitted=True') #This should probably be changed to avoid redirects to a dead page
     else:
         form = LocationForm
         if 'submitted' in request.GET:
             submitted = True
     form = LocationForm
+
     return render(request, 'test.html',{'points': 256, 'item_list':itemList, 'scores':userList, 'closest_things': locList,'location_form': LocationForm, 'submitted': submitted})
 
 def home(request):
@@ -38,21 +41,6 @@ def home(request):
     all_locations = Location.objects.all
     return render(request, 'home.html', {'all_items': all_items, 'all_locations': all_locations})
 
-def add_location(request):
-    """View to submit a location request to the gamekeeper team"""
-    submitted = False
-    if request.method == "POST":
-        form = LocationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/addLocation?submitted=True')
-    else:
-        form = LocationForm
-        if 'submitted' in request.GET:
-            submitted = True
-    form = LocationForm
-    return render(request, 'addLocation.html', {'locationForm': LocationForm, 'submitted': submitted})
-    
 def register_request(request):
     """View to create a new user on the registration page"""
     if request.method == "POST":
