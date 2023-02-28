@@ -9,20 +9,34 @@
 <!-- item_list is the list of every object in the shop -->
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>iWEB test homepage</title>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="index.css"/>
-        <link rel="stylesheet" type="text/css" href="contactus.css" />
-        <link rel="stylesheet" type="text/css" href="leaderboard.css" />
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
-        <!--link rel="stylesheet" href="testlib.css"-->
-        <link rel="stylesheet"
-              href="https://fonts.googleapis.com/css?family=Montserrat"/>
-        <link rel="stylesheet"
-              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
-        <style>
+	<head>
+		<title>iWEB test homepage</title>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1" />
+		<link
+			rel="stylesheet"
+			href="index.css" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="contactus.css" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="leaderboard.css" />
+		<link
+			rel="stylesheet"
+			href="https://www.w3schools.com/w3css/4/w3.css" />
+		<!--link rel="stylesheet" href="testlib.css"-->
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css?family=Montserrat" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+		<style>
 			body,
 			h1,
 			h2,
@@ -50,243 +64,286 @@
 					margin-left: 0;
 				}
 			}
-		
-        </style>
-    </head>
-    <body class="w3-black">
-        <!-- Icon Bar (Sidebar - hidden on small screens) -->
-        <nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
-            <a href="#" class="w3-bar-item w3-button w3-padding-large w3-black">
-                <i class="fa fa-home w3-xxlarge"></i>
-                <p>Menu</p>
-            </a>
-            <a href="#map"
-               class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-                <i class="fa fa-user w3-xxlarge"></i>
-                <p>Map</p>
-            </a>
-            <a href="#report"
-               class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-                <i class="fa fa-user w3-xxlarge"></i>
-                <p>Report</p>
-            </a>
-            <a href="#leaderboard"
-               class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-                <i class="fa fa-user w3-xxlarge"></i>
-                <p>Leaderboard</p>
-            </a>
-            <a href="#friends"
-               class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-                <i class="fa fa-user w3-xxlarge"></i>
-                <p>Friends</p>
-            </a>
-            <a href="#settings"
-               class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-                <i class="fa fa-user w3-xxlarge"></i>
-                <p>Settings</p>
-            </a>
-            <a href="#contactus"
-               class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-                <i class="fa fa-user w3-xxlarge"></i>
-                <p>Contact us</p>
-            </a>
-            <a href="#shop"
-               class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-                <i class="fa fa-user w3-xxlarge"></i>
-                <p>You have {{ points }} credits</p>
-            </a>
-        </nav>
-        <!-- Navbar on small screens (Hidden on medium and large screens) -->
-        <div class="w3-top w3-hide-large w3-hide-medium" id="myNavbar">
-            <div class="w3-bar w3-black w3-center w3-small">
-                <a href="#" class="w3-bar-item w3-button" style="width: 25% !important">Menu</a
-                    >
-                    <div id="myLinks">
-                        <a href="#map"
-                           class="w3-bar-item w3-button"
-                           style="width: 25% !important">Map</a
-                            >
-                            <a href="#report"
-                               class="w3-bar-item w3-button"
-                               style="width: 25% !important">Report</a
-                                >
-                                <a href="#leaderboard"
-                                   class="w3-bar-item w3-button"
-                                   style="width: 25% !important">Leaderboard</a
-                                    >
-                                    <a href="#friends"
-                                       class="w3-bar-item w3-button"
-                                       style="width: 25% !important">Friends</a
-                                        >
-                                        <a href="#settings"
-                                           class="w3-bar-item w3-button"
-                                           style="width: 25% !important">Settings</a
-                                            >
-                                            <a href="#contactus"
-                                               class="w3-bar-item w3-button"
-                                               style="width: 25% !important">Contact us</a
-                                                >
-                                                <a href="#shop"
-                                                   class="w3-bar-item w3-button"
-                                                   style="width: 25% !important">{{ points }}#</a
-                                                    >
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Page Content -->
-                                        <div class="w3-padding-large" id="main">
-                                            <!-- Header/Home -->
-                                            <header class="w3-container w3-padding-32 w3-center w3-black" id="home">
-                                                <h1 class="w3-jumbo">
-                                                    <span class="w3-hide-small">Welcome to</span>iWEB
-                                                </h1>
-                                                <!-- Closest things parsed into the parameter closest_things-->
-                                                <div class="centre" id="closest_things">
-                                                    <a>Your closest options are:</a>
-                                                    {% if closest_things %}
-                                                        <ol>
-                                                            {% for item in closest_things %}
-                                                                <li>
-                                                                    {{ item.type }}: {{ item.building }},
-                                                                    {{ item.information }}
-                                                                </li>
-                                                            {% endfor %}
-                                                        </ol>
-                                                    {% else %}
-                                                        <p>No data found</p>
-                                                    {% endif %}
-                                                </div>
-                                            </header>
-                                            <!-- Map Section -->
-                                            <div class="w3-content w3-justify w3-text-grey w3-padding-64" id="map">
-                                                <h2 class="w3-text-light-grey">Map</h2>
-                                                <canvas id="myCanvas"
-                                                        width="400"
-                                                        height="400"
-                                                        style="border: 1px solid #ffffff"></canvas>
-                                            </div>
-                                            <!-- End Map Section-->
-                                            <!-- Report Section -->
-                                            <div class="w3-content w3-justify w3-text-grey w3-padding-64" id="report">
-                                                <h2 class="w3-text-light-grey">Report</h2>
-                                                {% if submitted %}
-                                                    <h1>Thank you for submitting your location!</h1>
-                                                {% else %}
-                                                    <h1>Submit a location</h1>
-                                                    <form action="" method="POST">
-                                                        {% csrf_token %} {{ location_form.as_p }}
-                                                        <input type="submit" value="Add Location" />
-                                                    </form>
-                                                {% endif %}
-                                            </div>
-                                            <!-- End Report Section-->
-                                            <!-- Leaderboard Section -->
-                                            <div class="w3-content w3-justify w3-text-grey w3-padding-64"
-                                                 id="leaderboard">
-                                                <h2 class="w3-text-light-grey">Leaderboard</h2>
-                                                <!-- Leaderboard content-->
-                                                <div class="centre" id="container2">
-                                                    {% if scores %}
-                                                        <ol>
-                                                            {% for item in scores %}<li>{{ item.username }} {{ item.score }}</li>{% endfor %}
-                                                        </ol>
-                                                    {% else %}
-                                                        <p>No data found</p>
-                                                    {% endif %}
-                                                </div>
-                                            </div>
-                                            <!-- End Leaderboard Section-->
-                                            <!-- Friends Section -->
-                                            <div class="w3-content w3-justify w3-text-grey w3-padding-64" id="friends">
-                                                <h2 class="w3-text-light-grey">Friends</h2>
-                                                <iframe src="friendlist.html" title="Friends list"></iframe>
-                                            </div>
-                                            <!-- End Friends Section-->
-                                            <!-- Settings Section -->
-                                            <div class="w3-content w3-justify w3-text-grey w3-padding-64"
-                                                 id="settings">
-                                                <h2 class="w3-text-light-grey">Settings</h2>
-                                            </div>
-                                            <!-- End Settings Section-->
-                                            <!-- Contact Section -->
-                                            <div class="w3-padding-64 w3-content w3-text-grey" id="contactus">
-                                                <h2 class="w3-text-light-grey">Contact Me</h2>
-                                                <div class="container">
-                                                    <form action="https://formsubmit.co/exetertestcontacts@gmail.com"
-                                                          method="POST">
-                                                        <ul style="list-style-type: none">
-                                                            <li>
-                                                                <label for="fname">First Name</label>
-                                                                <input type="text"
-                                                                       id="fname"
-                                                                       name="firstname"
-                                                                       placeholder="Your name.."
-                                                                       required/>
-                                                            </li>
-                                                            <li>
-                                                                <label for="email">Email</label>
-                                                                <input type="text"
-                                                                       id="email"
-                                                                       name="email"
-                                                                       placeholder="Your email address.."
-                                                                       required/>
-                                                            </li>
-                                                            <li>
-                                                                <label for="subject">Report</label>
-                                                            </li>
-                                                            <li>
-                                                                <textarea id="subject"
-                                                                          name="subject"
-                                                                          placeholder="Report a change..."
-                                                                          style="height: 100px"
-                                                                          required></textarea>
-                                                            </li>
-                                                            <li>
-                                                                <button type="submit">Submit</button>
-                                                            </li>
-                                                        </ul>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                            <!-- End Contact Section -->
-                                            <!-- Points/Shop Section -->
-                                            <div class="w3-content w3-justify w3-text-grey w3-padding-64" id="shop">
-                                                <h2 class="w3-text-light-grey">
-                                                    Shop
-                                                </h2>
-                                                <h2>
-                                                    Items in the shop:
-                                                </h2>
-                                                <table style="width: 30%">
-                                                    <tr>
-                                                        <th>
-                                                            Item Name
-                                                        </th>
-                                                        <th>
-                                                            Description
-                                                        </th>
-                                                        <th>
-                                                            Price (WEBBS)
-                                                        </th>
-                                                    </tr>
-                                                    {% for item in item_list %}
-                                                        <tr>
-                                                            <td>
-                                                                {{ item.name }}
-                                                            </td>
-                                                            <td>
-                                                                {{ item.description }}
-                                                            </td>
-                                                            <td>
-                                                                {{ item.price }}
-                                                            </td>
-                                                        </tr>
-                                                    {% endfor %}
-                                                </table>
-                                            </div>
-                                            <!-- End Points/Shop Section-->
-                                        </div>
-                                        <!-- END PAGE CONTENT -->
-                                        <script src="test.css"></script>
-                                    </body>
-                                </html>
+		</style>
+	</head>
+	<body class="w3-black">
+		<!-- Icon Bar (Sidebar - hidden on small screens) -->
+		<nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
+			<a
+				href="#"
+				class="w3-bar-item w3-button w3-padding-large w3-black">
+				<i class="fa fa-home w3-xxlarge"></i>
+				<p>Menu</p>
+			</a>
+			<a
+				href="#map"
+				class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+				<i class="fa fa-user w3-xxlarge"></i>
+				<p>Map</p>
+			</a>
+			<a
+				href="#report"
+				class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+				<i class="fa fa-user w3-xxlarge"></i>
+				<p>Report</p>
+			</a>
+			<a
+				href="#leaderboard"
+				class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+				<i class="fa fa-user w3-xxlarge"></i>
+				<p>Leaderboard</p>
+			</a>
+			<a
+				href="#friends"
+				class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+				<i class="fa fa-user w3-xxlarge"></i>
+				<p>Friends</p>
+			</a>
+			<a
+				href="#settings"
+				class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+				<i class="fa fa-user w3-xxlarge"></i>
+				<p>Settings</p>
+			</a>
+			<a
+				href="#contactus"
+				class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+				<i class="fa fa-user w3-xxlarge"></i>
+				<p>Contact us</p>
+			</a>
+			<a
+				href="#shop"
+				class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+				<i class="fa fa-user w3-xxlarge"></i>
+				<p>You have {{ points }} credits</p>
+			</a>
+		</nav>
+		<!-- Navbar on small screens (Hidden on medium and large screens) -->
+		<div
+			class="w3-top w3-hide-large w3-hide-medium"
+			id="myNavbar">
+			<div class="w3-bar w3-black w3-center w3-small">
+				<a
+					href="#"
+					class="w3-bar-item w3-button"
+					style="width: 25% !important"
+					>Menu</a
+				>
+				<a
+					href="#map"
+					class="w3-bar-item w3-button"
+					style="width: 25% !important"
+					>Map</a
+				>
+				<a
+					href="#report"
+					class="w3-bar-item w3-button"
+					style="width: 25% !important"
+					>Report</a
+				>
+				<a
+					href="#leaderboard"
+					class="w3-bar-item w3-button"
+					style="width: 25% !important"
+					>Leaderboard</a
+				>
+				<a
+					href="#friends"
+					class="w3-bar-item w3-button"
+					style="width: 25% !important"
+					>Friends</a
+				>
+				<a
+					href="#settings"
+					class="w3-bar-item w3-button"
+					style="width: 25% !important"
+					>Settings</a
+				>
+				<a
+					href="#contactus"
+					class="w3-bar-item w3-button"
+					style="width: 25% !important"
+					>Contact us</a
+				>
+				<a
+					href="#shop"
+					class="w3-bar-item w3-button"
+					style="width: 25% !important"
+					>{{ points }}#</a
+				>
+			</div>
+		</div>
+		<!-- Page Content -->
+		<div
+			class="w3-padding-large"
+			id="main">
+			<!-- Header/Home -->
+			<header
+				class="w3-container w3-padding-32 w3-center w3-black"
+				id="home">
+				<h1 class="w3-jumbo">
+					<span class="w3-hide-small">Welcome to</span>iWEB
+				</h1>
+				<!-- Closest things parsed into the parameter closest_things-->
+				<div
+					class="centre"
+					id="closest_things">
+					<a>Your closest options are:</a>
+					{% if closest_things %}
+					<ol>
+						{% for item in closest_things %}
+						<li>
+							{{ item.type }}: {{ item.building }}, {{
+							item.information }}
+						</li>
+						{% endfor %}
+					</ol>
+					{% else %}
+					<p>No data found</p>
+					{% endif %}
+				</div>
+			</header>
+			<!-- Map Section -->
+			<div
+				class="w3-content w3-justify w3-text-grey w3-padding-64"
+				id="map">
+				<h2 class="w3-text-light-grey">Map</h2>
+				<canvas
+					id="myCanvas"
+					width="400"
+					height="400"
+					style="border: 1px solid #ffffff"></canvas>
+			</div>
+			<!-- End Map Section-->
+			<!-- Report Section -->
+			<div
+				class="w3-content w3-justify w3-text-grey w3-padding-64"
+				id="report">
+				<h2 class="w3-text-light-grey">Report</h2>
+				{% if submitted %}
+				<h1>Thank you for submitting your location!</h1>
+				{% else %}
+				<h1>Submit a location</h1>
+				<form
+					action=""
+					method="POST">
+					{% csrf_token %} {{ location_form.as_p }}
+					<input
+						type="submit"
+						value="Add Location" />
+				</form>
+				{% endif %}
+			</div>
+			<!-- End Report Section-->
+			<!-- Leaderboard Section -->
+			<div
+				class="w3-content w3-justify w3-text-grey w3-padding-64"
+				id="leaderboard">
+				<h2 class="w3-text-light-grey">Leaderboard</h2>
+				<!-- Leaderboard content-->
+				<div
+					class="centre"
+					id="container2">
+					{% if scores %}
+					<ol>
+						{% for item in scores %}
+						<li>{{ item.username }} {{ item.score }}</li>
+						{% endfor %}
+					</ol>
+					{% else %}
+					<p>No data found</p>
+					{% endif %}
+				</div>
+			</div>
+			<!-- End Leaderboard Section-->
+			<!-- Friends Section -->
+			<div
+				class="w3-content w3-justify w3-text-grey w3-padding-64"
+				id="friends">
+				<h2 class="w3-text-light-grey">Friends</h2>
+				<iframe
+					src="friendlist.html"
+					title="Friends list"></iframe>
+			</div>
+			<!-- End Friends Section-->
+			<!-- Settings Section -->
+			<div
+				class="w3-content w3-justify w3-text-grey w3-padding-64"
+				id="settings">
+				<h2 class="w3-text-light-grey">Settings</h2>
+			</div>
+			<!-- End Settings Section-->
+			<!-- Contact Section -->
+			<div
+				class="w3-padding-64 w3-content w3-text-grey"
+				id="contactus">
+				<h2 class="w3-text-light-grey">Contact Me</h2>
+				<div class="container">
+					<form
+						action="https://formsubmit.co/exetertestcontacts@gmail.com"
+						method="POST">
+						<ul style="list-style-type: none">
+							<li>
+								<label for="fname">First Name</label>
+								<input
+									type="text"
+									id="fname"
+									name="firstname"
+									placeholder="Your name.."
+									required />
+							</li>
+							<li>
+								<label for="email">Email</label>
+								<input
+									type="text"
+									id="email"
+									name="email"
+									placeholder="Your email address.."
+									required />
+							</li>
+							<li>
+								<label for="subject">Report</label>
+							</li>
+							<li>
+								<textarea
+									id="subject"
+									name="subject"
+									placeholder="Report a change..."
+									style="height: 100px"
+									required></textarea>
+							</li>
+							<li>
+								<button type="submit">Submit</button>
+							</li>
+						</ul>
+					</form>
+				</div>
+			</div>
+			<!-- End Contact Section -->
+			<!-- Points/Shop Section -->
+			<div
+				class="w3-content w3-justify w3-text-grey w3-padding-64"
+				id="shop">
+				<h2 class="w3-text-light-grey">Shop</h2>
+				<h2>Items in the shop:</h2>
+				<table style="width: 30%">
+					<tr>
+						<th>Item Name</th>
+						<th>Description</th>
+						<th>Price (WEBBS)</th>
+					</tr>
+					{% for item in item_list %}
+					<tr>
+						<td>{{ item.name }}</td>
+						<td>{{ item.description }}</td>
+						<td>{{ item.price }}</td>
+					</tr>
+					{% endfor %}
+				</table>
+			</div>
+			<!-- End Points/Shop Section-->
+		</div>
+		<!-- END PAGE CONTENT -->
+		<script src="test.css"></script>
+	</body>
+</html>
