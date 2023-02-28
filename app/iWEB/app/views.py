@@ -7,29 +7,38 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from .models import Location, Item
 from .forms import LocationForm, NewUserForm
+from django.contrib.auth import login, authenticate
+from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
 
-"""Define app view methods for Django to use"""
+# Create your views here.
+def index(request):
+    """This is the main page - everything but the login/register screen should be in this view going forward"""
+    userList = User.objects.values()
+    locList = Location.objects.values()
+    itemList = Item.objects.all
+
+    #add location
+    submitted = False
+    if request.method == "POST":
+        form = LocationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/addLocation?submitted=True') #This should probably be changed to avoid redirects to a dead page
+    else:
+        form = LocationForm
+        if 'submitted' in request.GET:
+            submitted = True
+    form = LocationForm
+
+    return render(request, 'index.html',{'points': 256, 'item_list':itemList, 'scores':userList, 'closest_things': locList,'location_form': LocationForm, 'submitted': submitted})
 
 def home(request):
     """View to pull data for the home screen"""
     all_items = Item.objects.all
     all_locations = Location.objects.all
     return render(request, 'home.html', {'all_items': all_items, 'all_locations': all_locations})
-
-def add_location(request):
-    """View to submit a location request to the gamekeeper team"""
-    submitted = False
-    if request.method == "POST":
-        form = LocationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/addLocation?submitted=True')
-    else:
-        form = LocationForm
-        if 'submitted' in request.GET:
-            submitted = True
-    form = LocationForm
-    return render(request, 'addLocation.html', {'form': LocationForm, 'submitted': submitted})
 
 def register_request(request):
     """View to create a new user on the registration page"""
@@ -61,4 +70,3 @@ def login_request(request):
             messages.error(request,"Invalid username or password.")
     form = AuthenticationForm()
     return render(request=request, template_name="login.html", context={"login_form":form})
-# Create your views here.
