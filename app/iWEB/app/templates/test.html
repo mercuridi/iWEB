@@ -2,7 +2,9 @@
 <!-- closest_things is a list of the closest objects, each one requires a type (bin, water filling station, etc) and a location (probably in words for this section)-->
 <!-- scores is a list of the top 5 players plus the current user, each one requiring a name and a score sorted in descending order-->
 <!-- submitted is a boolean on if the request to add a location has gone through or not-->
-<!-- locationForm is the form containing what data needs to be inputted to the database-->
+<!-- location_form is the form containing what data needs to be inputted to the database-->
+<!-- points is the number of points (probably an integer) that the user has-->
+<!-- item_list is the list of every object in the shop-->
 <!DOCTYPE html>
 <html>
     <head>
@@ -60,6 +62,10 @@
                 <i class="fa fa-user w3-xxlarge"></i>
                 <p>Contact us</p>
             </a>
+            <a href="#shop" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+                <i class="fa fa-user w3-xxlarge"></i>
+                <p>You have {{points}} credits</p>
+            </a>
         </nav>
 
         <!-- Navbar on small screens (Hidden on medium and large screens) -->
@@ -70,9 +76,10 @@
                     <a href="#map" class="w3-bar-item w3-button" style="width:25% !important">Map</a>
                     <a href="#report" class="w3-bar-item w3-button" style="width:25% !important">Report</a>
                     <a href="#leaderboard" class="w3-bar-item w3-button" style="width:25% !important">Leaderboard</a>
-                    <a href="#friends" class="w3-bar-item w3-button" style="width:33% !important">Friends</a>
-                    <a href="#settings" class="w3-bar-item w3-button" style="width:33% !important">Settings</a>
-                    <a href="#contactus" class="w3-bar-item w3-button" style="width:33% !important">Contact us</a>
+                    <a href="#friends" class="w3-bar-item w3-button" style="width:25% !important">Friends</a>
+                    <a href="#settings" class="w3-bar-item w3-button" style="width:25% !important">Settings</a>
+                    <a href="#contactus" class="w3-bar-item w3-button" style="width:25% !important">Contact us</a>
+                    <a href="#shop" class="w3-bar-item w3-button" style="width:25% !important">{{points}}#</a>
                 </div>
             </div>
         </div>
@@ -113,7 +120,7 @@
 
                         <form action ="" method=POST>
                             {% csrf_token%}
-                            {{ locationForm.as_p }}
+                            {{ location_form.as_p }}
                             <input type="submit" value="Add Location">
                         </form>
                     {% endif %}
@@ -179,6 +186,27 @@
                     </div>
                 </form>
         <!-- End Contact Section -->
+        
+        <!-- Points/Shop Section -->
+        <div class="w3-content w3-justify w3-text-grey w3-padding-64" id="shop">
+            <h2 class="w3-text-light-grey">Shop</h2>
+            <h2>Items in the shop:</h2>
+            <table style="width:30%">
+                <tr>
+                    <th>Item Name</th>
+                    <th>Description</th>
+                    <th>Price (WEBBS)</th>
+                </tr>
+                {% for item in item_list %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.price }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <!-- End Points/Shop Section-->
             </div>
 
         <!-- END PAGE CONTENT -->

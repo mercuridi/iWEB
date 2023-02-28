@@ -15,8 +15,10 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 def test(request):
+    """This is a test page that will become the main page - everything but the login/register screen should be in this view going forward"""
     userList = User.objects.values()
-    itemList = Location.objects.values()
+    locList = Location.objects.values()
+    itemList = Item.objects.all
     submitted = False
     if request.method == "POST":
         form = LocationForm(request.POST)
@@ -28,7 +30,7 @@ def test(request):
         if 'submitted' in request.GET:
             submitted = True
     form = LocationForm
-    return render(request, 'test.html',{'scores':userList, 'closest_things': itemList,'locationForm': LocationForm, 'submitted': submitted})
+    return render(request, 'test.html',{'points': 256, 'item_list':itemList, 'scores':userList, 'closest_things': locList,'locationForm': Location_form, 'submitted': submitted})
 
 def home(request):
     """View to pull data for the home screen"""
@@ -81,4 +83,3 @@ def login_request(request):
             messages.error(request,"Invalid username or password.")
     form = AuthenticationForm()
     return render(request=request, template_name="login.html", context={"login_form":form})
-# Create your views here.
