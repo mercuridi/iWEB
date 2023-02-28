@@ -10,7 +10,6 @@ from .forms import LocationForm, NewUserForm
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
-from leaderboard.leaderboard import Leaderboard
 from django.contrib.auth.models import User
 
 # Create your views here.
