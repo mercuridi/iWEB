@@ -15,7 +15,13 @@
 		<meta
 			name="viewport"
 			content="width=device-width, initial-scale=1" />
+<<<<<<< HEAD
+		<link
+			rel="stylesheet"
+			href="index.css" />
+=======
 
+>>>>>>> e5804c35e3fd82a9654cececbe469f617e2fb12f
 		<link
 			rel="stylesheet"
 			type="text/css"
@@ -24,11 +30,17 @@
 			rel="stylesheet"
 			type="text/css"
 			href="leaderboard.css" />
+<<<<<<< HEAD
+		<link
+			rel="stylesheet"
+			href="https://www.w3schools.com/w3css/4/w3.css" />
+=======
 
 		<link
 			rel="stylesheet"
 			href="https://www.w3schools.com/w3css/4/w3.css" 
 			href="index.css"/>
+>>>>>>> e5804c35e3fd82a9654cececbe469f617e2fb12f
 		<!--link rel="stylesheet" href="testlib.css"-->
 		<link
 			rel="stylesheet"
@@ -115,10 +127,9 @@
 				href="#shop"
 				class="w3-bar-item w3-button w3-padding-large w3-hover-black">
 				<i class="fa fa-user w3-xxlarge"></i>
-				<p>You have {{points}} credits</p>
+				<p>You have {{ points }} credits</p>
 			</a>
 		</nav>
-
 		<!-- Navbar on small screens (Hidden on medium and large screens) -->
 		<div
 			class="w3-top w3-hide-large w3-hide-medium"
@@ -130,6 +141,52 @@
 					style="width: 25% !important"
 					>Menu</a
 				>
+<<<<<<< HEAD
+				<a
+					href="#map"
+					class="w3-bar-item w3-button"
+					style="width: 25% !important"
+					>Map</a
+				>
+				<a
+					href="#report"
+					class="w3-bar-item w3-button"
+					style="width: 25% !important"
+					>Report</a
+				>
+				<a
+					href="#leaderboard"
+					class="w3-bar-item w3-button"
+					style="width: 25% !important"
+					>Leaderboard</a
+				>
+				<a
+					href="#friends"
+					class="w3-bar-item w3-button"
+					style="width: 25% !important"
+					>Friends</a
+				>
+				<a
+					href="#settings"
+					class="w3-bar-item w3-button"
+					style="width: 25% !important"
+					>Settings</a
+				>
+				<a
+					href="#contactus"
+					class="w3-bar-item w3-button"
+					style="width: 25% !important"
+					>Contact us</a
+				>
+				<a
+					href="#shop"
+					class="w3-bar-item w3-button"
+					style="width: 25% !important"
+					>{{ points }}#</a
+				>
+			</div>
+		</div>
+=======
 				<div id="myLinks">
 					<a
 						href="#map"
@@ -177,6 +234,7 @@
 			</div>
 		</div>
 
+>>>>>>> e5804c35e3fd82a9654cececbe469f617e2fb12f
 		<!-- Page Content -->
 		<div
 			class="w3-padding-large"
@@ -186,7 +244,11 @@
 				class="w3-container w3-padding-32 w3-center w3-black"
 				id="home">
 				<h1 class="w3-jumbo">
+<<<<<<< HEAD
+					<span class="w3-hide-small">Welcome to</span>iWEB
+=======
 					<span class="w3-hide-small">Welcome to </span>iWEB
+>>>>>>> e5804c35e3fd82a9654cececbe469f617e2fb12f
 				</h1>
 				<!-- Closest things parsed into the parameter closest_things-->
 				<div
@@ -197,8 +259,13 @@
 					<ol>
 						{% for item in closest_things %}
 						<li>
+<<<<<<< HEAD
+							{{ item.type }}: {{ item.building }}, {{
+							item.information }}
+=======
 							{{item.type}}: {{item.building}},
 							{{item.information}}
+>>>>>>> e5804c35e3fd82a9654cececbe469f617e2fb12f
 						</li>
 						{% endfor %}
 					</ol>
@@ -207,7 +274,10 @@
 					{% endif %}
 				</div>
 			</header>
+<<<<<<< HEAD
+=======
 
+>>>>>>> e5804c35e3fd82a9654cececbe469f617e2fb12f
 			<!-- Map Section -->
 			<div
 				class="w3-content w3-justify w3-text-grey w3-padding-64"
@@ -220,7 +290,10 @@
 					style="border: 1px solid #ffffff"></canvas>
 			</div>
 			<!-- End Map Section-->
+<<<<<<< HEAD
+=======
 
+>>>>>>> e5804c35e3fd82a9654cececbe469f617e2fb12f
 			<!-- Report Section -->
 			<div
 				class="w3-content w3-justify w3-text-grey w3-padding-64"
@@ -230,11 +303,18 @@
 				<h1>Thank you for submitting your location!</h1>
 				{% else %}
 				<h1>Submit a location</h1>
+<<<<<<< HEAD
+				<form
+					action=""
+					method="POST">
+					{% csrf_token %} {{ location_form.as_p }}
+=======
 
 				<form
 					action=""
 					method="POST">
 					{% csrf_token%} {{ location_form.as_p }}
+>>>>>>> e5804c35e3fd82a9654cececbe469f617e2fb12f
 					<input
 						type="submit"
 						value="Add Location" />
@@ -242,13 +322,19 @@
 				{% endif %}
 			</div>
 			<!-- End Report Section-->
+<<<<<<< HEAD
+=======
 
+>>>>>>> e5804c35e3fd82a9654cececbe469f617e2fb12f
 			<!-- Leaderboard Section -->
 			<div
 				class="w3-content w3-justify w3-text-grey w3-padding-64"
 				id="leaderboard">
 				<h2 class="w3-text-light-grey">Leaderboard</h2>
+<<<<<<< HEAD
+=======
 
+>>>>>>> e5804c35e3fd82a9654cececbe469f617e2fb12f
 				<!-- Leaderboard content-->
 				<div
 					class="centre"
@@ -256,7 +342,11 @@
 					{% if scores %}
 					<ol>
 						{% for item in scores %}
+<<<<<<< HEAD
+						<li>{{ item.username }} {{ item.score }}</li>
+=======
 						<li>{{ item.username }} {{item.score}}</li>
+>>>>>>> e5804c35e3fd82a9654cececbe469f617e2fb12f
 						{% endfor %}
 					</ol>
 					{% else %}
@@ -265,7 +355,10 @@
 				</div>
 			</div>
 			<!-- End Leaderboard Section-->
+<<<<<<< HEAD
+=======
 
+>>>>>>> e5804c35e3fd82a9654cececbe469f617e2fb12f
 			<!-- Friends Section -->
 			<div
 				class="w3-content w3-justify w3-text-grey w3-padding-64"
@@ -276,7 +369,10 @@
 					title="Friends list"></iframe>
 			</div>
 			<!-- End Friends Section-->
+<<<<<<< HEAD
+=======
 
+>>>>>>> e5804c35e3fd82a9654cececbe469f617e2fb12f
 			<!-- Settings Section -->
 			<div
 				class="w3-content w3-justify w3-text-grey w3-padding-64"
@@ -284,7 +380,10 @@
 				<h2 class="w3-text-light-grey">Settings</h2>
 			</div>
 			<!-- End Settings Section-->
+<<<<<<< HEAD
+=======
 
+>>>>>>> e5804c35e3fd82a9654cececbe469f617e2fb12f
 			<!-- Contact Section -->
 			<div
 				class="w3-padding-64 w3-content w3-text-grey"
@@ -332,7 +431,10 @@
 				</div>
 			</div>
 			<!-- End Contact Section -->
+<<<<<<< HEAD
+=======
 
+>>>>>>> e5804c35e3fd82a9654cececbe469f617e2fb12f
 			<!-- Points/Shop Section -->
 			<div
 				class="w3-content w3-justify w3-text-grey w3-padding-64"
@@ -356,7 +458,10 @@
 			</div>
 			<!-- End Points/Shop Section-->
 		</div>
+<<<<<<< HEAD
+=======
 
+>>>>>>> e5804c35e3fd82a9654cececbe469f617e2fb12f
 		<!-- END PAGE CONTENT -->
 		<script src="test.css"></script>
 	</body>
