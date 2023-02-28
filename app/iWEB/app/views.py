@@ -46,13 +46,15 @@ def register_request(request):
         form = NewUserForm(request.POST)
         if form.is_valid():
             user = form.save()
+            points = pointsSystem(streak=0, score=0, user=user)
+            points.save()
             login(request, user)
             messages.success(request, 'Registration successful.' )
             return redirect('home')
         messages.error(request, 'Unsuccessful registration. Invalid information.')
     form = NewUserForm()
     return render(request=request, template_name='register.html', context={'register_form':form})
-
+    
 def login_request(request):
     """View to draw a login screen for users with existing accounts"""
     if request.method == "POST":
