@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Location, Item
+from .models import Location, Item, pointsSystem
 from .forms import LocationForm, NewUserForm
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
@@ -50,7 +50,7 @@ def register_request(request):
             points.save()
             login(request, user)
             messages.success(request, 'Registration successful.' )
-            return redirect('home')
+            return redirect('index')
         messages.error(request, 'Unsuccessful registration. Invalid information.')
     form = NewUserForm()
     return render(request=request, template_name='register.html', context={'register_form':form})
@@ -66,7 +66,7 @@ def login_request(request):
             if user is not None:
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
-                return redirect('home')
+                return redirect('index')
             messages.error(request,"Invalid username or password.")
         else:
             messages.error(request,"Invalid username or password.")
