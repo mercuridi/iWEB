@@ -11,3 +11,4 @@ from .models import Item
 
 admin.site.register(Location)
 admin.site.register(Item)
+admin.site.register(pointsSystem)
