@@ -27,12 +27,10 @@ class NewUserForm(UserCreationForm):
     Returns:
         A new user into the database upon a valid submission
     """
-    streak = forms.IntegerField(initial = 0, disabled = True)
-    points = forms.IntegerField(initial = 0, disabled = True)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2','streak', 'points']
+        fields = ['username', 'email', 'password1', 'password2']
 
     def save(self, commit=True):
         user = super().save(commit=False)
