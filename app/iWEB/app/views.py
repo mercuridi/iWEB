@@ -30,7 +30,7 @@ def test(request):
         if 'submitted' in request.GET:
             submitted = True
     form = LocationForm
-    return render(request, 'test.html',{'points': 256, 'item_list':itemList, 'scores':userList, 'closest_things': locList,'locationForm': Location_form, 'submitted': submitted})
+    return render(request, 'test.html',{'points': 256, 'item_list':itemList, 'scores':userList, 'closest_things': locList,'location_form': LocationForm, 'submitted': submitted})
 
 def home(request):
     """View to pull data for the home screen"""
