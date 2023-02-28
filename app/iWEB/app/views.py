@@ -2,46 +2,47 @@
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
-from .models import Location, Item, User
+from django.contrib import messages
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import AuthenticationForm
+from .models import Location, Item
 from .forms import LocationForm, NewUserForm
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from leaderboard.leaderboard import Leaderboard
+from django.contrib.auth.models import User
 
 # Create your views here.
-def contactus(request):
-    return render(request, 'contactus.html')
-
-def leaderboard(request):
-    userList = User.objects.values()
-    return render(request, 'leaderboard.html',{'values':userList})
-
 def test(request):
+    """This is a test page that will become the main page - everything but the login/register screen should be in this view going forward"""
     userList = User.objects.values()
-    itemList = Location.objects.values()
-    return render(request, 'test.html',{'scores':userList, 'closest_things': itemList})
+    locList = Location.objects.values()
+    itemList = Item.objects.all
 
-def home(request):
-    all_items = Item.objects.all
-    all_locations = Location.objects.all
-    return render(request, 'home.html', {'all_items': all_items, 'all_locations': all_locations})
-
-def addLocation(request):
+    #add location
     submitted = False
     if request.method == "POST":
         form = LocationForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/addLocation?submitted=True')
+            return HttpResponseRedirect('/addLocation?submitted=True') #This should probably be changed to avoid redirects to a dead page
     else:
         form = LocationForm
         if 'submitted' in request.GET:
             submitted = True
     form = LocationForm
-    return render(request, 'addLocation.html', {'form': LocationForm, 'submitted': submitted})
-    
+
+    return render(request, 'test.html',{'points': 256, 'item_list':itemList, 'scores':userList, 'closest_things': locList,'location_form': LocationForm, 'submitted': submitted})
+
+def home(request):
+    """View to pull data for the home screen"""
+    all_items = Item.objects.all
+    all_locations = Location.objects.all
+    return render(request, 'home.html', {'all_items': all_items, 'all_locations': all_locations})
+
 def register_request(request):
+    """View to create a new user on the registration page"""
     if request.method == "POST":
         form = NewUserForm(request.POST)
         if form.is_valid():
@@ -52,8 +53,9 @@ def register_request(request):
         messages.error(request, 'Unsuccessful registration. Invalid information.')
     form = NewUserForm()
     return render(request=request, template_name='register.html', context={'register_form':form})
-    
+
 def login_request(request):
+    """View to draw a login screen for users with existing accounts"""
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -64,8 +66,7 @@ def login_request(request):
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
                 return redirect('home')
-            else:
-                messages.error(request,"Invalid username or password.")
+            messages.error(request,"Invalid username or password.")
         else:
             messages.error(request,"Invalid username or password.")
     form = AuthenticationForm()
