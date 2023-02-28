@@ -6,7 +6,7 @@
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
-  background-color: #111; /* Black*/
+  background-color: #c52525; /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 60px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
@@ -24,7 +24,7 @@
 
 /* When you mouse over the navigation links, change their color */
 .sidenav a:hover {
-  color: #f1f1f1;
+  color: #004d99;
 }
 
 /* Position and style the close button (top right corner) */
@@ -67,4 +67,10 @@
 
 .active {
   background-color: #04AA6D; /* Add an active/current color */
+}
+
+/*Main body*/
+
+body {
+  background-color: lightblue;
 }
