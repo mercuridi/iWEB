@@ -66,7 +66,7 @@ def index(request):
     'submitted': submitted
     } 
     print(bin_coordinates)
-    return render(request, 'map.html', context)
+    return render(request, 'index.html', context)
 
 
 def home(request):
