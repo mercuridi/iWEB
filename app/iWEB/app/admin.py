@@ -8,6 +8,8 @@
 from django.contrib import admin
 from .models import Location
 from .models import Item
+from .models import pointsSystem
 
 admin.site.register(Location)
 admin.site.register(Item)
+admin.site.register(pointsSystem)

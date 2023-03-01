@@ -3,6 +3,7 @@
 Module defining the Location and Items models.
 """
 from django.db import models
+from django.contrib.auth.models import User
 
 # Location model
 class Location(models.Model):
@@ -32,3 +33,14 @@ class Item(models.Model):
     # Makes the name of the item appear in the admin panel
     def __str__(self):
         return str(self.name)
+        
+# Points system
+class pointsSystem(models.Model):
+    """Class defining the points system model."""
+    streak = models.IntegerField(default = 0)
+    score = models.IntegerField(default = 0)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default = 0)
+    
+    # Makes the name of the user appear in the admin panel
+    def __str__(self):
+        return str(self.user)
