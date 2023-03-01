@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^$@d7@6h0@sc9qjhip42fmnb)**!$dm1*x_$cnj$r+29gpdjc5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -88,8 +88,12 @@ WSGI_APPLICATION = 'iWEB.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql', 
+        'NAME': 'iweb',
+        'USER': 'iweb_dev',
+        'PASSWORD': 'iweb_dev_pass',
+        'HOST': 'localhost',  
+        'PORT': '3306',
     }
 }
 
