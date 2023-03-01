@@ -9,6 +9,8 @@
 <!-- item_list is the list of every object in the shop -->
 <!DOCTYPE html>
 <html>
+    {% load static %}
+	{% csrf_token %}
 	<head>
 		<title>iWEB test homepage</title>
 		<meta charset="UTF-8" />
@@ -68,6 +70,165 @@
 				}
 			}
 		</style>
+
+        <!-- Map set up-->
+        <!-- TO BE READ AND UNDERSTOOD -> most of this should be moved to a .css file -->
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+	<title>Map Example</title>
+	<style>
+		.map {
+			position: relative;
+			width: 1096px;
+			height: 1266px;
+			background-image: url('{% static 'global/images/map.jpg' %}');
+			background-size: cover;
+			margin: 0 auto;
+		}
+		.user {
+			position: absolute;
+			width: 40px;
+			height: 40px;
+			background-color: red;
+			border-radius: 50%;
+			transform: translate(-50%, -50%);
+			z-index: 1;
+		}
+		.bottle {
+			position: absolute;
+			width: 160px;
+			height: 160px;
+			background-image: url('{% static 'global/images/bottle.png' %}');
+			background-size: cover;
+			transform: translate(-50%, -50%);
+			z-index: 1;
+		}
+		.bus_stop {
+			position: absolute;
+			width: 160px;
+			height: 160px;
+			background-image: url('{% static 'global/images/bus-stop.png' %}');
+			background-size: cover;
+			transform: translate(-50%, -50%);
+			z-index: 1;
+		}
+		.bin {
+			position: absolute;
+			width: 160px;
+			height: 160px;
+			background-image: url('{% static 'global/images/recycling.png' %}');
+			background-size: cover;
+			transform: translate(-50%, -50%);
+			z-index: 1;
+		}
+
+        .maze-row {
+            display: flex;
+            flex-direction: row;
+            margin: 0;
+            padding: 0;
+        }
+        .maze-square {
+            width: 18px;
+            height: 18px;
+            margin: 0;
+            padding: 0;
+        }
+		.water-fountain-button {
+			display: absolute;
+			align-items: center;
+			background-color: blue;
+			border: none;
+			color: white;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			font-size: 30px;
+			cursor: pointer;
+			border-radius: 5px;
+		}
+		.water-fountain-button img {
+			height: 50px;
+			margin-right: 10px;
+		}
+		.bus-stop-button {
+			display: absolute;
+			align-items: center;
+			background-color: red;
+			border: none;
+			color: white;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			font-size: 30px;
+			cursor: pointer;
+			border-radius: 5px;
+		  }
+		  
+		.bus-stop-button img {
+			height: 50px;
+			margin-right: 10px;
+		  }
+		.bin-button {
+			display: absolute;
+			align-items: center;
+			background-color: green;
+			border: none;
+			color: white;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			font-size: 30px;
+			cursor: pointer;
+			border-radius: 5px;
+		  }
+		.bin-button img {
+			height: 50px;
+			margin-right: 10px;
+		  }
+		.track-button {
+			display: absolute;
+			align-items: center;
+			background-color: white;
+			border: none;
+			color: white;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			font-size: 30px;
+			cursor: pointer;
+			border-radius: 5px;
+			tracking: false;
+		  }
+		.track-button img {
+			height: 50px;
+			margin-right: 10px;
+		}
+		.pathDiv {
+			position: absolute;
+			width: 30px;
+			height: 30px;
+			background-color: rgba(0, 163, 255, 0.5);
+			border-radius: 50%;
+			transform: translate(-50%, -50%);
+			z-index: 1;	
+		  }
+		.box{
+			display: inline-block;
+			color: white;
+			text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+			font-family: "Times New Roman", Times, serif;
+			position: absolute;
+			text-align: center;
+			text-decoration: none;
+			font-size: 60px;
+			width: 310px;
+			height: 150px;
+			background-color: rgba(0, 163, 255, 0.5);
+			transform: translate(-50%, -50%);
+			z-index: 1;
+			padding: 5px;
+		}
+        </style>
 	</head>
 	<body class="w3-white">
 		<!-- Icon Bar (Sidebar - hidden on small screens) -->

@@ -33,7 +33,41 @@ def index(request):
             submitted = True
     form = LocationForm
 
-    return render(request, 'index.html',{'points': 256, 'item_list':itemList, 'scores':userList, 'closest_things': locList,'location_form': LocationForm, 'submitted': submitted})
+    #map stuff
+    fountain_locations = Location.objects.filter(type='Fountain')
+    bus_stop_locations = Location.objects.filter(type='BusStop')
+    bin_locations = Location.objects.filter(type='Bin')
+    
+    fountain_coordinates = []
+    bus_stop_coordinates = []
+    bin_coordinates = []
+    
+    for fountain in fountain_locations:
+        fountain_coordinates.append([fountain.latitude, fountain.longitude, fountain.building, fountain.information])
+    for bus_stop in bus_stop_locations:
+        bus_stop_coordinates.append([bus_stop.latitude, bus_stop.longitude, bus_stop.building, bus_stop.information])
+    for bin in bin_locations:
+        bin_coordinates.append([bin.latitude, bin.longitude, bin.building, bin.information])
+    
+    map = read_map()
+    
+        
+    context = {
+    'fountain_locations': fountain_coordinates,
+    'bus_stop_locations': bus_stop_coordinates,
+    'bin_locations': bin_coordinates,
+    'maze': map,
+
+    'points': 256, # TODO: CHANGE THIS PLEASE
+    'item_list': itemList,
+    'scores': userList,
+    'closest_things': locList,
+    'location_form': LocationForm,
+    'submitted': submitted
+    } 
+    print(bin_coordinates)
+    return render(request, 'map.html', context)
+
 
 def home(request):
     """View to pull data for the home screen"""
