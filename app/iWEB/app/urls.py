@@ -1,7 +1,8 @@
+"""
+Module defining the web app's different directories and structures.
+"""
 from django.urls import path
 from . import views
-"""Module defining the web app's different directories and structures.
-"""
 urlpatterns = [
     path('', views.index,name='index'),
     path('home', views.home, name='home'),
