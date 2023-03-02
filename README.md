@@ -69,7 +69,7 @@ You may change the name of the user to whatever you wish, and the localhost to t
 6. If these commands appear to return data as we expect, we can move on.
 
 ### Django setup
-In the project directory, find the file `settings.py` at `./iWEB/app/iWEB/iWEB/settings.py`.
+In the project directory, find the file `settings.py` at `./iWEB/app-mysql/iWEB/iWEB/settings.py`.
 In this file, adjust the `DATABASES` key to provide Django the information it needs to find the database.
 ```
 DATABASES = {
@@ -89,7 +89,7 @@ Here, the example has been filled with the default options as written in the ear
 At this point there are 2 options:
 
 #### Pick up the test database
-To pick up the test database, navigate to `./iWEB/app/iWEB` and run the following commands:
+To pick up the test database, navigate to `./iWEB/app-mysql/iWEB` and run the following commands:
 `python manage.py migrate --run-syncdb`
 `python manage.py loaddata testdatabase.json`
 This will populate the empty database we made in the mySQL command line client with the test database information. This database may still be modified later (write permissions are not affected).
@@ -100,7 +100,7 @@ To start from a fresh database, navigate to `./iWEB/app/iWEB` and simply run the
 This will construct the database schema required to run iWEB properly on the empty database we created in the mySQL command line client.
 
 ## Running the server
-To run the server, navigate to `./iWEB/app/iWEB` and run the command:
+To run the server, navigate to `./iWEB/app-mysql/iWEB` and run the command:
 `python manage.py runserver`
 If all has gone well, this will open the server on the localhost which can be accessed through any web browser at `http://127.0.0.1:8000/`.
 We are aware of an issue where the map will not properly load. In order to allow the map to load, run the server with the `--insecure` tag:
