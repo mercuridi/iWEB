@@ -95,7 +95,7 @@ To pick up the test database, navigate to `./iWEB/app-mysql/iWEB` and run the fo
 This will populate the empty database we made in the mySQL command line client with the test database information. This database may still be modified later (write permissions are not affected).
 
 #### Start from a fresh, empty database
-To start from a fresh database, navigate to `./iWEB/app/iWEB` and simply run the command:
+To start from a fresh database, navigate to `./iWEB/app-mysql/iWEB` and simply run the command:
 `python manage.py migrate`
 This will construct the database schema required to run iWEB properly on the empty database we created in the mySQL command line client.
 
