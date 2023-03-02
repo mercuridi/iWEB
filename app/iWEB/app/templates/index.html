@@ -239,6 +239,25 @@
 				z-index: 1;
 				padding: 5px;
 			}
+
+            .streaks {
+                width: auto;
+                height: auto;
+                position: sticky;
+                bottom: 10px;
+                right: 10px;
+                float: right;
+                background-color: #000000;
+            }
+
+            .streaks_small{
+                position: sticky;
+                bottom: 0%;
+                float: left;
+                height: 40px;
+                background-color: #46ff46;
+                width: {{streak}};
+            }
 		</style>
 	</head>
 	<body>
@@ -350,6 +369,8 @@
 				</div>
 			</div>
 		</div>
+
+        
 
 		<!-- Page Content -->
 		<div
@@ -1115,8 +1136,23 @@
 				</div>
 			</div>
 			<!-- End Contact Section -->
-		</div>
+		
+            <!-- Streaks large screen -->
+            <div class="streaks hide-small">
+                <h1>{{streak}}</h1>
+            </div>
+            <!-- Streaks end -->
+        
+            <!-- Streaks Small screen-->
+            <div class="streaks_small hide-medium hide-large">
+            
+            </div>
+            <!-- Streaks end -->
+
+        </div>
 		<!-- END PAGE CONTENT -->
+
+        
 		<script src="index.css"></script>
 	</body>
 </html>

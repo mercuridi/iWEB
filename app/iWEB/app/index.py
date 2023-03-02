@@ -53,7 +53,8 @@ def main(request):
     'scores': userList,
     'closest_things': locList,
     'location_form': LocationForm,
-    'submitted': submitted
+    'submitted': submitted,
+    'streak':"100%"
     } 
     print(bin_coordinates)
     return render(request, 'index.html', context)
