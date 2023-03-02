@@ -39,8 +39,7 @@ class pointsSystem(models.Model):
     """Class defining the points system model."""
     streak = models.IntegerField(default = 0)
     score = models.IntegerField(default = 0)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default = 0)
-    
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default = 0)# type: ignore
     # Makes the name of the user appear in the admin panel
     def __str__(self):
         return str(self.user)
