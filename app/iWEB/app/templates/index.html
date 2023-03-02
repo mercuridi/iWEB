@@ -17,10 +17,10 @@
 		<meta
 			name="viewport"
 			content="width=device-width, initial-scale=1" />
-		<link
+		<!--link
 			rel="stylesheet"
 			type="text/css"
-			href="index.css" />
+			href="index.css" -->
 		<link
 			rel="stylesheet"
 			type="text/css"
@@ -41,7 +41,10 @@
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 		<style>
-			body,
+			body {
+				background-color: #ff00ae;
+			}
+			,
 			h1,
 			h2,
 			h3,
@@ -56,12 +59,12 @@
 			/* Set the width of the sidebar to 120px */
 			.w3-sidebar {
 				width: 120px;
-				background: #ffffff;
+				background: #8f3030; /*WORKS*/
 			}
 			/* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
 			#main {
 				margin-left: 120px;
-				background-color: #ffffff; /*main page colour*/
+				background-color: #4e8118; /*main page colour*/ /*WORKS*/
 			}
 			/* Remove margins from "page content" on small screens */
 			@media only screen and (max-width: 600px) {
@@ -238,54 +241,54 @@
 			}
 		</style>
 	</head>
-	<body class="w3-white">
+	<body>
 		<!-- Icon Bar (Sidebar - hidden on small screens) -->
 		<nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
 			<a
 				href="#"
-				class="w3-bar-item w3-button w3-padding-large w3-blue-grey">
+				class="w3-bar-item w3-button w3-padding-large">
 				<i class="fa fa-home w3-xxlarge"></i>
 				<p>Menu</p>
 			</a>
 			<a
 				href="#map"
-				class="w3-bar-item w3-button w3-padding-large w3-hover-blue-grey">
+				class="w3-bar-item w3-button w3-padding-large">
 				<i class="fa fa-user w3-xxlarge"></i>
 				<p>Map</p>
 			</a>
 			<a
 				href="#report"
-				class="w3-bar-item w3-button w3-padding-large w3-hover-blue-grey">
+				class="w3-bar-item w3-button w3-padding-large">
 				<i class="fa fa-user w3-xxlarge"></i>
 				<p>Report</p>
 			</a>
 			<a
 				href="#leaderboard"
-				class="w3-bar-item w3-button w3-padding-large w3-hover-blue-grey">
+				class="w3-bar-item w3-button w3-padding-large">
 				<i class="fa fa-user w3-xxlarge"></i>
 				<p>Leaderboard</p>
 			</a>
 			<a
 				href="#friends"
-				class="w3-bar-item w3-button w3-padding-large w3-hover-blue-grey">
+				class="w3-bar-item w3-button w3-padding-large">
 				<i class="fa fa-user w3-xxlarge"></i>
 				<p>Friends</p>
 			</a>
 			<a
 				href="#settings"
-				class="w3-bar-item w3-button w3-padding-large w3-hover-blue-grey">
+				class="w3-bar-item w3-button w3-padding-large">
 				<i class="fa fa-user w3-xxlarge"></i>
 				<p>Settings</p>
 			</a>
 			<a
 				href="#contactus"
-				class="w3-bar-item w3-button w3-padding-large w3-hover-blue-grey">
+				class="w3-bar-item w3-button w3-padding-large">
 				<i class="fa fa-user w3-xxlarge"></i>
 				<p>Contact us</p>
 			</a>
 			<a
 				href="#shop"
-				class="w3-bar-item w3-button w3-padding-large w3-hover-blue-grey">
+				class="w3-bar-item w3-button w3-padding-large">
 				<i class="fa fa-user w3-xxlarge"></i>
 				<p>You have {{ points }} credits</p>
 			</a>
@@ -354,7 +357,7 @@
 			id="main">
 			<!-- Header/Home -->
 			<header
-				class="w3-container w3-padding-32 w3-center w3-blue-grey"
+				class="w3-container w3-padding-32 w3-center"
 				id="home">
 				<h1 class="w3-jumbo">
 					<span class="w3-hide-small">Welcome to </span>iWEB
@@ -380,9 +383,9 @@
 			</header>
 			<!-- Map Section -->
 			<div
-				class="w3-content w3-justify w3-text-grey w3-padding-64"
+				class="w3-content w3-justify w3-padding-64"
 				id="map">
-                <h2 class="w3-text-black">Map</h2>
+                <h2>Map</h2>
                 <button class="water-fountain-button">
                     <img
                         src="{% static 'global/images/bottle.png' %}"
