@@ -40,6 +40,9 @@
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 		<style>
+            html * {
+                color: #ffffff;
+            }
 			body {
 				background-color: #ff00ae;
 			}
@@ -250,43 +253,43 @@
 				<p>Menu</p>
 			</a>
 			<a
-				href="#map"
+				href="#map_box"
 				class="bar-item button padding-large">
 				<i class="fa fa-user xxlarge"></i>
 				<p>Map</p>
 			</a>
 			<a
-				href="#report"
+				href="#report_box"
 				class="bar-item button padding-large">
 				<i class="fa fa-user xxlarge"></i>
 				<p>Report</p>
 			</a>
 			<a
-				href="#leaderboard"
+				href="#leaderboard_box"
 				class="bar-item button padding-large">
 				<i class="fa fa-user xxlarge"></i>
 				<p>Leaderboard</p>
 			</a>
 			<a
-				href="#friends"
+				href="#friends_box"
 				class="bar-item button padding-large">
 				<i class="fa fa-user xxlarge"></i>
 				<p>Friends</p>
 			</a>
 			<a
-				href="#settings"
+				href="#settings_box"
 				class="bar-item button padding-large">
 				<i class="fa fa-user xxlarge"></i>
 				<p>Settings</p>
 			</a>
 			<a
-				href="#contactus"
+				href="#contactus_box"
 				class="bar-item button padding-large">
 				<i class="fa fa-user xxlarge"></i>
 				<p>Contact us</p>
 			</a>
 			<a
-				href="#shop"
+				href="#shop_box"
 				class="bar-item button padding-large">
 				<i class="fa fa-user xxlarge"></i>
 				<p>You have {{ points }} credits</p>
@@ -305,43 +308,43 @@
 				>
 				<div id="myLinks">
 					<a
-						href="#map"
+						href="#map_box"
 						class="bar-item button"
 						style="width: 25% !important"
 						>Map</a
 					>
 					<a
-						href="#report"
+						href="#report_box"
 						class="bar-item button"
 						style="width: 25% !important"
 						>Report</a
 					>
 					<a
-						href="#leaderboard"
+						href="#leaderboard_box"
 						class="bar-item button"
 						style="width: 25% !important"
 						>Leaderboard</a
 					>
 					<a
-						href="#friends"
+						href="#friends_box"
 						class="bar-item button"
 						style="width: 25% !important"
 						>Friends</a
 					>
 					<a
-						href="#settings"
+						href="#settings_box"
 						class="bar-item button"
 						style="width: 25% !important"
 						>Settings</a
 					>
 					<a
-						href="#contactus"
+						href="#contactus_box"
 						class="bar-item button"
 						style="width: 25% !important"
 						>Contact us</a
 					>
 					<a
-						href="#shop"
+						href="#shop_box"
 						class="bar-item button"
 						style="width: 25% !important"
 						>{{points}}#</a
@@ -384,7 +387,7 @@
 			<!-- Map Section -->
 			<div
 				class="content justify padding-64"
-				id="map"
+				id="map_box"
                 style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
                 <h2>Map</h2>
                 <button class="water-fountain-button">
@@ -417,8 +420,8 @@
                             <script>
                                 var user = document.querySelector(".user");
                                 var map = document.querySelector(".map");
-                                var mapWidth = 1096;
-                                var mapHeight = 1266;
+                                var mapWidth = 400;
+                                var mapHeight = 400;
                                 createMaze({{maze|safe}});
 
                                 // Converts from longitude and latitude to x and y coordinates
@@ -579,11 +582,14 @@
                                     map.appendChild(bin);
 
                                     // Gets the x and y coordinates of the bin
-                                    var x = getCoordinates(({{ bin_locations|safe}})[i][0], ({{ bin_locations|safe }})[i][1]).x;
-                                    var y = getCoordinates(({{ bin_locations|safe}})[i][0], ({{ bin_locations|safe }})[i][1]).y;
+                                    // J: Maybe here is where the display can be scaled?
+                                    var x = getCoordinates(( {{ bin_locations|safe}} )[i][0], ( {{ bin_locations|safe }} )[i][1]).x;
+                                    var y = getCoordinates(( {{ bin_locations|safe}} )[i][0], ( {{ bin_locations|safe }} )[i][1]).y;
 
                                     // Retrieves extra information about the bin from the database
                                     bin.textContent = ({{ bin_locations|safe }})[i][2] + " " + ({{ bin_locations|safe }})[i][3];
+
+                                    // J: Maybe here is where the display can be scaled?
                                     bin.style.left = x;
                                     bin.style.top = y;
 
@@ -980,7 +986,8 @@
 			<!-- Report Section -->
 			<div
 				class="content justify padding-64"
-				id="report">
+				id="report_box"
+                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
 				<h2>Report</h2>
 				{% if submitted %}
 				<h1>Thank you for submitting your location!</h1>
@@ -1001,7 +1008,8 @@
 			<!-- Leaderboard Section -->
 			<div
 				class="content justify padding-64"
-				id="leaderboard">
+				id="leaderboard_box"
+                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
 				<h2>Leaderboard</h2>
 				<!-- Leaderboard content-->
 				<div
@@ -1022,7 +1030,8 @@
 			<!-- Friends Section -->
 			<div
 				class="content justify padding-64"
-				id="friends">
+				id="friends_box"
+                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
 				<h2>Friends</h2>
 				<iframe
 					src="friendlist.html"
@@ -1032,14 +1041,16 @@
 			<!-- Settings Section -->
 			<div
 				class="content justify padding-64"
-				id="settings">
+				id="settings_box"
+                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
 				<h2>Settings</h2>
 			</div>
 			<!-- End Settings Section-->
 			<!-- Contact Section -->
 			<div
 				class="padding-64 content"
-				id="contactus">
+				id="contactus_box"
+                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
 				<h2>Contact Me</h2>
 				<div class="container">
 					<form
@@ -1086,7 +1097,8 @@
 			<!-- Points/Shop Section -->
 			<div
 				class="content justify padding-64"
-				id="shop">
+				id="shop_box"
+                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
 				<h2>Shop</h2>
 				<h2>Items in the shop:</h2>
 				<table style="width: 30%">
