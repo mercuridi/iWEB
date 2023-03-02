@@ -42,13 +42,12 @@ def main(request):
     
     map = read_map()
     
-        
     context = {
     'fountain_locations': fountain_coordinates,
     'bus_stop_locations': bus_stop_coordinates,
     'bin_locations': bin_coordinates,
     'maze': map,
-
+    'colour1': ["#4a120f"],
     'points': 256, # TODO: CHANGE THIS PLEASE
     'item_list': itemList,
     'scores': userList,

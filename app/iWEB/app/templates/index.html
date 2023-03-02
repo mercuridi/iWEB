@@ -59,12 +59,12 @@
 			/* Set the width of the sidebar to 120px */
 			.w3-sidebar {
 				width: 120px;
-				background: #8f3030; /*WORKS*/
+				background: {{ colour1 }}; /*WORKS*/
 			}
 			/* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
 			#main {
 				margin-left: 120px;
-				background-color: #4e8118; /*main page colour*/ /*WORKS*/
+				background-color: {{ colour1 [0] }}; /*main page colour*/ /*WORKS*/
 			}
 			/* Remove margins from "page content" on small screens */
 			@media only screen and (max-width: 600px) {
@@ -79,7 +79,6 @@
 		<meta
 			http-equiv="Cache-Control"
 			content="no-cache, no-store, must-revalidate" />
-		<title>Map Example</title>
 		<style>
 			.map {
 				position: relative;
