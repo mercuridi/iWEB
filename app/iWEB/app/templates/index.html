@@ -7,7 +7,6 @@
 <!-- location_form is the form containing what data needs to be inputted to the database -->
 <!-- points is the number of points (probably an integer) that the user has -->
 <!-- item_list is the list of every object in the shop -->
-
 <!DOCTYPE html>
 <html>
 	{% load static %} {% csrf_token %}
@@ -59,12 +58,12 @@
 			/* Set the width of the sidebar to 120px */
 			.sidebar {
 				width: 120px;
-				background: #8f3030; /*WORKS*/
+				background: #3776ac; /*WORKS*/
 			}
 			/* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
 			#main {
 				margin-left: 120px;
-				background-color: #4e8118; /*main page colour*/ /*WORKS*/
+				background-color: #ffffff; /*main page colour*/ /*WORKS*/
 			}
 			/* Remove margins from "page content" on small screens */
 			@media only screen and (max-width: 600px) {
@@ -95,7 +94,7 @@
 				width: 40px;
 				height: 40px;
 				scale: 50%;
-				background-color: red;
+				background-color: #ff0000;
 				border-radius: 50%;
 				transform: translate(-50%, -50%);
 				z-index: 1;
@@ -146,7 +145,7 @@
 			.water-fountain-button {
 				display: absolute;
 				align-items: center;
-				background-color: blue;
+				background-color: #4646ff;
 				border: none;
 				color: white;
 				padding: 10px 20px;
@@ -163,7 +162,7 @@
 			.bus-stop-button {
 				display: absolute;
 				align-items: center;
-				background-color: red;
+				background-color: #ff4646;
 				border: none;
 				color: white;
 				padding: 10px 20px;
@@ -181,7 +180,7 @@
 			.bin-button {
 				display: absolute;
 				align-items: center;
-				background-color: green;
+				background-color: #46ff46;
 				border: none;
 				color: white;
 				padding: 10px 20px;
@@ -358,7 +357,8 @@
 			<!-- Header/Home -->
 			<header
 				class="container padding-32 center"
-				id="home">
+				id="home"                
+                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
 				<h1 class="jumbo">
 					<span class="hide-small">Welcome to </span>iWEB
 				</h1>
@@ -384,7 +384,8 @@
 			<!-- Map Section -->
 			<div
 				class="content justify padding-64"
-				id="map">
+				id="map"
+                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
                 <h2>Map</h2>
                 <button class="water-fountain-button">
                     <img
@@ -973,6 +974,7 @@
                                 }
                             </script>
                         </div>
+                </div>
 			</div>
 			<!-- End Map Section-->
 			<!-- Report Section -->
