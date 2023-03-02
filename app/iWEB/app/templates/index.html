@@ -29,11 +29,11 @@
 			rel="stylesheet"
 			type="text/css"
 			href="leaderboard.css" />
-
-		<link
+        <link
 			rel="stylesheet"
-			href="https://www.w3schools.com/w3css/4/w3.css" />
-		<!--link rel="stylesheet" href="testlib.css"-->
+			type="text/css"
+			href="{% static 'global/testlib.css' %}" />
+		
 		<link
 			rel="stylesheet"
 			href="https://fonts.googleapis.com/css?family=Montserrat" />
@@ -53,11 +53,11 @@
 			h6 {
 				font-family: 'Montserrat', sans-serif;
 			}
-			.w3-row-padding img {
+			.row-padding img {
 				margin-bottom: 12px;
 			}
 			/* Set the width of the sidebar to 120px */
-			.w3-sidebar {
+			.sidebar {
 				width: 120px;
 				background: #8f3030; /*WORKS*/
 			}
@@ -243,107 +243,107 @@
 	</head>
 	<body>
 		<!-- Icon Bar (Sidebar - hidden on small screens) -->
-		<nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
+		<nav class="sidebar bar-block small hide-small center">
 			<a
 				href="#"
-				class="w3-bar-item w3-button w3-padding-large">
-				<i class="fa fa-home w3-xxlarge"></i>
+				class="bar-item button padding-large">
+				<i class="fa fa-home xxlarge"></i>
 				<p>Menu</p>
 			</a>
 			<a
 				href="#map"
-				class="w3-bar-item w3-button w3-padding-large">
-				<i class="fa fa-user w3-xxlarge"></i>
+				class="bar-item button padding-large">
+				<i class="fa fa-user xxlarge"></i>
 				<p>Map</p>
 			</a>
 			<a
 				href="#report"
-				class="w3-bar-item w3-button w3-padding-large">
-				<i class="fa fa-user w3-xxlarge"></i>
+				class="bar-item button padding-large">
+				<i class="fa fa-user xxlarge"></i>
 				<p>Report</p>
 			</a>
 			<a
 				href="#leaderboard"
-				class="w3-bar-item w3-button w3-padding-large">
-				<i class="fa fa-user w3-xxlarge"></i>
+				class="bar-item button padding-large">
+				<i class="fa fa-user xxlarge"></i>
 				<p>Leaderboard</p>
 			</a>
 			<a
 				href="#friends"
-				class="w3-bar-item w3-button w3-padding-large">
-				<i class="fa fa-user w3-xxlarge"></i>
+				class="bar-item button padding-large">
+				<i class="fa fa-user xxlarge"></i>
 				<p>Friends</p>
 			</a>
 			<a
 				href="#settings"
-				class="w3-bar-item w3-button w3-padding-large">
-				<i class="fa fa-user w3-xxlarge"></i>
+				class="bar-item button padding-large">
+				<i class="fa fa-user xxlarge"></i>
 				<p>Settings</p>
 			</a>
 			<a
 				href="#contactus"
-				class="w3-bar-item w3-button w3-padding-large">
-				<i class="fa fa-user w3-xxlarge"></i>
+				class="bar-item button padding-large">
+				<i class="fa fa-user xxlarge"></i>
 				<p>Contact us</p>
 			</a>
 			<a
 				href="#shop"
-				class="w3-bar-item w3-button w3-padding-large">
-				<i class="fa fa-user w3-xxlarge"></i>
+				class="bar-item button padding-large">
+				<i class="fa fa-user xxlarge"></i>
 				<p>You have {{ points }} credits</p>
 			</a>
 		</nav>
 		<!-- Navbar on small screens (Hidden on medium and large screens) -->
 		<div
-			class="w3-top w3-hide-large w3-hide-medium"
+			class="top hide-large hide-medium"
 			id="myNavbar">
-			<div class="w3-bar w3-black w3-center w3-small">
+			<div class="bar black center small">
 				<a
 					href="#"
-					class="w3-bar-item w3-button"
+					class="bar-item button"
 					style="width: 25% !important"
 					>Menu</a
 				>
 				<div id="myLinks">
 					<a
 						href="#map"
-						class="w3-bar-item w3-button"
+						class="bar-item button"
 						style="width: 25% !important"
 						>Map</a
 					>
 					<a
 						href="#report"
-						class="w3-bar-item w3-button"
+						class="bar-item button"
 						style="width: 25% !important"
 						>Report</a
 					>
 					<a
 						href="#leaderboard"
-						class="w3-bar-item w3-button"
+						class="bar-item button"
 						style="width: 25% !important"
 						>Leaderboard</a
 					>
 					<a
 						href="#friends"
-						class="w3-bar-item w3-button"
+						class="bar-item button"
 						style="width: 25% !important"
 						>Friends</a
 					>
 					<a
 						href="#settings"
-						class="w3-bar-item w3-button"
+						class="bar-item button"
 						style="width: 25% !important"
 						>Settings</a
 					>
 					<a
 						href="#contactus"
-						class="w3-bar-item w3-button"
+						class="bar-item button"
 						style="width: 25% !important"
 						>Contact us</a
 					>
 					<a
 						href="#shop"
-						class="w3-bar-item w3-button"
+						class="bar-item button"
 						style="width: 25% !important"
 						>{{points}}#</a
 					>
@@ -353,14 +353,14 @@
 
 		<!-- Page Content -->
 		<div
-			class="w3-padding-large"
+			class="padding-large"
 			id="main">
 			<!-- Header/Home -->
 			<header
-				class="w3-container w3-padding-32 w3-center"
+				class="container padding-32 center"
 				id="home">
-				<h1 class="w3-jumbo">
-					<span class="w3-hide-small">Welcome to </span>iWEB
+				<h1 class="jumbo">
+					<span class="hide-small">Welcome to </span>iWEB
 				</h1>
 				<!-- Closest things parsed into the parameter closest_things-->
 				<div
@@ -383,7 +383,7 @@
 			</header>
 			<!-- Map Section -->
 			<div
-				class="w3-content w3-justify w3-padding-64"
+				class="content justify padding-64"
 				id="map">
                 <h2>Map</h2>
                 <button class="water-fountain-button">
@@ -977,7 +977,7 @@
 			<!-- End Map Section-->
 			<!-- Report Section -->
 			<div
-				class="w3-content w3-justify w3-padding-64"
+				class="content justify padding-64"
 				id="report">
 				<h2>Report</h2>
 				{% if submitted %}
@@ -998,7 +998,7 @@
 			<!-- End Report Section-->
 			<!-- Leaderboard Section -->
 			<div
-				class="w3-content w3-justify w3-padding-64"
+				class="content justify padding-64"
 				id="leaderboard">
 				<h2>Leaderboard</h2>
 				<!-- Leaderboard content-->
@@ -1019,7 +1019,7 @@
 			<!-- End Leaderboard Section-->
 			<!-- Friends Section -->
 			<div
-				class="w3-content w3-justify w3-padding-64"
+				class="content justify padding-64"
 				id="friends">
 				<h2>Friends</h2>
 				<iframe
@@ -1029,14 +1029,14 @@
 			<!-- End Friends Section-->
 			<!-- Settings Section -->
 			<div
-				class="w3-content w3-justify w3-padding-64"
+				class="content justify padding-64"
 				id="settings">
 				<h2>Settings</h2>
 			</div>
 			<!-- End Settings Section-->
 			<!-- Contact Section -->
 			<div
-				class="w3-padding-64 w3-content"
+				class="padding-64 content"
 				id="contactus">
 				<h2>Contact Me</h2>
 				<div class="container">
@@ -1083,7 +1083,7 @@
 			<!-- End Contact Section -->
 			<!-- Points/Shop Section -->
 			<div
-				class="w3-content w3-justify w3-padding-64"
+				class="content justify padding-64"
 				id="shop">
 				<h2>Shop</h2>
 				<h2>Items in the shop:</h2>
