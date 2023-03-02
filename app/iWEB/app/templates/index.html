@@ -257,12 +257,6 @@
 				<p>Map</p>
 			</a>
 			<a
-				href="#report_box"
-				class="bar-item button padding-large">
-				<i class="fa fa-user xxlarge"></i>
-				<p>Report</p>
-			</a>
-			<a
 				href="#leaderboard_box"
 				class="bar-item button padding-large">
 				<i class="fa fa-user xxlarge"></i>
@@ -273,6 +267,18 @@
 				class="bar-item button padding-large">
 				<i class="fa fa-user xxlarge"></i>
 				<p>Friends</p>
+			</a>
+            <a
+				href="#shop_box"
+				class="bar-item button padding-large">
+				<i class="fa fa-user xxlarge"></i>
+				<p>You have {{ points }} credits</p>
+			</a>
+            <a
+				href="#report_box"
+				class="bar-item button padding-large">
+				<i class="fa fa-user xxlarge"></i>
+				<p>Report</p>
 			</a>
 			<a
 				href="#settings_box"
@@ -285,12 +291,6 @@
 				class="bar-item button padding-large">
 				<i class="fa fa-user xxlarge"></i>
 				<p>Contact us</p>
-			</a>
-			<a
-				href="#shop_box"
-				class="bar-item button padding-large">
-				<i class="fa fa-user xxlarge"></i>
-				<p>You have {{ points }} credits</p>
 			</a>
 		</nav>
 		<!-- Navbar on small screens (Hidden on medium and large screens) -->
@@ -312,12 +312,6 @@
 						>Map</a
 					>
 					<a
-						href="#report_box"
-						class="bar-item button"
-						style="width: 25% !important"
-						>Report</a
-					>
-					<a
 						href="#leaderboard_box"
 						class="bar-item button"
 						style="width: 25% !important"
@@ -328,6 +322,18 @@
 						class="bar-item button"
 						style="width: 25% !important"
 						>Friends</a
+					>
+                    <a
+						href="#shop_box"
+						class="bar-item button"
+						style="width: 25% !important"
+						>{{points}}#</a
+					>
+                    <a
+						href="#report_box"
+						class="bar-item button"
+						style="width: 25% !important"
+						>Report</a
 					>
 					<a
 						href="#settings_box"
@@ -340,12 +346,6 @@
 						class="bar-item button"
 						style="width: 25% !important"
 						>Contact us</a
-					>
-					<a
-						href="#shop_box"
-						class="bar-item button"
-						style="width: 25% !important"
-						>{{points}}#</a
 					>
 				</div>
 			</div>
@@ -981,28 +981,6 @@
                 </div>
 			</div>
 			<!-- End Map Section-->
-			<!-- Report Section -->
-			<div
-				class="content justify padding-64"
-				id="report_box"
-                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
-				<h2>Report</h2>
-				{% if submitted %}
-				<h1>Thank you for submitting your location!</h1>
-				{% else %}
-				<h1>Submit a location</h1>
-
-				<form
-					action=""
-					method="POST">
-					{% csrf_token%} {{ location_form.as_p }}
-					<input
-						type="submit"
-						value="Add Location" />
-				</form>
-				{% endif %}
-			</div>
-			<!-- End Report Section-->
 			<!-- Leaderboard Section -->
 			<div
 				class="content justify padding-64"
@@ -1036,6 +1014,51 @@
 					title="Friends list"></iframe>
 			</div>
 			<!-- End Friends Section-->
+            <!-- Points/Shop Section -->
+			<div
+            class="content justify padding-64"
+            id="shop_box"
+            style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
+            <h2>Shop</h2>
+            <h2>Items in the shop:</h2>
+            <table style="width: 30%">
+                <tr>
+                    <th>Item Name</th>
+                    <th>Description</th>
+                    <th>Price (WEBBS)</th>
+                </tr>
+                {% for item in item_list %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.price }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <!-- End Points/Shop Section-->
+        <!-- Report Section -->
+			<div
+            class="content justify padding-64"
+            id="report_box"
+            style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
+            <h2>Report</h2>
+            {% if submitted %}
+            <h1>Thank you for submitting your location!</h1>
+            {% else %}
+            <h1>Submit a location</h1>
+
+            <form
+                action=""
+                method="POST">
+                {% csrf_token%} {{ location_form.as_p }}
+                <input
+                    type="submit"
+                    value="Add Location" />
+            </form>
+            {% endif %}
+        </div>
+        <!-- End Report Section-->
 			<!-- Settings Section -->
 			<div
 				class="content justify padding-64"
@@ -1092,29 +1115,6 @@
 				</div>
 			</div>
 			<!-- End Contact Section -->
-			<!-- Points/Shop Section -->
-			<div
-				class="content justify padding-64"
-				id="shop_box"
-                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
-				<h2>Shop</h2>
-				<h2>Items in the shop:</h2>
-				<table style="width: 30%">
-					<tr>
-						<th>Item Name</th>
-						<th>Description</th>
-						<th>Price (WEBBS)</th>
-					</tr>
-					{% for item in item_list %}
-					<tr>
-						<td>{{ item.name }}</td>
-						<td>{{ item.description }}</td>
-						<td>{{ item.price }}</td>
-					</tr>
-					{% endfor %}
-				</table>
-			</div>
-			<!-- End Points/Shop Section-->
 		</div>
 		<!-- END PAGE CONTENT -->
 		<script src="index.css"></script>
