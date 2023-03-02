@@ -1,8 +1,5 @@
 - File created: 11/02/23
 - Authors: Kai Barber-Harris
-- Reviewers: 
-- Last review date: 
-- Review comments: 
 
 # Overview
 The project needs to have a well-formatted database of locations of water fountains, bins, food shops, and bus stops.
