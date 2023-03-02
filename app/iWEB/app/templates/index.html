@@ -7,7 +7,6 @@
 <!-- location_form is the form containing what data needs to be inputted to the database -->
 <!-- points is the number of points (probably an integer) that the user has -->
 <!-- item_list is the list of every object in the shop -->
-
 <!DOCTYPE html>
 <html>
 	{% load static %} {% csrf_token %}
@@ -29,11 +28,11 @@
 			rel="stylesheet"
 			type="text/css"
 			href="leaderboard.css" />
-
-		<link
+        <link
 			rel="stylesheet"
-			href="https://www.w3schools.com/w3css/4/w3.css" />
-		<!--link rel="stylesheet" href="testlib.css"-->
+			type="text/css"
+			href="{% static 'global/testlib.css' %}" />
+		
 		<link
 			rel="stylesheet"
 			href="https://fonts.googleapis.com/css?family=Montserrat" />
@@ -41,6 +40,9 @@
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 		<style>
+            html * {
+                color: #ffffff;
+            }
 			body {
 				background-color: #ff00ae;
 			}
@@ -53,18 +55,18 @@
 			h6 {
 				font-family: 'Montserrat', sans-serif;
 			}
-			.w3-row-padding img {
+			.row-padding img {
 				margin-bottom: 12px;
 			}
 			/* Set the width of the sidebar to 120px */
-			.w3-sidebar {
+			.sidebar {
 				width: 120px;
-				background: {{ colour1 }}; /*WORKS*/
+				background: #3776ac; /*WORKS*/
 			}
 			/* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
 			#main {
 				margin-left: 120px;
-				background-color: {{ colour1 [0] }}; /*main page colour*/ /*WORKS*/
+				background-color: #ffffff; /*main page colour*/ /*WORKS*/
 			}
 			/* Remove margins from "page content" on small screens */
 			@media only screen and (max-width: 600px) {
@@ -94,7 +96,7 @@
 				width: 40px;
 				height: 40px;
 				scale: 50%;
-				background-color: red;
+				background-color: #ff0000;
 				border-radius: 50%;
 				transform: translate(-50%, -50%);
 				z-index: 1;
@@ -145,7 +147,7 @@
 			.water-fountain-button {
 				display: absolute;
 				align-items: center;
-				background-color: blue;
+				background-color: #4646ff;
 				border: none;
 				color: white;
 				padding: 10px 20px;
@@ -162,7 +164,7 @@
 			.bus-stop-button {
 				display: absolute;
 				align-items: center;
-				background-color: red;
+				background-color: #ff4646;
 				border: none;
 				color: white;
 				padding: 10px 20px;
@@ -180,7 +182,7 @@
 			.bin-button {
 				display: absolute;
 				align-items: center;
-				background-color: green;
+				background-color: #46ff46;
 				border: none;
 				color: white;
 				padding: 10px 20px;
@@ -242,107 +244,107 @@
 	</head>
 	<body>
 		<!-- Icon Bar (Sidebar - hidden on small screens) -->
-		<nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
+		<nav class="sidebar bar-block small hide-small center">
 			<a
 				href="#"
-				class="w3-bar-item w3-button w3-padding-large">
-				<i class="fa fa-home w3-xxlarge"></i>
+				class="bar-item button padding-large">
+				<i class="fa fa-home xxlarge"></i>
 				<p>Menu</p>
 			</a>
 			<a
-				href="#map"
-				class="w3-bar-item w3-button w3-padding-large">
-				<i class="fa fa-user w3-xxlarge"></i>
+				href="#map_box"
+				class="bar-item button padding-large">
+				<i class="fa fa-user xxlarge"></i>
 				<p>Map</p>
 			</a>
 			<a
-				href="#report"
-				class="w3-bar-item w3-button w3-padding-large">
-				<i class="fa fa-user w3-xxlarge"></i>
+				href="#report_box"
+				class="bar-item button padding-large">
+				<i class="fa fa-user xxlarge"></i>
 				<p>Report</p>
 			</a>
 			<a
-				href="#leaderboard"
-				class="w3-bar-item w3-button w3-padding-large">
-				<i class="fa fa-user w3-xxlarge"></i>
+				href="#leaderboard_box"
+				class="bar-item button padding-large">
+				<i class="fa fa-user xxlarge"></i>
 				<p>Leaderboard</p>
 			</a>
 			<a
-				href="#friends"
-				class="w3-bar-item w3-button w3-padding-large">
-				<i class="fa fa-user w3-xxlarge"></i>
+				href="#friends_box"
+				class="bar-item button padding-large">
+				<i class="fa fa-user xxlarge"></i>
 				<p>Friends</p>
 			</a>
 			<a
-				href="#settings"
-				class="w3-bar-item w3-button w3-padding-large">
-				<i class="fa fa-user w3-xxlarge"></i>
+				href="#settings_box"
+				class="bar-item button padding-large">
+				<i class="fa fa-user xxlarge"></i>
 				<p>Settings</p>
 			</a>
 			<a
-				href="#contactus"
-				class="w3-bar-item w3-button w3-padding-large">
-				<i class="fa fa-user w3-xxlarge"></i>
+				href="#contactus_box"
+				class="bar-item button padding-large">
+				<i class="fa fa-user xxlarge"></i>
 				<p>Contact us</p>
 			</a>
 			<a
-				href="#shop"
-				class="w3-bar-item w3-button w3-padding-large">
-				<i class="fa fa-user w3-xxlarge"></i>
+				href="#shop_box"
+				class="bar-item button padding-large">
+				<i class="fa fa-user xxlarge"></i>
 				<p>You have {{ points }} credits</p>
 			</a>
 		</nav>
 		<!-- Navbar on small screens (Hidden on medium and large screens) -->
 		<div
-			class="w3-top w3-hide-large w3-hide-medium"
+			class="top hide-large hide-medium"
 			id="myNavbar">
-			<div class="w3-bar w3-black w3-center w3-small">
+			<div class="bar black center small">
 				<a
 					href="#"
-					class="w3-bar-item w3-button"
+					class="bar-item button"
 					style="width: 25% !important"
 					>Menu</a
 				>
 				<div id="myLinks">
 					<a
-						href="#map"
-						class="w3-bar-item w3-button"
+						href="#map_box"
+						class="bar-item button"
 						style="width: 25% !important"
 						>Map</a
 					>
 					<a
-						href="#report"
-						class="w3-bar-item w3-button"
+						href="#report_box"
+						class="bar-item button"
 						style="width: 25% !important"
 						>Report</a
 					>
 					<a
-						href="#leaderboard"
-						class="w3-bar-item w3-button"
+						href="#leaderboard_box"
+						class="bar-item button"
 						style="width: 25% !important"
 						>Leaderboard</a
 					>
 					<a
-						href="#friends"
-						class="w3-bar-item w3-button"
+						href="#friends_box"
+						class="bar-item button"
 						style="width: 25% !important"
 						>Friends</a
 					>
 					<a
-						href="#settings"
-						class="w3-bar-item w3-button"
+						href="#settings_box"
+						class="bar-item button"
 						style="width: 25% !important"
 						>Settings</a
 					>
 					<a
-						href="#contactus"
-						class="w3-bar-item w3-button"
+						href="#contactus_box"
+						class="bar-item button"
 						style="width: 25% !important"
 						>Contact us</a
 					>
 					<a
-						href="#shop"
-						class="w3-bar-item w3-button"
+						href="#shop_box"
+						class="bar-item button"
 						style="width: 25% !important"
 						>{{points}}#</a
 					>
@@ -352,14 +354,15 @@
 
 		<!-- Page Content -->
 		<div
-			class="w3-padding-large"
+			class="padding-large"
 			id="main">
 			<!-- Header/Home -->
 			<header
-				class="w3-container w3-padding-32 w3-center"
-				id="home">
-				<h1 class="w3-jumbo">
-					<span class="w3-hide-small">Welcome to </span>iWEB
+				class="container padding-32 center"
+				id="home"                
+                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
+				<h1 class="jumbo">
+					<span class="hide-small">Welcome to </span>iWEB
 				</h1>
 				<!-- Closest things parsed into the parameter closest_things-->
 				<div
@@ -382,8 +385,9 @@
 			</header>
 			<!-- Map Section -->
 			<div
-				class="w3-content w3-justify w3-padding-64"
-				id="map">
+				class="content justify padding-64"
+				id="map_box"
+                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
                 <h2>Map</h2>
                 <button class="water-fountain-button">
                     <img
@@ -415,8 +419,8 @@
                             <script>
                                 var user = document.querySelector(".user");
                                 var map = document.querySelector(".map");
-                                var mapWidth = 1096;
-                                var mapHeight = 1266;
+                                var mapWidth = 400;
+                                var mapHeight = 400;
                                 createMaze({{maze|safe}});
 
                                 // Converts from longitude and latitude to x and y coordinates
@@ -577,11 +581,14 @@
                                     map.appendChild(bin);
 
                                     // Gets the x and y coordinates of the bin
-                                    var x = getCoordinates(({{ bin_locations|safe}})[i][0], ({{ bin_locations|safe }})[i][1]).x;
-                                    var y = getCoordinates(({{ bin_locations|safe}})[i][0], ({{ bin_locations|safe }})[i][1]).y;
+                                    // J: Maybe here is where the display can be scaled?
+                                    var x = getCoordinates(( {{ bin_locations|safe}} )[i][0], ( {{ bin_locations|safe }} )[i][1]).x;
+                                    var y = getCoordinates(( {{ bin_locations|safe}} )[i][0], ( {{ bin_locations|safe }} )[i][1]).y;
 
                                     // Retrieves extra information about the bin from the database
                                     bin.textContent = ({{ bin_locations|safe }})[i][2] + " " + ({{ bin_locations|safe }})[i][3];
+
+                                    // J: Maybe here is where the display can be scaled?
                                     bin.style.left = x;
                                     bin.style.top = y;
 
@@ -972,12 +979,14 @@
                                 }
                             </script>
                         </div>
+                </div>
 			</div>
 			<!-- End Map Section-->
 			<!-- Report Section -->
 			<div
-				class="w3-content w3-justify w3-padding-64"
-				id="report">
+				class="content justify padding-64"
+				id="report_box"
+                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
 				<h2>Report</h2>
 				{% if submitted %}
 				<h1>Thank you for submitting your location!</h1>
@@ -997,8 +1006,9 @@
 			<!-- End Report Section-->
 			<!-- Leaderboard Section -->
 			<div
-				class="w3-content w3-justify w3-padding-64"
-				id="leaderboard">
+				class="content justify padding-64"
+				id="leaderboard_box"
+                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
 				<h2>Leaderboard</h2>
 				<!-- Leaderboard content-->
 				<div
@@ -1018,8 +1028,9 @@
 			<!-- End Leaderboard Section-->
 			<!-- Friends Section -->
 			<div
-				class="w3-content w3-justify w3-padding-64"
-				id="friends">
+				class="content justify padding-64"
+				id="friends_box"
+                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
 				<h2>Friends</h2>
 				<iframe
 					src="friendlist.html"
@@ -1028,15 +1039,17 @@
 			<!-- End Friends Section-->
 			<!-- Settings Section -->
 			<div
-				class="w3-content w3-justify w3-padding-64"
-				id="settings">
+				class="content justify padding-64"
+				id="settings_box"
+                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
 				<h2>Settings</h2>
 			</div>
 			<!-- End Settings Section-->
 			<!-- Contact Section -->
 			<div
-				class="w3-padding-64 w3-content"
-				id="contactus">
+				class="padding-64 content"
+				id="contactus_box"
+                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
 				<h2>Contact Me</h2>
 				<div class="container">
 					<form
@@ -1082,8 +1095,9 @@
 			<!-- End Contact Section -->
 			<!-- Points/Shop Section -->
 			<div
-				class="w3-content w3-justify w3-padding-64"
-				id="shop">
+				class="content justify padding-64"
+				id="shop_box"
+                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
 				<h2>Shop</h2>
 				<h2>Items in the shop:</h2>
 				<table style="width: 30%">
