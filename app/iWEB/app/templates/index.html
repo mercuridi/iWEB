@@ -41,10 +41,10 @@
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 		<style>
             html * {
-                color: #ffffff;
+                color: { theme_colour:icons };
             }
 			body {
-				background-color: #ff00ae;
+				background-color: { theme_colour:background };
 			}
 			h1,
 			h2,
@@ -60,12 +60,12 @@
 			/* Set the width of the sidebar to 120px */
 			.sidebar {
 				width: 120px;
-				background: {theme_colour:[0]}; 
+				background: #3776ac;
 			}
 			/* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
 			#main {
 				margin-left: 120px;
-				background-color: {theme_colour:[1]}; /*main page colour*/ 
+				background-color: { theme_colour:main }; /*main page colour*/ 
 			}
 			/* Remove margins from "page content" on small screens */
 			@media only screen and (max-width: 600px) {
