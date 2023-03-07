@@ -439,8 +439,8 @@
                             <script>
                                 var user = document.querySelector(".user");
                                 var map = document.querySelector(".map");
-                                var mapWidth = 400;
-                                var mapHeight = 400;
+                                var mapWidth = map.width;
+                                var mapHeight = map.height;
                                 createMaze({{maze|safe}});
 
                                 // Converts from longitude and latitude to x and y coordinates
@@ -1015,7 +1015,7 @@
 					{% if scores %}
 					<ol>
 						{% for item in scores %}
-						<li>{{ item.username }} {{item.score}}</li>
+						<li>{{ item.user.username }} {{ item.score }} {{ item.streak }}</li>
 						{% endfor %}
 					</ol>
 					{% else %}

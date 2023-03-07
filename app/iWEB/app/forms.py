@@ -1,7 +1,6 @@
 """ Module defines the backend for the various forms we have in our app.
     Integrates with the database via Django's hooks.
 """
-from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
