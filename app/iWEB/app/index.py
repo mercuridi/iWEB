@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from .models import Location, Item
+from .models import Location, Item, pointsSystem
 from .forms import LocationForm
 from django.contrib.auth.models import User
 from .utils.mapUtilities import read_map
 
 def main(request):
     """This is the main page - everything but the login/register screen should be in this view going forward"""
-    userList = User.objects.values()
+    scoreList = pointsSystem.objects.values_list().order_by("score")
+    userList = User.objects.values_list()
+    
     locList = Location.objects.values()
     itemList = Item.objects.all
 
@@ -51,11 +53,11 @@ def main(request):
     'theme_colour': [128, 333],
     'points': 256, # TODO: CHANGE THIS PLEASE
     'item_list': itemList,
-    'scores': userList,
+    'scores': scoreList,
     'closest_things': locList,
     'location_form': LocationForm,
     'submitted': submitted,
-    'streak':"100%"
+    'streak':"100%" #get streak of current user
     } 
     print(bin_coordinates)
     return render(request, 'index.html', context)
