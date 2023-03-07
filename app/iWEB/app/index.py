@@ -49,7 +49,7 @@ def main(request):
     'bus_stop_locations': bus_stop_coordinates,
     'bin_locations': bin_coordinates,
     'maze': map,
-    'theme_colour': ["#ffffff", "#7t12dd"],
+    'theme_colour': [128, 333],
     'points': 256, # TODO: CHANGE THIS PLEASE
     'item_list': itemList,
     'scores': scoreList,
