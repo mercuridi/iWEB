@@ -43,13 +43,14 @@ def main(request):
         bin_coordinates.append([bin.latitude, bin.longitude, bin.building, bin.information])
     
     map = read_map()
+    index = open("index.html").read().format(theme_colour=["#111", "#7t12dd"])
     
     context = {
     'fountain_locations': fountain_coordinates,
     'bus_stop_locations': bus_stop_coordinates,
     'bin_locations': bin_coordinates,
     'maze': map,
-    'colour1': ["#4a120f"],
+    'theme_colour': ["#ffffff", "#7t12dd"],
     'points': 256, # TODO: CHANGE THIS PLEASE
     'item_list': itemList,
     'scores': scoreList,
