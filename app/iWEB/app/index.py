@@ -57,7 +57,7 @@ def main(request):
     'location_form': LocationForm,
     'submitted': submitted,
     'streak':'100', #get streak of current user
-    'theme_colours': ['main':'#000000', 'second':'#7t12dd']
+    'theme_colours': {'main':'#000000', 'second':'#7t12dd'}
     } 
     print(bin_coordinates)
     return render(request, 'index.html', context)
