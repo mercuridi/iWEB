@@ -5,20 +5,14 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Location, Item, pointsSystem
-from .forms import LocationForm, NewUserForm
-from django.contrib.auth import login, authenticate
-from django.contrib import messages
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
+from .models import Location, Item, UserProfile, Challenge
+from .forms import LocationForm, NewUserForm
 from .utils.mapUtilities import read_map
 
 # Create your views here.
 def index(request):
     """This is the main page - everything but the login/register screen should be in this view going forward"""
-    userList = User.objects.values()
-    locList = Location.objects.values()
-    itemList = Item.objects.all
 
     #add location
     submitted = False
@@ -32,8 +26,8 @@ def index(request):
         if 'submitted' in request.GET:
             submitted = True
     form = LocationForm
-
-    #map stuff
+    
+    # context setup
     fountain_locations = Location.objects.filter(type='Fountain')
     bus_stop_locations = Location.objects.filter(type='BusStop')
     bin_locations = Location.objects.filter(type='Bin')
@@ -51,17 +45,22 @@ def index(request):
     
     map = read_map()
     
-        
+    user_list = UserProfile.objects.order_by("score"),
+    loc_list = Location.objects.values()
+    item_list = Item.objects.all()
+    
+    current_user = request.user
+    current_user_data = UserProfile.objects.get(user = current_user)
     context = {
     'fountain_locations': fountain_coordinates,
     'bus_stop_locations': bus_stop_coordinates,
     'bin_locations': bin_coordinates,
     'maze': map,
 
-    'points': 256, # TODO: CHANGE THIS PLEASE
-    'item_list': itemList,
-    'scores': userList,
-    'closest_things': locList,
+    'points': getattr(current_user_data, "score"), # TODO: CHANGE THIS PLEASE
+    'item_list': item_list,
+    'scores': user_list,
+    'closest_things': loc_list,
     'location_form': LocationForm,
     'submitted': submitted
     } 
@@ -109,10 +108,10 @@ def register_request(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            points = pointsSystem(streak=0, score=0, user=user)
-            points.save()
-            login(request, user)
+            new_user = form.save()
+            profile = UserProfile(user=new_user)
+            profile.save()
+            login(request, new_user)
             messages.success(request, 'Registration successful.' )
             return redirect('index')
         messages.error(request, 'Unsuccessful registration. Invalid information.')
