@@ -7,8 +7,8 @@ from .utils.mapUtilities import read_map
 
 def main(request):
     """This is the main page - everything but the login/register screen should be in this view going forward"""
-    scoreList = pointsSystem.objects.values_list().order_by("score")
-    userList = User.objects.values_list()
+    scoreList = pointsSystem.objects.values().order_by("score")
+    userList = User.objects.values()
     
     locList = Location.objects.values()
     itemList = Item.objects.all
@@ -43,7 +43,6 @@ def main(request):
         bin_coordinates.append([bin.latitude, bin.longitude, bin.building, bin.information])
     
     map = read_map()
-    index = open("index.html").read().format(theme_colour=["#111", "#7t12dd"])
     
     context = {
     'fountain_locations': fountain_coordinates,
@@ -57,7 +56,8 @@ def main(request):
     'closest_things': locList,
     'location_form': LocationForm,
     'submitted': submitted,
-    'streak':"100%" #get streak of current user
+    'streak':'100', #get streak of current user
+    'theme_colours': ["#111", "#7t12dd"]
     } 
     print(bin_coordinates)
     return render(request, 'index.html', context)
