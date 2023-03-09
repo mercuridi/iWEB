@@ -1,17 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from .models import Location, Item, pointsSystem
-from .forms import LocationForm
 from django.contrib.auth.models import User
+from .models import Location, Item, UserProfile
+from .forms import LocationForm
 from .utils.mapUtilities import read_map
 
 def main(request):
     """This is the main page - everything but the login/register screen should be in this view going forward"""
-    scoreList = pointsSystem.objects.values().order_by("score")
-    userList = User.objects.values()
-    
-    locList = Location.objects.values()
-    itemList = Item.objects.all
 
     #add location
     submitted = False
@@ -26,7 +21,7 @@ def main(request):
             submitted = True
     form = LocationForm
 
-    #map stuff
+    #context setup
     fountain_locations = Location.objects.filter(type='Fountain')
     bus_stop_locations = Location.objects.filter(type='BusStop')
     bin_locations = Location.objects.filter(type='Bin')
@@ -43,6 +38,17 @@ def main(request):
         bin_coordinates.append([bin.latitude, bin.longitude, bin.building, bin.information])
     
     map = read_map()
+
+    leaderboard_list = UserProfile.objects.values().order_by("-score")
+    leaderboard_list = leaderboard_list[:5]
+    for profile in leaderboard_list:
+        profile["username"] = User.objects.get(pk=profile["user_id"]).username
+            
+    loc_list = Location.objects.values()
+    item_list = Item.objects.all
+    
+    current_user = request.user
+    current_user_data = UserProfile.objects.get(user = current_user)
     
     context = {
     'fountain_locations': fountain_coordinates,
@@ -50,10 +56,10 @@ def main(request):
     'bin_locations': bin_coordinates,
     'maze': map,
     'theme_colour': [333, 589],
-    'points': 256, # TODO: CHANGE THIS PLEASE
-    'item_list': itemList,
-    'scores': scoreList,
-    'closest_things': locList,
+    'points': getattr(current_user_data, "score"),
+    'item_list': item_list,
+    'scores': leaderboard_list,
+    'closest_things': loc_list,
     'location_form': LocationForm,
     'submitted': submitted,
     'streak':'100', #get streak of current user

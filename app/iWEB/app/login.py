@@ -2,21 +2,18 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
-from .models import pointsSystem
+from .models import UserProfile
 from .forms import NewUserForm
-from django.contrib.auth import login, authenticate
-from django.contrib import messages
-from django.contrib.auth.forms import AuthenticationForm
 
 def register_request(request):
     """View to create a new user on the registration page"""
     if request.method == "POST":
         form = NewUserForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            points = pointsSystem(streak=0, score=0, user=user)
-            points.save()
-            login(request, user)
+            new_user = form.save()
+            profile = UserProfile(user=new_user)
+            profile.save()
+            login(request, new_user)
             messages.success(request, 'Registration successful.' )
             return redirect('index')
         messages.error(request, 'Unsuccessful registration. Invalid information.')
