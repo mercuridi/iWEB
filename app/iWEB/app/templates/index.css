@@ -6,7 +6,7 @@
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
-  background-color: #c52525; /* Black*/
+  background-color: #c52525; /* Red - doesn't do anything*/
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 60px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
@@ -62,15 +62,38 @@
 }
 
 .icon-bar a:hover {
-  background-color: #000; /* Add a hover color */
+  background-color: red; /* Add a hover color - doesn't work */
 }
 
 .active {
-  background-color: #04AA6D; /* Add an active/current color */
+  background-color: #4933b5; /* Add an active/current color */
 }
 
-/*Main body*/
-/*
-body {
-  background-color: lightblue;
-}*/
+    body,
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				font-family: 'Montserrat', sans-serif;
+			}
+			.row-padding img {
+				margin-bottom: 12px;
+			}
+			/* Set the width of the sidebar to 120px */
+			.sidebar {
+				width: 120px;
+				background: pink;
+			}
+			/* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
+			#main {
+				margin-left: 120px;
+				background-color: royalblue; /*main page colour*/
+			}
+			/* Remove margins from "page content" on small screens */
+			@media only screen and (max-width: 600px) {
+				#main {
+					margin-left: 0;
+				}
+			}

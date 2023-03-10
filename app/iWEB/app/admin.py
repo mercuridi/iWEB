@@ -8,8 +8,10 @@
 from django.contrib import admin
 from .models import Location
 from .models import Item
-from .models import pointsSystem
+from .models import UserProfile
+from .models import Challenge
 
 admin.site.register(Location)
 admin.site.register(Item)
-admin.site.register(pointsSystem)
+admin.site.register(UserProfile)
+admin.site.register(Challenge)
