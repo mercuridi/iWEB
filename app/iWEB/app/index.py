@@ -69,7 +69,7 @@ def main(request):
     'theme_winter':{'main':'#99ccff', 'second':'#6699cc', 'icons':'#6656ff', 'background':'#99ccff'},
     'theme_spring':{'main':'#ccff99', 'second':'#66cc99', 'icons':'#66cc99', 'background':'#ccff99'},
     'theme_autumn':{'main':'#ffcc99', 'second':'#cc6800', 'icons':'cc6800', 'background':'ffcc99'},
-    'theme':'dark',
+    'theme':'autumn',
     } 
     print(bin_coordinates)
     return render(request, 'index.html', context)
