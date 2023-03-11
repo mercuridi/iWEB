@@ -55,7 +55,6 @@ def main(request):
     'bus_stop_locations': bus_stop_coordinates,
     'bin_locations': bin_coordinates,
     'maze': map,
-    'theme_colour': [333, 589],
     'points': getattr(current_user_data, "score"),
     'item_list': item_list,
     'scores': leaderboard_list,
@@ -63,7 +62,13 @@ def main(request):
     'location_form': LocationForm,
     'submitted': submitted,
     'streak':'100', #get streak of current user
-    'theme_colours': {'main':'#000000', 'second':'#7t12dd', 'icons':'#000000','background':'#000000'}
+    'theme_colours': {'main':'#000000', 'second':'#7t12dd', 'icons':'#000000','background':'#000000'},
+    'theme_dark': {'main':'', 'second':'', 'icons':'', 'background':''},
+    'theme_pink': {'main':'', 'second':'', 'icons':'', 'background':''},
+    'theme_summer':{'main':'', 'second':'', 'icons':'', 'background':''},
+    'theme_winter':{'main':'', 'second':'', 'icons':'', 'background':''},
+    'theme_spring':{'main':'', 'second':'', 'icons':'', 'background':''},
+    'theme_autumn':{'main':'', 'second':'', 'icons':'', 'background':''},
     } 
     print(bin_coordinates)
     return render(request, 'index.html', context)
