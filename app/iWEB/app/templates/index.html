@@ -7,6 +7,9 @@
 <!-- location_form is the form containing what data needs to be inputted to the database -->
 <!-- points is the number of points (probably an integer) that the user has -->
 <!-- item_list is the list of every object in the shop -->
+<!-- theme is the string name of the theme we are using-->
+
+
 <!DOCTYPE html>
 <html>
 	{% load static %} {% csrf_token %}
@@ -41,10 +44,10 @@
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 		<style>
             html * {
-                color: { theme_colour:icons };
+                color: { theme_{{theme}}:icons };
             }
 			body {
-				background-color: { theme_colour:background };
+				background-color: { theme_{{theme}}:background };
 			}
 			h1,
 			h2,
@@ -65,7 +68,7 @@
 			/* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
 			#main {
 				margin-left: 120px;
-				background-color: { theme_colour:main }; /*main page colour*/ 
+				background-color: { theme_{{theme}}:main }; /*main page colour*/ 
 			}
 			/* Remove margins from "page content" on small screens */
 			@media only screen and (max-width: 600px) {
@@ -81,164 +84,217 @@
 			http-equiv="Cache-Control"
 			content="no-cache, no-store, must-revalidate" />
 		<style>
-			.map {
-				position: relative;
-				width: 100%;
-				height: 100%;
-				background-image: url("{% static 'global/images/map.jpg' %}");
-				background-size: contain;
-				background-repeat: no-repeat;
-				margin: 0 auto;
-			}
-			.user {
-				position: absolute;
-				width: 40px;
-				height: 40px;
-				scale: 50%;
-				background-color: #ff0000;
-				border-radius: 50%;
-				transform: translate(-50%, -50%);
-				z-index: 1;
-			}
-			.bottle {
-				position: absolute;
-				width: 160px;
-				height: 160px;
-				background-image: url("{% static 'global/images/bottle.png' %}");
-				background-size: contain;
-				background-repeat: no-repeat;
-				transform: translate(-50%, -50%);
-				z-index: 1;
-			}
-			.bus_stop {
-				position: absolute;
-				width: 160px;
-				height: 160px;
-				background-image: url("{% static 'global/images/bus-stop.png' %}");
-				background-size: contain;
-				background-repeat: no-repeat;
-				transform: translate(-50%, -50%);
-				z-index: 1;
-			}
-			.bin {
-				position: absolute;
-				width: 160px;
-				height: 160px;
-				background-image: url("{% static 'global/images/recycling.png' %}");
-				background-size: contain;
-				background-repeat: no-repeat;
-				transform: translate(-50%, -50%);
-				z-index: 1;
-			}
-
-			.maze-row {
-				display: flex;
-				flex-direction: row;
-				margin: 0;
-				padding: 0;
-			}
-			.maze-square {
-				width: 18px;
-				height: 18px;
-				margin: 0;
-				padding: 0;
-			}
-			.water-fountain-button {
-				display: absolute;
-				align-items: center;
-				background-color: #4646ff;
-				border: none;
-				color: white;
-				padding: 10px 20px;
-				text-align: center;
-				text-decoration: none;
-				font-size: 30px;
-				cursor: pointer;
-				border-radius: 5px;
-			}
-			.water-fountain-button img {
-				height: 50px;
-				margin-right: 10px;
-			}
-			.bus-stop-button {
-				display: absolute;
-				align-items: center;
-				background-color: #ff4646;
-				border: none;
-				color: white;
-				padding: 10px 20px;
-				text-align: center;
-				text-decoration: none;
-				font-size: 30px;
-				cursor: pointer;
-				border-radius: 5px;
-			}
-
-			.bus-stop-button img {
-				height: 50px;
-				margin-right: 10px;
-			}
-			.bin-button {
-				display: absolute;
-				align-items: center;
-				background-color: #46ff46;
-				border: none;
-				color: white;
-				padding: 10px 20px;
-				text-align: center;
-				text-decoration: none;
-				font-size: 30px;
-				cursor: pointer;
-				border-radius: 5px;
-			}
-			.bin-button img {
-				height: 50px;
-				margin-right: 10px;
-			}
-			.track-button {
-				display: absolute;
-				align-items: center;
-				background-color: white;
-				border: none;
-				color: white;
-				padding: 10px 20px;
-				text-align: center;
-				text-decoration: none;
-				font-size: 30px;
-				cursor: pointer;
-				border-radius: 5px;
-				tracking: false;
-			}
-			.track-button img {
-				height: 50px;
-				margin-right: 10px;
-			}
-			.pathDiv {
-				position: absolute;
-				width: 30px;
-				height: 30px;
-				background-color: rgba(0, 163, 255, 0.5);
-				border-radius: 50%;
-				transform: translate(-50%, -50%);
-				z-index: 1;
-			}
-			.box {
-				display: inline-block;
-				color: white;
-				text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000,
-					2px 2px 0 #000;
-				font-family: 'Times New Roman', Times, serif;
-				position: absolute;
-				text-align: center;
-				text-decoration: none;
-				font-size: 60px;
-				width: 310px;
-				height: 150px;
-				background-color: rgba(0, 163, 255, 0.5);
-				transform: translate(-50%, -50%);
-				z-index: 1;
-				padding: 5px;
-			}
+            .map {
+                position: relative;
+                width: 100%%;
+                height: auto;
+                background-image: url('{% static 'global/images/map.jpg' %}');
+                background-size: 1096px 1266px cover;
+                margin: 0 auto;
+            }
+            .user {
+                position: absolute;
+                width: 40px;
+                height: 40px;
+                background-color: red;
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 1;
+            }
+            .bottle {
+                position: absolute;
+                width: 160px;
+                height: 160px;
+                background-image: url('{% static 'global/images/bottle.png' %}');
+                background-size: cover;
+                transform: translate(-50%, -50%);
+                z-index: 1;
+            }
+            .bus_stop {
+                position: absolute;
+                width: 160px;
+                height: 160px;
+                background-image: url('{% static 'global/images/bus-stop.png' %}');
+                background-size: cover;
+                transform: translate(-50%, -50%);
+                z-index: 1;
+            }
+            .bin {
+                position: absolute;
+                width: 160px;
+                height: 160px;
+                background-image: url('{% static 'global/images/recycling.png' %}');
+                background-size: cover;
+                transform: translate(-50%, -50%);
+                z-index: 1;
+            }
+            .garbage {
+                position: absolute;
+                width: 200px;
+                height: 200px;
+                background-image: url('{% static 'global/images/trash.png' %}');
+                background-size: 200px 200px;
+                transform: translate(-50%, -50%);
+                z-index: 1;
+            }
+    
+            .maze-row {
+                display: flex;
+                flex-direction: row;
+                margin: 0;
+                padding: 0;
+            }
+            .maze-square {
+                width: 18px;
+                height: 18px;
+                margin: 0;
+                padding: 0;
+            }
+            .water-fountain-button {
+                display: absolute;
+                align-items: center;
+                background-color: blue;
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                font-size: 30px;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+            .water-fountain-button img {
+                height: 50px;
+                margin-right: 10px;
+            }
+            .bus-stop-button {
+                display: absolute;
+                align-items: center;
+                background-color: red;
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                font-size: 30px;
+                cursor: pointer;
+                border-radius: 5px;
+              }
+              
+            .bus-stop-button img {
+                height: 50px;
+                margin-right: 10px;
+              }
+            .bin-button {
+                display: absolute;
+                align-items: center;
+                background-color: green;
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                font-size: 30px;
+                cursor: pointer;
+                border-radius: 5px;
+              }
+            .bin-button img {
+                height: 50px;
+                margin-right: 10px;
+              }
+            .track-button {
+                display: absolute;
+                align-items: center;
+                background-color: white;
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                font-size: 30px;
+                cursor: pointer;
+                border-radius: 5px;
+                tracking: false;
+              }
+            .track-button img {
+                height: 50px;
+                margin-right: 10px;
+            }
+            .pathDiv {
+                position: absolute;
+                width: 30px;
+                height: 30px;
+                background-color: rgba(0, 163, 255, 0.5);
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 1;	
+              }
+            .box{
+                display: inline-block;
+                color: white;
+                text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+                font-family: "Times New Roman", Times, serif;
+                position: absolute;
+                text-align: center;
+                text-decoration: none;
+                font-size: 60px;
+                width: 310px;
+                height: 150px;
+                background-color: rgba(0, 163, 255, 0.5);
+                transform: translate(-50%, -50%);
+                z-index: 1;
+                padding: 5px;
+            }
+    
+            .message{
+                position: absolute;
+                left:150px;
+                top: 600px;
+                background-color: rgba(0, 163, 255, 1);
+                transform: translate(-50%, -50%);
+                z-index: 1;
+                padding: 5px;
+                
+            }
+    
+            .minigame-button{
+                display: relative;
+                align-items: center;
+                background-color: grey;
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                font-size: 30px;
+                cursor: pointer;
+                border-radius: 5px;
+                tracking: false;
+            }
+            .game{
+                position: absolute;
+                left:150px;
+                top: 500px;
+                width: 310px;
+                background-color: rgba(0, 163, 255, 1);
+                transform: translate(-50%, -50%);
+                z-index: 1;
+                padding: 5px;
+            }
+            .start-button{
+                display: relative;
+                align-items: center;
+                background-color: grey;
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                font-size: 30px;
+                cursor: pointer;
+                border-radius: 5px;
+                tracking: false;
+            }
 
             .streaks {
                 width: auto;
@@ -439,10 +495,10 @@
                             <script>
                                 var user = document.querySelector(".user");
                                 var map = document.querySelector(".map");
-                                var mapWidth = map.width;
-                                var mapHeight = map.height;
+                                var mapWidth = 1096;
+                                var mapHeight = 1266;
                                 createMaze({{maze|safe}});
-
+                        
                                 // Converts from longitude and latitude to x and y coordinates
                                 // The maths behind this function is explained in the documentation
                                 function getCoordinates(lat, lng){
@@ -450,36 +506,36 @@
                                     var topLeft = {
                                         lat: 50.7390069,
                                         lng: -3.5379331
-                                    }
+                                    }			
                                     var bottomRight = {
                                         lat: 50.7322172,
                                         lng: -3.52897
                                     }
                                     // Radius of the earth in km
-                                    const radius = 6371;
-
+                                    const radius = 6371; 
+                        
                                     // Calculates the coordinates for the top left and bottom right corners of the map
                                     topLeftX = radius*topLeft.lng*Math.cos((topLeft.lat + bottomRight.lat)/2);
                                     topLeftY = radius*topLeft.lat;
                                     bottomRightX = radius*bottomRight.lng*Math.cos((topLeft.lat + bottomRight.lat)/2);
                                     bottomRighty = radius*bottomRight.lat;
-
+                        
                                     // Calculates the coordinates for the input latitude and longitude
                                     posX = radius*lng*Math.cos((topLeft.lat + bottomRight.lat)/2);
                                     posY = radius*lat;
-
-                                    // Calculates the percentage of the input latitude and longitude
+                        
+                                    // Calculates the percentage of the input latitude and longitude 
                                     // relative to the top left and bottom right corners of the map
                                     pos_perX = (posX - topLeftX )/(bottomRightX - topLeftX );
                                     pos_perY = (posY - topLeftY )/(bottomRighty  - topLeftY );
-
+                        
                                     return {
                                         x: 0 + (mapWidth - 0)*pos_perX+ "px",
                                         y: 0 + (mapHeight - 0)*pos_perY+ "px"
                                     }
-
+                                    
                                 }
-
+                        
                                 // Get the user's location and sets the user's character to that location
                                 function getLocation(track = false) {
                                     function success(position) {
@@ -513,7 +569,7 @@
                                         throw new Error('Geolocation is not supported by this browser.');
                                     }
                                 }
-
+                        
                                 // Represents the text file of the map as divs on the page
                                 function createMaze(map) {
                                     // Removes all the previous maze divs if they exist
@@ -521,7 +577,7 @@
                                     for (var i = 0; i < blocks.length; i++) {
                                         blocks[i].parentNode.removeChild(blocks[i]);
                                     }
-
+                        
                                     // Creates the maze divs
                                     var maze = map;
                                     for (var i = 0; i < maze.length; i++) {
@@ -529,11 +585,11 @@
                                         var row = maze[i];
                                         var maze_row = document.createElement('div');
                                         maze_row.setAttribute('class', 'maze-row');
-
+                        
                                         // Creates each square
                                         for (var j = 0; j < row.length; j++) {
                                             var square = row[j];
-                                            var maze_square = document.createElement('div');
+                                            var maze_square = document.createElement('div');			
                                             maze_square.setAttribute('class', 'maze-square');
                                             maze_square.setAttribute('id', i + '-' + j);
                                             // Sets the class of the square depending on whether it is a wall or a path
@@ -548,19 +604,19 @@
                                         document.querySelector('.map').appendChild(maze_row);
                                     }
                                 }
-
-
+                        
+                        
                                 // Creates the bottles on the map to represent the fountains
                                 for (i in {{ fountain_locations|safe }}){
                                     var bottle = document.createElement("div");
                                     bottle.id = "bottle" + i;
                                     bottle.className = "bottle";
                                     map.appendChild(bottle);
-
+                                    
                                     // Gets the x and y coordinates of the fountain
                                     var x = getCoordinates(({{ fountain_locations|safe }})[i][0], ({{ fountain_locations|safe }})[i][1]).x;
                                     var y = getCoordinates(({{ fountain_locations|safe }})[i][0], ({{ fountain_locations|safe }})[i][1]).y;
-
+                        
                                     // Retrieves extra information about the fountain from the database
                                     bottle.textContent = ({{ fountain_locations|safe }})[i][2] + " " + ({{ fountain_locations|safe }})[i][3];
                                     bottle.style.left = x;
@@ -568,87 +624,84 @@
                                     // Makes the bottle invisible
                                     bottle.style.display = "none";
                                     bottle.style.fontSize = "0px";
-
+                        
                                 }
-
+                        
                                 // Creates the bus stops on the map to represent the bus stops
                                 for (i in {{ bus_stop_locations|safe}}){
                                     var bus_stop = document.createElement("div");
                                     bus_stop.id = "bus_stop" + i;
                                     bus_stop.className = "bus_stop";
                                     map.appendChild(bus_stop);
-
+                                    
                                     // Gets the x and y coordinates of the bus stop
                                     var x = getCoordinates(({{ bus_stop_locations|safe }})[i][0], ({{ bus_stop_locations|safe }})[i][1]).x;
                                     var y = getCoordinates(({{ bus_stop_locations|safe}})[i][0], ({{ bus_stop_locations|safe }})[i][1]).y;
-
+                        
                                     // Retrieves extra information about the bus stop from the database
                                     bus_stop.textContent = ({{ bus_stop_locations|safe}})[i][2] + " " + ({{ bus_stop_locations|safe}})[i][3];
                                     bus_stop.style.left = x;
                                     bus_stop.style.top = y;
-
+                        
                                     // Makes the bus stop invisible
                                     bus_stop.style.display = "none";
                                     bus_stop.style.fontSize = "0px";
-
+                        
                                 }
-
+                        
                                 // Creates the bins on the map to represent the bins
                                 for (i in {{ bin_locations|safe}}){
                                     var bin = document.createElement("div");
                                     bin.id = "bin" + i;
                                     bin.className = "bin";
                                     map.appendChild(bin);
-
+                                    
                                     // Gets the x and y coordinates of the bin
-                                    // J: Maybe here is where the display can be scaled?
-                                    var x = getCoordinates(( {{ bin_locations|safe}} )[i][0], ( {{ bin_locations|safe }} )[i][1]).x;
-                                    var y = getCoordinates(( {{ bin_locations|safe}} )[i][0], ( {{ bin_locations|safe }} )[i][1]).y;
-
+                                    var x = getCoordinates(({{ bin_locations|safe}})[i][0], ({{ bin_locations|safe }})[i][1]).x;
+                                    var y = getCoordinates(({{ bin_locations|safe}})[i][0], ({{ bin_locations|safe }})[i][1]).y;
+                        
                                     // Retrieves extra information about the bin from the database
                                     bin.textContent = ({{ bin_locations|safe }})[i][2] + " " + ({{ bin_locations|safe }})[i][3];
-
-                                    // J: Maybe here is where the display can be scaled?
                                     bin.style.left = x;
                                     bin.style.top = y;
-
+                        
                                     // Makes the bin invisible
                                     bin.style.display = "none";
                                     bin.style.fontSize = "0px";
-
+                        
                                 }
-
+                        
                                 var bottles = document.querySelectorAll('.bottle');
                                 var bus_stops = document.querySelectorAll('.bus_stop');
                                 var bins = document.querySelectorAll('.bin');
-
+                        
                                 // Checks to see if the user has clicked on a bottle
                                 for (var i = 0; i < bottles.length; i++) {
                                     const x = bottle.offsetLeft;
                                     const y = bottle.offsetTop
                                     // When the user clicks on a bottle, a box appears with the information about the bottle
                                     bottles[i].addEventListener('click', createBox );
-
+                        
                                 }
-
+                        
                                 // Checks to see if the user has clicked on a bus stop
                                 for (var i = 0; i < bus_stops.length; i++) {
                                     const x = bus_stop.offsetLeft;
                                     const y = bus_stop.offsetTop
                                     // When the user clicks on a bus stop, a box appears with the information about the bus stop
                                     bus_stops[i].addEventListener('click', createBox );
-
+                        
                                 }
-
+                        
                                 // Checks to see if the user has clicked on a bin
                                 for (var i = 0; i < bins.length; i++) {
                                     const x = bin.offsetLeft;
                                     const y = bin.offsetTop
                                     // When the user clicks on a bin, a box appears with the information about the bin
                                     bins[i].addEventListener('click', createBox );
-
+                        
                                 }
-
+                        
                                 // Creates a button that displays the bottles when clicked and hides them when clicked again
                                 var waterButton = document.querySelector('.water-fountain-button');
                                 waterButton.addEventListener('click', function() {
@@ -663,7 +716,7 @@
                                         }
                                     }
                                 });
-
+                        
                                 // Creates a button that displays the bus stops when clicked and hides them when clicked again
                                 var busButton = document.querySelector('.bus-stop-button');
                                 busButton.addEventListener('click', function() {
@@ -678,7 +731,7 @@
                                         }
                                     }
                                 });
-
+                        
                                 // Creates a button that displays the bins when clicked and hides them when clicked again
                                 var binButton = document.querySelector('.bin-button');
                                 binButton.addEventListener('click', function() {
@@ -693,7 +746,7 @@
                                         }
                                     }
                                 });
-
+                        
                                 // Creates a button that tracks the user's location
                                 var trackButton = document.querySelector('.track-button');
                                 trackButton.addEventListener('click', function() {
@@ -707,20 +760,128 @@
                                         watchID = getLocation(track = true)
                                     }
                                 });
-
+                        
+                                function getCookie(name) {
+                                    var cookieValue = null;
+                                    if (document.cookie && document.cookie !== '') {
+                                        var cookies = document.cookie.split(';');
+                                        for (var i = 0; i < cookies.length; i++) {
+                                            var cookie = cookies[i].trim();
+                                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    return cookieValue;
+                                }
+                        
                                 // Checks if the user has completed the challange
                                 function checkLocation(e){
                                     x = user.offsetLeft - this.Xcoordinates
                                     y = user.offsetTop - this.Ycoordinates
                                     console.log(x, y)
                                     if ( x < 10 && x > -10 && y < 10 && y > -10){
-                                        alert("Congratulations! You have completed the challenge!");
+                                        // Creates a POST request to the server to update the database
+                                        var csrftoken = getCookie('csrftoken');
+                        
+                                        var request = new XMLHttpRequest();
+                                        request.open("POST", "/index", true);
+                                        request.setRequestHeader("Content-Type", "application/json");
+                                        request.setRequestHeader("X-CSRFToken", csrftoken);
+                                        request.send(JSON.stringify({bottle_id: "item"}));
+                        
+                                        displayMessage(this)
+                                        
                                     } else{
                                         alert("You are not at the correct location");
                                     }
-
+                        
                                 }
-
+                        
+                        
+                                // Displays a message to the user, telling them that they have completed the challange
+                                // There is 2 buttons in the message, one allows the user to play a minigame and the other allows the user to go back to the map
+                                function displayMessage(object){
+                                    // Sets the onject variable to the box, which is the parent of the object that the user clicked on
+                                    object = object.parentElement;
+                                    var message = document.createElement("div");
+                                    message.id = "message";
+                                    message.className = "message";
+                                    message.innerHTML = "Challange Completed!! <br> <button class='minigame-button'>Play minigame</button>";
+                        
+                                    //The coordinates to the bottle, bus stop or bin are stored in the pathButton
+                        
+                                    console.log(object.offsetLeft, object.offsetTop);
+                                    message.Xcoordinates = (object.offsetLeft);
+                                    message.Ycoordinates = (object.offsetTop);
+                                    // Sets the position of the message box
+                                    object.appendChild(message);
+                        
+                        
+                                    // Creates a button that allows the user to play the minigame
+                                    var minigameButton = document.querySelector('.minigame-button');
+                                    minigameButton.addEventListener('click', minigame)
+                                }
+                        
+                                // A function that creates a small game where the user has to click on the bottles
+                                // The user has 10 seconds to click on as many garbages as possible
+                                function minigame(){
+                                    // Creates a box that contains the game
+                                    var game = document.createElement("div");
+                                    game.id = "game";
+                                    game.className = "game";
+                                    game.innerHTML = "Click on the trashbags as fast as you can! <br> <button class='start-button'>Start</button>";
+                                    object = this.parentElement;
+                                    object.appendChild(game);
+                        
+                                    // Creates a button that starts the game
+                                    var startButton = document.querySelector('.start-button');
+                                    startButton.addEventListener('click', function() {
+                                        // Creates a timer that counts down from 10
+                                        var timer = document.createElement("div");
+                                        timer.id = "timer";
+                                        timer.className = "timer";
+                                        timer.innerHTML = "10";
+                                        game.appendChild(timer);
+                                        var time = 10;
+                                        var timerID = setInterval(function(){
+                                            time--;
+                                            timer.innerHTML = time;
+                                            if (time == 0){
+                                                clearInterval(timerID);
+                                                game.innerHTML = "Game Over! <br> You clicked on " + score + " trashbags! <br>";
+                                                // Removes the garbage
+                                                garbage.remove();
+                                            }
+                                        }, 1000);
+                        
+                                        // Creates a score counter
+                                        var score = 0;
+                                        var scoreCounter = document.createElement("div");
+                                        scoreCounter.id = "scoreCounter";
+                                        scoreCounter.className = "scoreCounter";
+                                        scoreCounter.innerHTML = "Score: " + score;
+                                        game.appendChild(scoreCounter);
+                        
+                                        // Creates a button that allows the user to click on the garbages
+                                        var garbage = document.createElement("div");
+                                        garbage.id = "garbage";
+                                        garbage.className = "garbage";
+                                        garbage.style.left = Math.floor(Math.random() * mapWidth) + "px";
+                                        garbage.style.top = Math.floor(Math.random() * mapHeight) + "px";
+                                        garbage.addEventListener('click', function() {
+                                            score++;
+                                            scoreCounter.innerHTML = "Score: " + score;
+                                            garbage.style.left = Math.floor(Math.random() * mapWidth) + "px";
+                                            garbage.style.top = Math.floor(Math.random() * mapHeight) + "px";
+                                        });
+                                        map.appendChild(garbage);
+                                    });
+                        
+                                        
+                                }
+                        
                                 // The function that creates the box with the information about the bottle, bus stop or bin
                                 function createBox(e){
                                     var bottle_id = this.id;
@@ -743,11 +904,11 @@
                                         var color_light = "lightgreen";
                                     }
                                     box.style.backgroundColor = color_light;
-
+                        
                                     // Adds the box to the map and displays it ontop of the bottle, bus stop or bin
                                     var map = document.querySelector('.map');
                                     map.appendChild(box);
-
+                                    
                                     // Creates the second box that when clicked displays the shortest path to the bottle, bus stop or bin
                                     var pathButton = document.createElement("button");
                                     pathButton.id = "pathButton";
@@ -764,25 +925,25 @@
                                     pathButton.style.borderRadius = '6px';
                                     pathButton.style.border = 'none';
                                     pathButton.style.cursor = 'pointer';
-
+                        
                                     //The coordinates to the bottle, bus stop or bin are stored in the pathButton
                                     pathButton.Xcoordinates = (this.offsetLeft);
                                     pathButton.Ycoordinates = (this.offsetTop);
-
+                        
                                     box.appendChild(pathButton);
-
+                        
                                     // Stops the box from being created multiple times
                                     this.removeEventListener('click', createBox);
                                     // When the path button is clicked the shortest path to the bottle, bus stop or bin is displayed
                                     pathButton.addEventListener('click', displayPath);
-
+                        
                                     // Creates a button that when pressed cheks to see if the user is at the bottle, bus stop or bin
                                     var checkButton = document.createElement("button");
                                     checkButton.id = "checkButton";
                                     checkButton.className = "checkButton";
                                     checkButton.style.left = '80px';
                                     checkButton.style.top = '200px';
-                                    checkButton.innerHTML = "Verify Location";
+                                    checkButton.innerHTML = "Veryify Location";
                                     checkButton.style.fontSize = "30px";
                                     checkButton.style.width = "280px";
                                     checkButton.style.height = "80px";
@@ -795,10 +956,10 @@
                                     checkButton.Xcoordinates = (this.offsetLeft);
                                     checkButton.Ycoordinates = (this.offsetTop);
                                     box.appendChild(checkButton);
-
+                        
                                     // When the check button is pressed the user's location is checked
                                     checkButton.addEventListener('click', checkLocation);
-
+                        
                                     // Creates a red exit button that appears on the box and when pressed removes the box
                                     var exitButton = document.createElement("button");
                                     exitButton.id = "exitButton";
@@ -818,39 +979,39 @@
                                         pathButton.parentNode.removeChild(pathButton);
                                         this.parentNode.removeChild(this);
                                         box.parentNode.removeChild(box);
-
+                        
                                         // An event listener is added to the bottle, bus stop or bin so that the box can be created again
                                         var bottle = document.getElementById(bottle_id);
-                                        bottle.addEventListener("click", createBox);
-
-
+                                        bottle.addEventListener("click", createBox);		
+                        
+                                        
                                     });
                                 }
-
+                        
                                 // A function that displays the shortest path from the user to the bottle, bus stop or bin
                                 function displayPath (e){
                                     // Retrieves the coordinates of the user and converts them to the pixel equivilant
                                     var user = document.querySelector(".user");
                                     user_x = Math.floor(user.offsetLeft/18);
                                     user_y = Math.floor(user.offsetTop/18);
-
+                                    
                                     // Retrieves the coordinates of the bottle, bus stop or bin and converts them to the pixel equivilant
                                     x = Math.floor(this.Xcoordinates/18);
                                     y = Math.floor(this.Ycoordinates/18);
-
+                        
                                     // Runs the A* algorithm to find the shortest path
                                     maze = {{ maze|safe }};
                                     var path = aStar(maze, [user_y, user_x], [y,x]);
-
+                        
                                     // Displays the path on the map by chaning the background colour of the divs
                                     createPath(path, this.style.backgroundColor);
                                     createMaze(maze);
-
+                        
                                 }
-
+                        
                                 // A function that recieves the dictioniary of the shortest path and then turns the indexes into the correct coordinates and creates divs to represent the path
                                 function createPath(path, color){
-
+                        
                                     // Removes the previous path
                                     var blocks = document.querySelectorAll('.pathDiv');
                                     for (var i = 0; i < blocks.length; i++) {
@@ -862,14 +1023,14 @@
                                         pathDiv.className = "pathDiv";
                                         pathDiv.style.backgroundColor = color;
                                         pathDiv.style.opacity = "0.8";
-
+                                        
                                         pathDiv.style.left = ('' + path[i][1]*18 + 'px');
                                         pathDiv.style.top = ('' + path[i][0]*18 + 'px');
                                         map.appendChild(pathDiv);
-
+                        
                                     }
                                 }
-
+                                
                                 // This represents each node in the grid for the A* algorithm
                                 class Node {
                                     constructor(parent = null,position) {
@@ -879,28 +1040,28 @@
                                         this.h = 0; // An estimate of the distance to the end node
                                         this.f = 0; // The sum of the g and h values
                                     }
-
+                                
                                     isEqual(other) {
                                         return this.position == other.position;
                                     }
                                 }
-
+                        
                                 // This function runs the A* algorithm to find the shortest path
                                 // It takes in the maze, the start and end coordinates and returns the shortest path
                                 // The A* algorithm is explained better in the documentation
                                 // The code for the A* algorithm was adapted from psuedo code from https://en.wikipedia.org/wiki/A*_search_algorithm
                                 function aStar(map, start, end){
-
+                                    
                                     // Creates the start and end node representations of the arguments passed in
                                     var start = new Node(null,start);
                                     start.g = start.f = start.h = 0;
                                     var end = new Node(null,end);
                                     end.g = end.f = end.h = 0;
-
+                                    
                                     // The list of nodes that have been and haven't visited
                                     var openList = [];
                                     var closedList = [];
-
+                        
                                     // Possible ways the node can move in
                                     var positions = [
                                     [0, -1],
@@ -908,12 +1069,12 @@
                                     [-1, 0],
                                     [1, 0],
                                     [-1, -1],];
-
+                                
                                     openList.push(start);
-
+                        
                                     // Loops until the end is found or openList is empty
                                     while(openList.length > 0){
-
+                                        
                                         var currentNode = openList[0];
                                         var currentIndex = 0;
                                         for (var index in openList) {
@@ -927,13 +1088,13 @@
                                         // Removes the current node from the openList and adds it to the closedList(nodes that have been visited)
                                         openList.splice(currentIndex, 1);
                                         closedList.push(currentNode);
-
+                        
                                         // If the current node is the end node then the path is found
                                         if(currentNode.position[0] == end.position[0] && currentNode.position[1] == end.position[1]){
-
+                                                
                                             var path = [];
                                             var current = currentNode;
-
+                                            
                                             // Gets the positions of the nodes in the path
                                             while(current != null){
                                                 path.push(current.position);
@@ -941,16 +1102,16 @@
                                             }
                                             return path.reverse();
                                         }
-
+                                
                                         var children = [];
-
+                        
                                         for (var newPosition of positions){
                                             var nodePosition = [
                                                 currentNode.position[0] + newPosition[0],
                                                 currentNode.position[1] + newPosition[1]
-
+                                               
                                             ];
-
+                                
                                             // Checks if the node is in the map
                                             if(nodePosition[0] > (map.length - 1) || nodePosition[0] < 0 || nodePosition[1] > (map.length - 1) || nodePosition[1] < 0){
                                                 continue;
@@ -959,12 +1120,12 @@
                                             if(map[nodePosition[0]][nodePosition[1]] != '-'){
                                                 continue;
                                             }
-
+                        
                                             // Create a new child node
                                             var newNode = new Node(currentNode,nodePosition);
                                             children.push(newNode);
                                         }
-
+                        
                                         // Looks thorugh the childer nodes
                                         for(var child of children){
                                             // Makes sure the child node isn't in the closedList
@@ -973,21 +1134,21 @@
                                                     continue;
                                                 }
                                             }
-
+                                
                                             // Adds the weight of the path from hte child node to the current node in our case it is 1 since every distance is the same
                                             child.g = currentNode.g + 1;
                                             // Calculates the heuristic value using uclidean distance
                                             // TODO: Try different heuristics
-                                            child.h = Math.pow((child.position[0] - end.position[0]), 2) + Math.pow((child.position[1] - end.position[1]), 2);
+                                            child.h = Math.pow((child.position[0] - end.position[0]), 2) + Math.pow((child.position[1] - end.position[1]), 2);          
                                             child.f = child.g + child.h;
-
+                                
                                             // Check to see if the child node is not further away from the end node than nodes in the openList
                                             for(var openNode in openList){
                                                 if(child.isEqual(openNode) && child.g > openNode.g){
                                                     continue;
                                                 }
                                             }
-
+                                
                                             // Adds the child node to the openList
                                             openList.push(child);
                                             // Sets the child node to a wall for memory efficiency

@@ -50,6 +50,15 @@
 			transform: translate(-50%, -50%);
 			z-index: 1;
 		}
+		.garbage {
+			position: absolute;
+			width: 200px;
+			height: 200px;
+			background-image: url('{% static 'global/images/trash.png' %}');
+			background-size: 200px 200px;
+			transform: translate(-50%, -50%);
+			z-index: 1;
+		}
 
         .maze-row {
             display: flex;
@@ -157,6 +166,56 @@
 			transform: translate(-50%, -50%);
 			z-index: 1;
 			padding: 5px;
+		}
+
+		.message{
+			position: absolute;
+			left:150px;
+			top: 600px;
+			background-color: rgba(0, 163, 255, 1);
+			transform: translate(-50%, -50%);
+			z-index: 1;
+			padding: 5px;
+			
+		}
+
+		.minigame-button{
+			display: relative;
+			align-items: center;
+			background-color: grey;
+			border: none;
+			color: white;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			font-size: 30px;
+			cursor: pointer;
+			border-radius: 5px;
+			tracking: false;
+		}
+		.game{
+			position: absolute;
+			left:150px;
+			top: 500px;
+			width: 310px;
+			background-color: rgba(0, 163, 255, 1);
+			transform: translate(-50%, -50%);
+			z-index: 1;
+			padding: 5px;
+		}
+		.start-button{
+			display: relative;
+			align-items: center;
+			background-color: grey;
+			border: none;
+			color: white;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			font-size: 30px;
+			cursor: pointer;
+			border-radius: 5px;
+			tracking: false;
 		}
 
 	</style>
@@ -454,17 +513,125 @@
 			}
 		});
 
+		function getCookie(name) {
+			var cookieValue = null;
+			if (document.cookie && document.cookie !== '') {
+				var cookies = document.cookie.split(';');
+				for (var i = 0; i < cookies.length; i++) {
+					var cookie = cookies[i].trim();
+					if (cookie.substring(0, name.length + 1) === (name + '=')) {
+						cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+						break;
+					}
+				}
+			}
+			return cookieValue;
+		}
+
 		// Checks if the user has completed the challange
 		function checkLocation(e){
 			x = user.offsetLeft - this.Xcoordinates
 			y = user.offsetTop - this.Ycoordinates
 			console.log(x, y)
 			if ( x < 10 && x > -10 && y < 10 && y > -10){
-				alert("Congratulations! You have completed the challenge!");
+				// Creates a POST request to the server to update the database
+				var csrftoken = getCookie('csrftoken');
+
+				var request = new XMLHttpRequest();
+				request.open("POST", "/index", true);
+				request.setRequestHeader("Content-Type", "application/json");
+				request.setRequestHeader("X-CSRFToken", csrftoken);
+				request.send(JSON.stringify({bottle_id: "item"}));
+
+				displayMessage(this)
+				
 			} else{
 				alert("You are not at the correct location");
 			}
 
+		}
+
+
+		// Displays a message to the user, telling them that they have completed the challange
+		// There is 2 buttons in the message, one allows the user to play a minigame and the other allows the user to go back to the map
+		function displayMessage(object){
+			// Sets the onject variable to the box, which is the parent of the object that the user clicked on
+			object = object.parentElement;
+			var message = document.createElement("div");
+			message.id = "message";
+			message.className = "message";
+			message.innerHTML = "Challange Completed!! <br> <button class='minigame-button'>Play minigame</button>";
+
+			//The coordinates to the bottle, bus stop or bin are stored in the pathButton
+
+			console.log(object.offsetLeft, object.offsetTop);
+			message.Xcoordinates = (object.offsetLeft);
+			message.Ycoordinates = (object.offsetTop);
+			// Sets the position of the message box
+			object.appendChild(message);
+
+
+			// Creates a button that allows the user to play the minigame
+			var minigameButton = document.querySelector('.minigame-button');
+			minigameButton.addEventListener('click', minigame)
+		}
+
+		// A function that creates a small game where the user has to click on the bottles
+		// The user has 10 seconds to click on as many garbages as possible
+		function minigame(){
+			// Creates a box that contains the game
+			var game = document.createElement("div");
+			game.id = "game";
+			game.className = "game";
+			game.innerHTML = "Click on the trashbags as fast as you can! <br> <button class='start-button'>Start</button>";
+			object = this.parentElement;
+			object.appendChild(game);
+
+			// Creates a button that starts the game
+			var startButton = document.querySelector('.start-button');
+			startButton.addEventListener('click', function() {
+				// Creates a timer that counts down from 10
+				var timer = document.createElement("div");
+				timer.id = "timer";
+				timer.className = "timer";
+				timer.innerHTML = "10";
+				game.appendChild(timer);
+				var time = 10;
+				var timerID = setInterval(function(){
+					time--;
+					timer.innerHTML = time;
+					if (time == 0){
+						clearInterval(timerID);
+						game.innerHTML = "Game Over! <br> You clicked on " + score + " trashbags! <br>";
+						// Removes the garbage
+						garbage.remove();
+					}
+				}, 1000);
+
+				// Creates a score counter
+				var score = 0;
+				var scoreCounter = document.createElement("div");
+				scoreCounter.id = "scoreCounter";
+				scoreCounter.className = "scoreCounter";
+				scoreCounter.innerHTML = "Score: " + score;
+				game.appendChild(scoreCounter);
+
+				// Creates a button that allows the user to click on the garbages
+				var garbage = document.createElement("div");
+				garbage.id = "garbage";
+				garbage.className = "garbage";
+				garbage.style.left = Math.floor(Math.random() * mapWidth) + "px";
+				garbage.style.top = Math.floor(Math.random() * mapHeight) + "px";
+				garbage.addEventListener('click', function() {
+					score++;
+					scoreCounter.innerHTML = "Score: " + score;
+					garbage.style.left = Math.floor(Math.random() * mapWidth) + "px";
+					garbage.style.top = Math.floor(Math.random() * mapHeight) + "px";
+				});
+				map.appendChild(garbage);
+			});
+
+				
 		}
 
 		// The function that creates the box with the information about the bottle, bus stop or bin
