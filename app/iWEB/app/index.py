@@ -17,8 +17,8 @@ def main(request):
     submitted = False
     if request.method == "POST":
         data = json.loads(request.body)
-        bottle_id = data.get("bottle_id")
-        current_user_data.score += 1
+        points = data.get("points")
+        current_user_data.score += points
         current_user_data.save()
 
         form = LocationForm(request.POST)

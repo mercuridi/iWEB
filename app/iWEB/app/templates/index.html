@@ -786,7 +786,7 @@
                                         request.open("POST", "/index", true);
                                         request.setRequestHeader("Content-Type", "application/json");
                                         request.setRequestHeader("X-CSRFToken", csrftoken);
-                                        request.send(JSON.stringify({bottle_id: "item"}));
+                                        request.send(JSON.stringify({points: 250}));
                         
                                         displayMessage(this)
                                         
@@ -850,6 +850,12 @@
                                                 game.innerHTML = "Game Over! <br> You clicked on " + score + " trashbags! <br>";
                                                 // Removes the garbage
                                                 garbage.remove();
+                                                var request = new XMLHttpRequest();
+                                                request.open("POST", "/index", true);
+                                                request.setRequestHeader("Content-Type", "application/json");
+                                                request.setRequestHeader("X-CSRFToken", csrftoken);
+                                                extra_points = score * 10 + 250;
+                                                request.send(JSON.stringify({points: extra_points}));
                                             }
                                         }, 1000);
                         
