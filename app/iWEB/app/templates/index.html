@@ -44,10 +44,10 @@
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 		<style>
             html * {
-                color: { theme_{{theme}}:icons };
+                color: { theme:icons };
             }
 			body {
-				background-color: { theme_{{theme}}:background };
+				background-color: { theme:background };
 			}
 			h1,
 			h2,
@@ -68,7 +68,7 @@
 			/* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
 			#main {
 				margin-left: 120px;
-				background-color: { theme_{{theme}}:main }; /*main page colour*/ 
+				background-color: { theme:main }; /*main page colour*/ 
 			}
 			/* Remove margins from "page content" on small screens */
 			@media only screen and (max-width: 600px) {
@@ -77,6 +77,18 @@
 				}
 			}
 		</style>
+        <py-script>
+            'exeter': {'main':'#000000', 'second':'#7t12dd', 'icons':'#000000','background':'#000000'},
+            'dark': {'main':'999999', 'second':'333333', 'icons':'666666', 'background':'99999'},
+            'pink': {'main':'#ffcccc', 'second':'#993366', 'icons':'#ff9999', 'background':'#ffcccc'},
+            'summer':{'main':'#ffcc66', 'second':'#ff6600', 'icons':'#ff9900', 'background':'#ffcc66'},
+            'winter':{'main':'#99ccff', 'second':'#6699cc', 'icons':'#6656ff', 'background':'#99ccff'},
+            'spring':{'main':'#ccff99', 'second':'#66cc99', 'icons':'#66cc99', 'background':'#ccff99'},
+            'autumn':{'main':'#ffcc99', 'second':'#cc6800', 'icons':'cc6800', 'background':'ffcc99'},
+            'theme':'autumn',
+
+            py-script.write('autumn',theme)
+        </py-script>
 
 		<!-- Map set up-->
 		<!-- TO BE READ AND UNDERSTOOD -> most of this should be moved to a .css file -->
