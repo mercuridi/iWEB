@@ -45,6 +45,11 @@
         <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
         <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
 		<py-script>
+            main = '';
+            second = '';
+            icons = '';
+            background = '';
+            theme = {};
             exeter: {main:'#000000', second:'#7t12dd', icons:'#000000', background:'#000000'};
             dark: {main:'#999999', second:'#333333', icons:'#666666', background:'#99999'};
             pink: {main:'#ffcccc', second:'#993366', icons:'#ff9999', background:'#ffcccc'};
@@ -53,7 +58,7 @@
             spring:{main:'#ccff99', second:'#66cc99', icons:'#66cc99', background:'#ccff99'};
             autumn:{main:'#ffcc99', second:'#cc6800', icons:'cc6800', background:'ffcc99'};
 
-            py-script.write('autumn',theme)
+            pyscript.write('autumn',theme);
         </py-script>
         <style>
             html * {
