@@ -4,13 +4,12 @@ from app.models import Item
 from app.models import Challenge
 from app.models import UserProfile
 from app.models import User
-from .utilities_for_tests import populate_test_database
+from .test_utils import populate_test_database
 
 class test_models(TestCase):
-    # create some instances of each of our models
-    # the creation of a user should automatically create a related user profile
     def setUp(self):
         populate_test_database()
+
     # get and test all the objects we made
     # we use a different attribute to get each just to check that's working
     def test_Location(self):
@@ -23,10 +22,10 @@ class test_models(TestCase):
         self.assertEqual(fountain.longitude, 1.22)
         self.assertEqual(fountain.latitude, 1.55555)
         self.assertEqual(fountain.information, "Test information field")
-        self.assertEqual(fountain.usable, False)
+        self.assertFalse(fountain.usable)
         
         self.assertEqual(bus_stop.type, "('BusStop', 'BusStop')")
-        self.assertEqual(bus_stop.usable, True)
+        self.assertTrue(bus_stop.usable)
         
     def test_Item(self):
         item_1 = Item.objects.get(description = "Item test description, cost 1000")
@@ -53,22 +52,19 @@ class test_models(TestCase):
     def test_User_and_Profile(self):
         user_1 = User.objects.get(username = "Test User 1")
         user_2 = User.objects.get(username = "Test User 2")
-        profile_1 = user_1.profile  # pull already created profile
-        profile_2 = user_2.profile  # should auto create a default-valued profile linked to user_2
+        profile_1 = user_1.profile  # pull already created profiles
+        profile_2 = user_2.profile 
         challenge_1 = Challenge.objects.get(pk=1)
         
         self.assertEqual(user_1.username, "Test User 1")
         self.assertEqual(user_2.username, "Test User 2")
         
         self.assertEqual(profile_1.user, user_1)
-        self.assertEqual(profile_1.streak, 5)
+        self.assertEqual(profile_1.streak, 1)
         self.assertEqual(profile_1.score, 100)
         self.assertEqual(profile_1.current_template, "default")
         self.assertEqual(profile_1.owned_templates, "default")
-        self.assertEqual(profile_1.challenge_done, True)
+        self.assertFalse(profile_1.challenge_done)
         self.assertEqual(profile_1.current_challenge, challenge_1)
-        
-        self.assertEqual(profile_2.streak, 0)
-        self.assertEqual(profile_2.score, 0)
-        self.assertEqual(profile_2.challenge_done, False)
+
         

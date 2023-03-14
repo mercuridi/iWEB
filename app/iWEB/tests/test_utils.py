@@ -5,6 +5,10 @@ from app.models import UserProfile
 from app.models import User
 
 def populate_test_database():
+    """
+    Script to consistently populate the database with standard testing data
+    Most tests use this in their setUp functions, so tests are based on this data
+    """
     # Locations
     # 1 location manually setting everything except type (should autofill Fountain)
     Location.objects.create(building = "Building Test (Fountain)",
@@ -31,14 +35,16 @@ def populate_test_database():
     # 1 challenge only setting the name
     Challenge.objects.create(name = "Test challenge 2")
     
-    # Users & profiles
-    User.objects.create(username = "Test User 1", password = "PASSWORDTEST")
-    User.objects.create(username = "Test User 2", password = "PASSWORDTEST")
-    # bit messy to create and get profiles
-    user_1 = User.objects.get(username = "Test User 1")
-    user_2 = User.objects.get(username = "Test User 2")
-    profile_1 = user_1.profile # creates a profile and fills with default values
-    profile_1.streak = 5
-    profile_1.score = 100
-    profile_1.challenge_done = True
-    profile_1.save()
+    # create some users :)
+    next_username = "Test User {num}"
+    for i in range(10): # adjust range for more or less users, 10 is enough
+                        # don't set to less than 5 or some tests fail (intended behaviour)
+        # create a user and its profile
+        new_user = User.objects.create(username = next_username.format(num = i), password = "PASSWORDTEST")
+        profile = new_user.profile
+        # populate with "typical" values
+        profile.streak = i
+        profile.score = i * 100
+        if i % 2 == 0:
+            profile.challenge_done = True
+        profile.save()

@@ -81,6 +81,7 @@ def get_locations():
     return all_locations
 
 def get_leaderboard(length=5):
+    length = abs(length)    # just in case somehow we are asked for a negative number
     leaderboard_list = UserProfile.objects.values().order_by("-score")
     leaderboard_list = leaderboard_list[:length]
     for profile in leaderboard_list:
