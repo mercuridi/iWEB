@@ -41,26 +41,17 @@ class test_models(TestCase):
         # bit messy to create and get profiles
         user_1 = User.objects.get(username = "Test User 1")
         user_2 = User.objects.get(username = "Test User 2")
-        profile_1 = user_1.profile
-        profile_2 = user_2.profile
+        profile_1 = user_1.profile # creates a profile and fills with default values
         profile_1.streak = 5
         profile_1.score = 100
         profile_1.challenge_done = True
         profile_1.save()
         
-    # get all the objects we made
+    # get and test all the objects we made
     # we use a different attribute to get each just to check that's working
-    def test_model_creation(self):
+    def test_Location(self):
         fountain = Location.objects.get(building = "Building Test (Fountain)")
         bus_stop = Location.objects.get(type = "('BusStop', 'BusStop')")
-        item_1 = Item.objects.get(description = "Item test description, cost 1000")
-        item_2 = Item.objects.get(name = "Test item 2")
-        challenge_1 = Challenge.objects.get(difficulty = 3)
-        challenge_2 = Challenge.objects.get(name = "Test challenge 2")
-        user_1 = User.objects.get(username = "Test User 1")
-        user_2 = User.objects.get(username = "Test User 2")
-        profile_1 = user_1.profile
-        profile_2 = user_2.profile
         
         # assert all the things we assigned & default field values
         self.assertEqual(fountain.type, "Fountain")
@@ -73,6 +64,10 @@ class test_models(TestCase):
         self.assertEqual(bus_stop.type, "('BusStop', 'BusStop')")
         self.assertEqual(bus_stop.usable, True)
         
+    def test_Item(self):
+        item_1 = Item.objects.get(description = "Item test description, cost 1000")
+        item_2 = Item.objects.get(name = "Test item 2")
+        
         self.assertEqual(item_1.name, "Test item 1")
         self.assertEqual(item_1.description, "Item test description, cost 1000")
         self.assertEqual(item_1.price, 1000)
@@ -80,12 +75,23 @@ class test_models(TestCase):
         self.assertEqual(item_2.name, "Test item 2")
         self.assertEqual(item_2.price, 0)
         
+    def test_Challenge(self):
+        challenge_1 = Challenge.objects.get(difficulty = 3)
+        challenge_2 = Challenge.objects.get(name = "Test challenge 2")
+        
         self.assertEqual(challenge_1.name, "Test challenge 1")
         self.assertEqual(challenge_1.description, "Challenge test description, difficulty 3")
         self.assertEqual(challenge_1.difficulty, 3)
         
         self.assertEqual(challenge_2.name, "Test challenge 2")
         self.assertEqual(challenge_2.difficulty, 1)
+        
+    def test_User_and_Profile(self):
+        user_1 = User.objects.get(username = "Test User 1")
+        user_2 = User.objects.get(username = "Test User 2")
+        profile_1 = user_1.profile  # pull already created profile
+        profile_2 = user_2.profile  # should auto create a default-valued profile linked to user_2
+        challenge_1 = Challenge.objects.get(pk=1)
         
         self.assertEqual(user_1.username, "Test User 1")
         self.assertEqual(user_2.username, "Test User 2")
@@ -101,3 +107,4 @@ class test_models(TestCase):
         self.assertEqual(profile_2.streak, 0)
         self.assertEqual(profile_2.score, 0)
         self.assertEqual(profile_2.challenge_done, False)
+        
