@@ -16,11 +16,13 @@ def main(request):
     #add location
     submitted = False
     if request.method == "POST":
+        # handle points increases
         data = json.loads(request.body)
         points = data.get("points")
         current_user_data.score += points
         current_user_data.save()
 
+        # handle location form submissions
         form = LocationForm(request.POST)
         if form.is_valid():
             form.save()
@@ -33,14 +35,12 @@ def main(request):
 
     # context setup
     all_locations = get_locations()
-    
     map = read_map()
-    
     leaderboard = get_leaderboard()
     
     # TODO does this actually give us the closest things?
     loc_list = Location.objects.values()
-    item_list = Item.objects.all
+    item_list = Item.objects.values().order_by("price")
     
     context = {
     'fountain_locations': all_locations["Fountains"],
