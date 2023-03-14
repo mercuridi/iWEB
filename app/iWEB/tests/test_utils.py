@@ -11,13 +11,13 @@ def populate_test_database():
     """
     # Locations
     # 1 location manually setting everything except type (should autofill Fountain)
-    Location.objects.create(building = "Building Test (Fountain)",
-                            longitude = 1.22,
-                            latitude = 1.55555,
+    Location.objects.create(building    = "Building Test (Fountain)",
+                            longitude   = 1.22,
+                            latitude    = 1.55555,
                             information = "Test information field",
-                            usable = False)
+                            usable      = False)
     # 1 location only setting the type
-    Location.objects.create(type = ('BusStop', 'BusStop'))
+    Location.objects.create(type = "BusStop")
 
     # Items
     # 1 item manually setting everything

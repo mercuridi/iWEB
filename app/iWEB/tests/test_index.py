@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.test import Client
+from app.models import Location
 from app.models import User
 from app.models import UserProfile
 from app.index import get_leaderboard
@@ -45,3 +46,17 @@ class test_index(TestCase):
                 self.assertDictContainsSubset(profile, leaderboard_toobig[i])
                 i += 1
         
+    def test_locations(self):
+        # get locations
+        all_locations = get_locations()
+        fountains = all_locations["Fountains"]
+        bus_stops = all_locations["Bus stops"]
+        bins = all_locations["Bins"]
+        
+        # get amounts of locations
+        num_fountains = len(fountains)
+        num_bus_stops = len(bus_stops)
+        num_bins = len(bins)
+        num_locations = num_fountains + num_bus_stops + num_bins
+
+        self.assertEqual(num_locations, Location.objects.all().count())

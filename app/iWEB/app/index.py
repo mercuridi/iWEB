@@ -69,11 +69,11 @@ def get_locations():
     bin_coordinates = []
     
     for fountain in fountain_locations:
-        fountain_coordinates.append([fountain.latitude, fountain.longitude, fountain.building, fountain.information])
+        fountain_coordinates.append ([fountain.latitude, fountain.longitude, fountain.building, fountain.information])
     for bus_stop in bus_stop_locations:
-        bus_stop_coordinates.append([bus_stop.latitude, bus_stop.longitude, bus_stop.building, bus_stop.information])
+        bus_stop_coordinates.append ([bus_stop.latitude, bus_stop.longitude, bus_stop.building, bus_stop.information])
     for bin in bin_locations:
-        bin_coordinates.append([bin.latitude, bin.longitude, bin.building, bin.information])
+        bin_coordinates.append      ([     bin.latitude,      bin.longitude,      bin.building,      bin.information])
     
     all_locations = {"Fountains" : fountain_coordinates,
                      "Bus stops" : bus_stop_coordinates,

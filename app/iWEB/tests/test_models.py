@@ -14,7 +14,7 @@ class test_models(TestCase):
     # we use a different attribute to get each just to check that's working
     def test_Location(self):
         fountain = Location.objects.get(building = "Building Test (Fountain)")
-        bus_stop = Location.objects.get(type = "('BusStop', 'BusStop')")
+        bus_stop = Location.objects.get(type = "BusStop")
         
         # assert all the things we assigned & default field values
         self.assertEqual(fountain.type, "Fountain")
@@ -24,7 +24,7 @@ class test_models(TestCase):
         self.assertEqual(fountain.information, "Test information field")
         self.assertFalse(fountain.usable)
         
-        self.assertEqual(bus_stop.type, "('BusStop', 'BusStop')")
+        self.assertEqual(bus_stop.type, "BusStop")
         self.assertTrue(bus_stop.usable)
         
     def test_Item(self):
