@@ -11,7 +11,7 @@ def main(request):
 
     # load user info from request
     current_user = request.user
-    current_user_data = UserProfile.objects.get(user = current_user)
+    current_user_data = current_user.profile
     
     #add location
     submitted = False
