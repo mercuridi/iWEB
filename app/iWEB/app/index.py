@@ -55,7 +55,10 @@ def main(request):
     'location_form': LocationForm,
     'submitted': submitted,
     'streak': getattr(current_user_data, "streak"),
-    'theme_colours': {'main':'#000000', 'second':'#7t12dd', 'icons':'#000000','background':'#000000'}
+    'theme_colours': {'main':'#000000',
+                      'second':'#7t12dd',
+                      'icons':'#000000',
+                      'background':'#000000'}
     } 
     return render(request, 'index.html', context)
 
