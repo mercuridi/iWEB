@@ -73,14 +73,7 @@
 					margin-left: 0;
 				}
 			}
-		</style>
 
-		<!-- Map set up-->
-		<!-- TO BE READ AND UNDERSTOOD -> most of this should be moved to a .css file -->
-		<meta
-			http-equiv="Cache-Control"
-			content="no-cache, no-store, must-revalidate" />
-		<style>
             .map {
                 position: relative;
                 width: 1096px;
@@ -311,7 +304,36 @@
                 background-color: #46ff46;
                 width: {{streak}};
             }
+
+            .bar-item{
+                width: 25% !important;
+            }
+
+            .container-main{
+                padding: 5%;
+                margin-bottom:1%;
+                background-color: #3776ac;
+            }
+
+            .contact-list{
+                list-style-type: none
+            }
+
+            .item-table{
+                width: 30%;
+            }
+
+            .subject{
+                height: 100px
+            }
+            
 		</style>
+
+		<!-- Map set up-->
+		<!-- TO BE READ AND UNDERSTOOD -> most of this should be moved to a .css file -->
+		<meta
+			http-equiv="Cache-Control"
+			content="no-cache, no-store, must-revalidate" />
 	</head>
 	<body>
 		<!-- Icon Bar (Sidebar - hidden on small screens) -->
@@ -373,50 +395,42 @@
 				<a
 					href="#"
 					class="bar-item button"
-					style="width: 25% !important"
 					>Menu</a
 				>
 				<div id="myLinks">
 					<a
 						href="#map_box"
 						class="bar-item button"
-						style="width: 25% !important"
 						>Map</a
 					>
 					<a
 						href="#leaderboard_box"
 						class="bar-item button"
-						style="width: 25% !important"
 						>Leaderboard</a
 					>
 					<a
 						href="#friends_box"
 						class="bar-item button"
-						style="width: 25% !important"
 						>Friends</a
 					>
                     <a
 						href="#shop_box"
 						class="bar-item button"
-						style="width: 25% !important"
 						>{{points}}#</a
 					>
                     <a
 						href="#report_box"
 						class="bar-item button"
-						style="width: 25% !important"
 						>Report</a
 					>
 					<a
 						href="#settings_box"
 						class="bar-item button"
-						style="width: 25% !important"
 						>Settings</a
 					>
 					<a
 						href="#contactus_box"
 						class="bar-item button"
-						style="width: 25% !important"
 						>Contact us</a
 					>
 				</div>
@@ -431,9 +445,8 @@
 			id="main">
 			<!-- Header/Home -->
 			<header
-				class="container padding-32 center"
-				id="home"                
-                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
+				class="container-main container padding-32 center"
+				id="home">
 				<h1 class="jumbo">
 					<span class="hide-small">Welcome to </span>iWEB
 				</h1>
@@ -458,9 +471,8 @@
 			</header>
 			<!-- Map Section -->
 			<div
-				class="content justify padding-64"
-				id="map_box"
-                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
+				class="container-main content justify padding-64"
+				id="map_box">
                 <h2>Map</h2>
                 <button class="water-fountain-button">
                     <img
@@ -1162,10 +1174,9 @@
 			<!-- End Map Section-->
 			<!-- Leaderboard Section -->
 			<div
-				class="content justify padding-64"
-				id="leaderboard_box"
-                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
-				<h2>Leaderboard</h2>
+				class="container-main content justify padding-64"
+				id="leaderboard_box">
+                <h2>Leaderboard</h2>
 				<!-- Leaderboard content-->
 				<div
 					class="centre"
@@ -1184,9 +1195,8 @@
 			<!-- End Leaderboard Section-->
 			<!-- Friends Section -->
 			<div
-				class="content justify padding-64"
-				id="friends_box"
-                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
+				class="container-main content justify padding-64"
+				id="friends_box">
 				<h2>Friends</h2>
 				<iframe
 					src="friendlist.html"
@@ -1195,12 +1205,11 @@
 			<!-- End Friends Section-->
             <!-- Points/Shop Section -->
 			<div
-            class="content justify padding-64"
-            id="shop_box"
-            style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
+            class="container-main content justify padding-64"
+            id="shop_box">
             <h2>Shop</h2>
             <h2>Items in the shop:</h2>
-            <table style="width: 30%">
+            <table class "item-table">
                 <tr>
                     <th>Item Name</th>
                     <th>Description</th>
@@ -1218,9 +1227,8 @@
         <!-- End Points/Shop Section-->
         <!-- Report Section -->
 			<div
-            class="content justify padding-64"
-            id="report_box"
-            style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
+            class="container-main  justify padding-64"
+            id="report_box">
             <h2>Report</h2>
             {% if submitted %}
             <h1>Thank you for submitting your location!</h1>
@@ -1240,23 +1248,21 @@
         <!-- End Report Section-->
 			<!-- Settings Section -->
 			<div
-				class="content justify padding-64"
-				id="settings_box"
-                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
+				class="container-main content justify padding-64"
+				id="settings_box">
 				<h2>Settings</h2>
 			</div>
 			<!-- End Settings Section-->
 			<!-- Contact Section -->
 			<div
-				class="padding-64 content"
-				id="contactus_box"
-                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
+				class="container-main padding-64 content"
+				id="contactus_box">
 				<h2>Contact Me</h2>
 				<div class="container">
 					<form
 						action="https://formsubmit.co/exetertestcontacts@gmail.com"
 						method="POST">
-						<ul style="list-style-type: none">
+						<ul class = "contact-list">
 							<li>
 								<label for="fname">First Name</label>
 								<input
@@ -1281,9 +1287,9 @@
 							<li>
 								<textarea
 									id="subject"
+                                    class="subject"
 									name="subject"
 									placeholder="Report a change..."
-									style="height: 100px"
 									required></textarea>
 							</li>
 							<li>

@@ -8,7 +8,7 @@ from .utils.mapUtilities import read_map
 def main(request):
     """This is the main page - everything but the login/register screen should be in this view going forward"""
 
-    #add location
+    # add location
     submitted = False
     if request.method == "POST":
         form = LocationForm(request.POST)
@@ -21,7 +21,7 @@ def main(request):
             submitted = True
     form = LocationForm
 
-    #context setup
+    # context setup
     fountain_locations = Location.objects.filter(type='Fountain')
     bus_stop_locations = Location.objects.filter(type='BusStop')
     bin_locations = Location.objects.filter(type='Bin')
@@ -63,7 +63,7 @@ def main(request):
     'submitted': submitted,
     'streak':'100', #get streak of current user
     'theme_colours': {'main':'#000000', 'second':'#7t12dd', 'icons':'#000000','background':'#000000'},
-    'theme_dark': {'main':'999999', 'second':'333333', 'icons':'666666', 'background':'99999'},
+    'theme_dark': {'main':'999999', 'second':'333333', 'icons':'666666', 'background':'99999ss'},
     'theme_pink': {'main':'#ffcccc', 'second':'#993366', 'icons':'#ff9999', 'background':'#ffcccc'},
     'theme_summer':{'main':'#ffcc66', 'second':'#ff6600', 'icons':'#ff9900', 'background':'#ffcc66'},
     'theme_winter':{'main':'#99ccff', 'second':'#6699cc', 'icons':'#6656ff', 'background':'#99ccff'},
