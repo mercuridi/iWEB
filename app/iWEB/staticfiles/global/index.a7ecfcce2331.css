@@ -1,4 +1,3 @@
-
 /* The side navigation menu */
 .sidenav {
   height: 100%; /* 100% Full-height */
@@ -8,6 +7,8 @@
   top: 0; /* Stay at the top */
   left: 0;
   overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
   background: #3776ac;
 }
 
@@ -26,6 +27,15 @@
   color: #004d99;
 }
 
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
 
 .bar-item{
   width: 25% !important;
@@ -35,10 +45,9 @@
 @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
-}
-
+} 
 .icon-bar {
-  width: 60px; /* Set a specific width */
+  width: 120px; /* Set a specific width */
   background-color: #555; /* Dark-grey background */
 }
 
@@ -150,12 +159,11 @@ input[type='submit']:hover {
     background: #cd7f32;
   }
 
-html * {
+  html * {
     color: #6656ff;
 }
 body {
   background-color: #99ccff;
-  margin-left: 120px;
 }
 h1,
 h2,
@@ -169,11 +177,23 @@ h6 {
   margin-bottom: 12px;
 }
 
+/* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
+#main {
+  margin-left: 120px;
+  background-color: #99ccff; /*main page colour*/ 
+}
+/* Remove margins from "page content" on small screens */
+@media only screen and (max-width: 600px) {
+#main {
+  margin-left: 0;
+  }
+}
+
 .map {
     position: relative;
     width: 1096px;
     height: 1266px;
-    background-image: url('images/map.jpg');
+    background-image: url("images/map.f26e686c2b51.jpg");
     background-size: 1096px 1266px;
     margin: 0 auto;
     background-repeat: no-repeat;
@@ -191,7 +211,7 @@ h6 {
     position: absolute;
     width: 160px;
     height: 160px;
-    background-image: url("images/bottle.png");
+    background-image: url("images/bottle.f53dd97f968f.png");
     background-size: cover;
     transform: translate(-50%, -50%);
     z-index: 1;
@@ -200,7 +220,7 @@ h6 {
     position: absolute;
     width: 160px;
     height: 160px;
-    background-image: url("images/bus-stop.png");
+    background-image: url("images/bus-stop.01221e23cfd6.png");
     background-size: cover;
     transform: translate(-50%, -50%);
     z-index: 1;
@@ -209,7 +229,7 @@ h6 {
     position: absolute;
     width: 160px;
     height: 160px;
-    background-image: url("images/recycling.png");
+    background-image: url("images/recycling.1c0aa4766ef9.png");
     background-size: cover;
     transform: translate(-50%, -50%);
     z-index: 1;
@@ -218,7 +238,7 @@ h6 {
     position: absolute;
     width: 200px;
     height: 200px;
-    background-image: url("images/trash.png");
+    background-image: url("images/trash.ac3bbd29e2af.png");
     background-size: 200px 200px;
     transform: translate(-50%, -50%);
     z-index: 1;
@@ -403,7 +423,7 @@ h6 {
 .container-main{
   padding: 5%;
   width: 100%;
-  margin-bottom:2%;
+  margin-bottom:1%;
   background-color: #3776ac;
 }
 

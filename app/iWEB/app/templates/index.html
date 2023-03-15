@@ -32,293 +32,67 @@
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
-		<!-- Map set up-->
-		<!-- TO BE READ AND UNDERSTOOD -> most of this should be moved to a .css file -->
 		<meta
 			http-equiv="Cache-Control"
 			content="no-cache, no-store, must-revalidate" />
-		<style>
-            .map {
-                position: relative;
-                width: 496px;
-                height: 1266px;
-                background-image: url('{% static 'global/images/map.jpg' %}');
-                background-size: 496px 1266px;
-                margin: 0 auto;
-                background-repeat: no-repeat;
-            }
-            .user {
-                position: relative;
-                width: 40px;
-                height: 40px;
-                background-color: red;
-                border-radius: 50%;
-                transform: translate(-50%, -50%);
-                z-index: 1;
-            }
-            .bottle {
-                position: absolute;
-                width: 160px;
-                height: 160px;
-                background-image: url('{% static 'global/images/bottle.png' %}');
-                background-size: cover;
-                transform: translate(-50%, -50%);
-                z-index: 1;
-            }
-            .bus_stop {
-                position: absolute;
-                width: 160px;
-                height: 160px;
-                background-image: url('{% static 'global/images/bus-stop.png' %}');
-                background-size: cover;
-                transform: translate(-50%, -50%);
-                z-index: 1;
-            }
-            .bin {
-                position: absolute;
-                width: 160px;
-                height: 160px;
-                background-image: url('{% static 'global/images/recycling.png' %}');
-                background-size: cover;
-                transform: translate(-50%, -50%);
-                z-index: 1;
-            }
-            .garbage {
-                position: absolute;
-                width: 200px;
-                height: 200px;
-                background-image: url('{% static 'global/images/trash.png' %}');
-                background-size: 200px 200px;
-                transform: translate(-50%, -50%);
-                z-index: 1;
-            }
-    
-            .maze-row {
-                display: flex;
-                flex-direction: row;
-                margin: 0;
-                padding: 0;
-            }
-            .maze-square {
-                width: 18px;
-                height: 18px;
-                margin: 0;
-                padding: 0;
-            }
-            .water-fountain-button {
-                display: absolute;
-                align-items: center;
-                background-color: blue;
-                border: none;
-                color: white;
-                padding: 10px 20px;
-                text-align: center;
-                text-decoration: none;
-                font-size: 30px;
-                cursor: pointer;
-                border-radius: 5px;
-            }
-            .water-fountain-button img {
-                height: 50px;
-                margin-right: 10px;
-            }
-            .bus-stop-button {
-                display: absolute;
-                align-items: center;
-                background-color: red;
-                border: none;
-                color: white;
-                padding: 10px 20px;
-                text-align: center;
-                text-decoration: none;
-                font-size: 30px;
-                cursor: pointer;
-                border-radius: 5px;
-              }
-              
-            .bus-stop-button img {
-                height: 50px;
-                margin-right: 10px;
-              }
-            .bin-button {
-                display: absolute;
-                align-items: center;
-                background-color: green;
-                border: none;
-                color: white;
-                padding: 10px 20px;
-                text-align: center;
-                text-decoration: none;
-                font-size: 30px;
-                cursor: pointer;
-                border-radius: 5px;
-              }
-            .bin-button img {
-                height: 50px;
-                margin-right: 10px;
-              }
-            .track-button {
-                display: absolute;
-                align-items: center;
-                background-color: white;
-                border: none;
-                color: white;
-                padding: 10px 20px;
-                text-align: center;
-                text-decoration: none;
-                font-size: 30px;
-                cursor: pointer;
-                border-radius: 5px;
-                tracking: false;
-              }
-            .track-button img {
-                height: 50px;
-                margin-right: 10px;
-            }
-            .pathDiv {
-                position: absolute;
-                width: 30px;
-                height: 30px;
-                background-color: rgba(0, 163, 255, 0.5);
-                border-radius: 50%;
-                transform: translate(-50%, -50%);
-                z-index: 1;	
-              }
-            .box{
-                display: inline-block;
-                color: white;
-                text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
-                font-family: "Times New Roman", Times, serif;
-                position: absolute;
-                text-align: center;
-                text-decoration: none;
-                font-size: 60px;
-                width: 310px;
-                height: 150px;
-                background-color: rgba(0, 163, 255, 0.5);
-                transform: translate(-50%, -50%);
-                z-index: 1;
-                padding: 5px;
-            }
-    
-            .message{
-                position: absolute;
-                left:150px;
-                top: 600px;
-                background-color: rgba(0, 163, 255, 1);
-                transform: translate(-50%, -50%);
-                z-index: 1;
-                padding: 5px;
-                
-            }
-    
-            .minigame-button{
-                display: relative;
-                align-items: center;
-                background-color: grey;
-                border: none;
-                color: white;
-                padding: 10px 20px;
-                text-align: center;
-                text-decoration: none;
-                font-size: 30px;
-                cursor: pointer;
-                border-radius: 5px;
-                tracking: false;
-            }
-            .game{
-                position: absolute;
-                left:150px;
-                top: 500px;
-                width: 310px;
-                background-color: rgba(0, 163, 255, 1);
-                transform: translate(-50%, -50%);
-                z-index: 1;
-                padding: 5px;
-            }
-            .start-button{
-                display: relative;
-                align-items: center;
-                background-color: grey;
-                border: none;
-                color: white;
-                padding: 10px 20px;
-                text-align: center;
-                text-decoration: none;
-                font-size: 30px;
-                cursor: pointer;
-                border-radius: 5px;
-                tracking: false;
-            }
 
-            .streaks {
-                width: auto;
-                height: auto;
-                position: sticky;
-                bottom: 10px;
-                right: 10px;
-                float: right;
-                background-color: #000000;
-            }
-
+        <!-- Only objects that require data from the database should be in here -->
+		
+        <style>
             .streaks_small{
-                position: sticky;
-                bottom: 0%;
-                float: left;
-                height: 40px;
-                background-color: #46ff46;
                 width: {{streak}};
             }
-		</style>
+		
+        </style>
 	</head>
 	<body>
 		<!-- Icon Bar (Sidebar - hidden on small screens) -->
 		<nav class="sidebar bar-block small hide-small center">
 			<a
 				href="#"
-				class="bar-item button padding-large">
+				class="bar-icon button padding-large">
 				<i class="fa fa-home xxlarge"></i>
 				<p>Menu</p>
 			</a>
 			<a
 				href="#map_box"
-				class="bar-item button padding-large">
+				class="bar-icon button padding-large">
 				<i class="fa fa-user xxlarge"></i>
 				<p>Map</p>
 			</a>
 			<a
 				href="#leaderboard_box"
-				class="bar-item button padding-large">
+				class="bar-icon button padding-large">
 				<i class="fa fa-user xxlarge"></i>
 				<p>Leaderboard</p>
 			</a>
 			<a
 				href="#friends_box"
-				class="bar-item button padding-large">
+				class="bar-icon button padding-large">
 				<i class="fa fa-user xxlarge"></i>
 				<p>Friends</p>
 			</a>
             <a
 				href="#shop_box"
-				class="bar-item button padding-large">
+				class="bar-icon button padding-large">
 				<i class="fa fa-user xxlarge"></i>
 				<p>You have {{ points }} credits</p>
 			</a>
             <a
 				href="#report_box"
-				class="bar-item button padding-large">
+				class="bar-icon button padding-large">
 				<i class="fa fa-user xxlarge"></i>
 				<p>Report</p>
 			</a>
 			<a
 				href="#settings_box"
-				class="bar-item button padding-large">
+				class="bar-icon button padding-large">
 				<i class="fa fa-user xxlarge"></i>
 				<p>Settings</p>
 			</a>
 			<a
 				href="#contactus_box"
-				class="bar-item button padding-large">
+				class="bar-icon button padding-large">
 				<i class="fa fa-user xxlarge"></i>
 				<p>Contact us</p>
 			</a>
@@ -377,7 +151,7 @@
 
 		<!-- Page Content -->
 		<div
-			class="padding-large"
+			class="main-content padding-large"
 			id="main">
 			<!-- Header/Home -->
 			<header
@@ -407,7 +181,7 @@
 			</header>
 			<!-- Map Section -->
 			<div
-				class="container-main content justify padding-64"
+				class="container-main content justify "
 				id="map_box">
                 <h2>Map</h2>
                 <button class="water-fountain-button">
@@ -1197,7 +971,7 @@
 			<!-- End Map Section-->
 			<!-- Leaderboard Section -->
 			<div
-				class="container-main content justify padding-64"
+				class="container-main content justify "
 				id="leaderboard_box">
                 <h2>Leaderboard</h2>
 				<!-- Leaderboard content-->
@@ -1218,7 +992,7 @@
 			<!-- End Leaderboard Section-->
 			<!-- Friends Section -->
 			<div
-				class="container-main content justify padding-64"
+				class="container-main content justify "
 				id="friends_box">
 				<h2>Friends</h2>
 				<iframe
@@ -1228,57 +1002,56 @@
 			<!-- End Friends Section-->
             <!-- Points/Shop Section -->
 			<div
-            class="container-main content justify padding-64"
-            id="shop_box">
-            <h2>Shop</h2>
-            <h2>Items in the shop:</h2>
-            <table class "item-table">
-                <tr>
-                    <th>Item Name</th>
-                    <th>Description</th>
-                    <th>Price (WEBBS)</th>
-                </tr>
-                {% for item in item_list %}
-                <tr>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.description }}</td>
-                    <td>{{ item.price }}</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-        <!-- End Points/Shop Section-->
-        <!-- Report Section -->
+                class="container-main content justify "
+                id="shop_box">
+                <h2>Shop</h2>
+                <h2>Items in the shop:</h2>
+                <table class "item-table">
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Description</th>
+                        <th>Price (WEBBS)</th>
+                    </tr>
+                    {% for item in item_list %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.price }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <!-- End Points/Shop Section-->
+            <!-- Report Section -->
 			<div
-            class="container-main  justify padding-64"
-            id="report_box">
-            <h2>Report</h2>
-            {% if submitted %}
-            <h1>Thank you for submitting your location!</h1>
-            {% else %}
-            <h1>Submit a location</h1>
-
-            <form
-                action=""
-                method="POST">
-                {% csrf_token%} {{ location_form.as_p }}
-                <input
-                    type="submit"
-                    value="Add Location" />
-            </form>
-            {% endif %}
-        </div>
-        <!-- End Report Section-->
+                class="container-main justify "
+                id="report_box">
+                <h2>Report</h2>
+                {% if submitted %}
+                <h1>Thank you for submitting your location!</h1>
+                {% else %}
+                <h1>Submit a location</h1>
+                <form
+                    action=""
+                    method="POST">
+                    {% csrf_token%} {{ location_form.as_p }}
+                    <input
+                        type="submit"
+                        value="Add Location" />
+                </form>
+                {% endif %}
+            </div>
+            <!-- End Report Section-->
 			<!-- Settings Section -->
 			<div
-				class="container-main content justify padding-64"
+				class="container-main content justify "
 				id="settings_box">
 				<h2>Settings</h2>
 			</div>
 			<!-- End Settings Section-->
 			<!-- Contact Section -->
 			<div
-				class="container-main padding-64 content"
+				class="container-main  content"
 				id="contactus_box">
 				<h2>Contact Me</h2>
 				<div class="container">
@@ -1325,21 +1098,19 @@
 			<!-- End Contact Section -->
 		
             <!-- Streaks large screen -->
-            <div class="streaks hide-small" style="width: {{streak}};">
+            <div class="streaks hide-small">
                 <h1>{{streak}}</h1>
             </div>
             <!-- Streaks end -->
         
             <!-- Streaks Small screen-->
             <div class="streaks_small hide-medium hide-large">
-            
+                <!-- Not much needs to be here -->
             </div>
             <!-- Streaks end -->
-
         </div>
 		<!-- END PAGE CONTENT -->
 
-        
 		<script src="index.css"></script>
 	</body>
 </html>
