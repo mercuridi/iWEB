@@ -62,7 +62,7 @@ def main(request):
     'location_form': LocationForm,
     'submitted': submitted,
     'streak':'100', #get streak of current user
-    'theme_colours': {'main':'#000000', 'second':'#7t12dd', 'icons':'#000000','background':'#000000'},
+    'theme_colours': {'main':'#000000', 'second':'#7a12dd', 'icons':'#000000','background':'#000000'},
     'theme_dark': {'main':'999999', 'second':'333333', 'icons':'666666', 'background':'99999ss'},
     'theme_pink': {'main':'#ffcccc', 'second':'#993366', 'icons':'#ff9999', 'background':'#ffcccc'},
     'theme_summer':{'main':'#ffcc66', 'second':'#ff6600', 'icons':'#ff9900', 'background':'#ffcc66'},
