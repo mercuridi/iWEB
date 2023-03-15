@@ -4,13 +4,24 @@ from django.contrib.auth.models import User
 from .models import Location, Item, UserProfile
 from .forms import LocationForm
 from .utils.mapUtilities import read_map
+import json
 
 def main(request):
     """This is the main page - everything but the login/register screen should be in this view going forward"""
 
     # add location
+    # load user info from request
+    current_user = request.user
+    current_user_data = UserProfile.objects.get(user = current_user)
+    
+    #add location
     submitted = False
     if request.method == "POST":
+        data = json.loads(request.body)
+        points = data.get("points")
+        current_user_data.score += points
+        current_user_data.save()
+
         form = LocationForm(request.POST)
         if form.is_valid():
             form.save()
@@ -46,9 +57,6 @@ def main(request):
             
     loc_list = Location.objects.values()
     item_list = Item.objects.all
-    
-    current_user = request.user
-    current_user_data = UserProfile.objects.get(user = current_user)
     
     context = {
     'fountain_locations': fountain_coordinates,
