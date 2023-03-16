@@ -1,3 +1,12 @@
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Montserrat', sans-serif;
+}
 
 /* The side navigation menu */
 .sidenav {
@@ -8,7 +17,6 @@
   top: 0; /* Stay at the top */
   left: 0;
   overflow-x: hidden; /* Disable horizontal scroll */
-  background: #3776ac;
 }
 
 /* The navigation menu links */
@@ -16,19 +24,12 @@
   padding: 8px 8px 8px 32px;
   text-decoration: none;
   font-size: 25px;
-  color: #818181;
   display: block;
   transition: 0.3s;
 }
 
-/* When you mouse over the navigation links, change their color */
-.sidenav a:hover {
-  color: #004d99;
-}
-
-
-.bar-item{
-  width: 25% !important;
+.bar-icon{
+width: 100%;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
@@ -39,7 +40,6 @@
 
 .icon-bar {
   width: 60px; /* Set a specific width */
-  background-color: #555; /* Dark-grey background */
 }
 
 .icon-bar a {
@@ -47,43 +47,23 @@
   text-align: center; /* Center-align text */
   padding: 16px; /* Add some padding */
   transition: all 0.3s ease; /* Add transition for hover effects */
-  color: white; /* White text color */
   font-size: 36px; /* Increased font-size */
 }
 
-.icon-bar a:hover {
-  background-color: red; /* Add a hover color - doesn't work */
+.bar-item{
+  width: 25% !important;
 }
 
-.active {
-  background-color: #4933b5; /* Add an active/current color */
-}
-
-.bar-icon{
-width: 100%;
-}
-
-body,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: 'Montserrat', sans-serif;
-}
 .row-padding img {
   margin-bottom: 12px;
 }
 /* Set the width of the sidebar to 120px */
 .sidebar {
   width: 120px;
-  background: pink;
 }
 /* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
 #main {
   margin-left: 120px;
-  background-color: royalblue; /*main page colour*/
 }
 /* Remove margins from "page content" on small screens */
 @media only screen and (max-width: 600px) {
@@ -92,39 +72,11 @@ h6 {
   }
 }
     
-/* Style inputs with type="text", select elements and textareas */
-input[type='text'],
-select,
-textarea {
-  padding: 12px; /* Some padding */
-  border: 1px solid #ccc; /* Gray border */
-  border-radius: 4px; /* Rounded borders */
-  box-sizing: border-box; /* Make sure that padding and width stays in place */
-  margin-top: 6px; /* Add a top margin */
-  margin-bottom: 16px; /* Bottom margin */
-  resize: vertical; /* Allow the user to vertically resize the textarea (not horizontally) */
-}
-
-/* Style the submit button with a specific background color etc */
-input[type='submit'] {
-  background-color: #049ada;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-/* When moving the mouse over the submit button, add a darker green color */
-input[type='submit']:hover {
-  background-color: #049ada;
-}
 
 .row {
 	position: relative;
 	display: block;
 	height: 40px;
-	border-bottom: 1px solid #AFAFAF;
 }
 
 .name {
@@ -138,33 +90,7 @@ input[type='submit']:hover {
 	display: inline-block;
 	width: 25%;
 }
-.row:nth-child(1) {
-    background: gold;
-  }
-  
-.row:nth-child(2) {
-    background: #c0c0c0;
-  }
-  
-.row:nth-child(3) {
-    background: #cd7f32;
-  }
 
-html * {
-    color: #6656ff;
-}
-body {
-  background-color: #99ccff;
-  margin-left: 120px;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: 'Montserrat', sans-serif;
-}
 .row-padding img {
   margin-bottom: 12px;
 }
@@ -182,7 +108,6 @@ h6 {
     position: absolute;
     width: 40px;
     height: 40px;
-    background-color: red;
     border-radius: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
@@ -239,9 +164,7 @@ h6 {
 .water-fountain-button {
     display: absolute;
     align-items: center;
-    background-color: blue;
     border: none;
-    color: white;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
@@ -256,9 +179,7 @@ h6 {
 .bus-stop-button {
     display: absolute;
     align-items: center;
-    background-color: red;
     border: none;
-    color: white;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
@@ -274,9 +195,7 @@ h6 {
 .bin-button {
     display: absolute;
     align-items: center;
-    background-color: green;
     border: none;
-    color: white;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
@@ -291,9 +210,7 @@ h6 {
 .track-button {
     display: absolute;
     align-items: center;
-    background-color: white;
     border: none;
-    color: white;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
@@ -310,15 +227,12 @@ h6 {
     position: absolute;
     width: 30px;
     height: 30px;
-    background-color: rgba(0, 163, 255, 0.5);
     border-radius: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;	
   }
 .box{
     display: inline-block;
-    color: white;
-    text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
     font-family: "Times New Roman", Times, serif;
     position: absolute;
     text-align: center;
@@ -326,7 +240,6 @@ h6 {
     font-size: 60px;
     width: 310px;
     height: 150px;
-    background-color: rgba(0, 163, 255, 0.5);
     transform: translate(-50%, -50%);
     z-index: 1;
     padding: 5px;
@@ -336,7 +249,6 @@ h6 {
     position: absolute;
     left:150px;
     top: 600px;
-    background-color: rgba(0, 163, 255, 1);
     transform: translate(-50%, -50%);
     z-index: 1;
     padding: 5px;
@@ -346,9 +258,7 @@ h6 {
 .minigame-button{
     display: relative;
     align-items: center;
-    background-color: grey;
     border: none;
-    color: white;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
@@ -362,7 +272,6 @@ h6 {
     left:150px;
     top: 500px;
     width: 310px;
-    background-color: rgba(0, 163, 255, 1);
     transform: translate(-50%, -50%);
     z-index: 1;
     padding: 5px;
@@ -370,9 +279,7 @@ h6 {
 .start-button{
   display: relative;
   align-items: center;
-  background-color: grey;
   border: none;
-  color: white;
   padding: 10px 20px;
   text-align: center;
   text-decoration: none;
@@ -382,29 +289,30 @@ h6 {
   tracking: false;
 }
 
-.streaks {
-  width: auto;
-  height: auto;
-  position: sticky;
-  bottom: 10px;
-  right: 10px;
-  float: right;
-  background-color: #000000;
+/* Style inputs with type="text", select elements and textareas */
+input[type='text'],
+select,
+textarea {
+  padding: 12px; /* Some padding */
+  border-radius: 4px; /* Rounded borders */
+  box-sizing: border-box; /* Make sure that padding and width stays in place */
+  margin-top: 6px; /* Add a top margin */
+  margin-bottom: 16px; /* Bottom margin */
+  resize: vertical; /* Allow the user to vertically resize the textarea (not horizontally) */
 }
 
-.streaks_small{
-  position: sticky;
-  bottom: 0%;
-  float: left;
-  height: 40px;
-  background-color: #46ff46;
+/* Style the submit button with a specific background color etc */
+input[type='submit'] {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .container-main{
   padding: 5%;
   width: 100%;
   margin-bottom:2%;
-  background-color: #3776ac;
 }
 
 .contact-list{
@@ -417,4 +325,20 @@ h6 {
 
 .subject{
   height: 100px
+}
+
+.streaks {
+  width: auto;
+  height: auto;
+  position: sticky;
+  bottom: 10px;
+  right: 10px;
+  float: right;
+}
+
+.streaks_small{
+  position: sticky;
+  bottom: 0%;
+  float: left;
+  height: 40px;
 }
