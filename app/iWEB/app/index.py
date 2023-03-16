@@ -8,7 +8,6 @@ import json
 
 def main(request):
     """This is the main page - everything but the login/register screen should be in this view going forward"""
-
     # add location
     # load user info from request
     current_user = request.user
@@ -58,6 +57,16 @@ def main(request):
     loc_list = Location.objects.values()
     item_list = Item.objects.all
     
+
+    themes = {
+        'default':{'main':'#3776ac', 'second':'#7a12dd', 'icons':'#3776ac','background':'#ffffff','font':'#ffffff'},
+        'first':{'main':'#ffcccc', 'second':'#993366', 'icons':'#ff9999', 'background':'#ffcccc','font':'#ffffff'},
+        'second':{'main':'#ffcc66', 'second':'#ff6600', 'icons':'#ff9900', 'background':'#ffcc66','font':'#ffffff'},
+        'third':{'main':'#99ccff', 'second':'#6699cc', 'icons':'#6656ff', 'background':'#99ccff','font':'#ffffff'},
+        'fourth':{'main':'#ccff99', 'second':'#66cc99', 'icons':'#66cc99', 'background':'#ccff99','font':'#ffffff'},
+        'fifth':{'main':'#ffcc99', 'second':'#cc6800', 'icons':'cc6800', 'background':'ffcc99','font':'#ffffff'},
+    }
+
     context = {
     'fountain_locations': fountain_coordinates,
     'bus_stop_locations': bus_stop_coordinates,
@@ -70,15 +79,8 @@ def main(request):
     'location_form': LocationForm,
     'submitted': submitted,
     'streak':'100', #get streak of current user
-    'theme_colours': {'main':'#000000', 'second':'#7a12dd', 'icons':'#000000','background':'#000000'},
-    'theme_dark': {'main':'999999', 'second':'333333', 'icons':'666666', 'background':'99999ss'},
-    'theme_pink': {'main':'#ffcccc', 'second':'#993366', 'icons':'#ff9999', 'background':'#ffcccc'},
-    'theme_summer':{'main':'#ffcc66', 'second':'#ff6600', 'icons':'#ff9900', 'background':'#ffcc66'},
-    'theme_winter':{'main':'#99ccff', 'second':'#6699cc', 'icons':'#6656ff', 'background':'#99ccff'},
-    'theme_spring':{'main':'#ccff99', 'second':'#66cc99', 'icons':'#66cc99', 'background':'#ccff99'},
-    'theme_autumn':{'main':'#ffcc99', 'second':'#cc6800', 'icons':'cc6800', 'background':'ffcc99'},
-    'theme':'autumn',
-    'colour': "{% static 'global/colour.css' %}",
-    } 
+    'colour': themes[current_user_data.current_template],
+    }
+
     print(bin_coordinates)
     return render(request, 'index.html', context)

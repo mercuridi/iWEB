@@ -1,5 +1,5 @@
 html * {
-  color: #6656ff;
+  color: #ffffff;
 }
 
 /* The side navigation menu */
@@ -34,11 +34,11 @@ html * {
 }
 
 .sidebar {
-  background: pink;
+  background: #3776ac;
 }
 
 #main {
-  background-color: royalblue; /*main page colour*/
+  background-color: white; /*main page colour*/
 }
 
 .row {
@@ -120,7 +120,7 @@ input[type='submit']:hover {
   background-color: #049ada;
 }
 
-.container-main{
+.contentbox{
   background-color: #3776ac;
 }
 

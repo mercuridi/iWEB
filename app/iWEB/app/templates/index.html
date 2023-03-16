@@ -7,185 +7,290 @@
 <!-- location_form is the form containing what data needs to be inputted to the database -->
 <!-- points is the number of points (probably an integer) that the user has -->
 <!-- item_list is the list of every object in the shop -->
+
 <!DOCTYPE html>
 <html>
-	{% load static %} {% csrf_token %}
-	<head>
-		<title>iWEB test homepage</title>
-		<meta charset="UTF-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1" />
+    {% load static %} {% csrf_token %}
+    <head>
+        <title>iWEB test homepage</title>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1" />
         <link
-			rel="stylesheet"
-			type="text/css"
-			href="{% static 'global/index.css' %}"/>
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'global/index.css' %}"/>
         <link
-			rel="stylesheet"
-			type="text/css"
-			href={{colour}}/>
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'global/testlib.css' %}" />
         <link
-			rel="stylesheet"
-			type="text/css"
-			href="{% static 'global/testlib.css' %}" />
-		<link
-			rel="stylesheet"
-			href="https://fonts.googleapis.com/css?family=Montserrat" />
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Montserrat" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+            />
 
-		<meta
-			http-equiv="Cache-Control"
-			content="no-cache, no-store, must-revalidate" />
+        <meta
+            http-equiv="Cache-Control"
+            content="no-cache, no-store, must-revalidate" />
 
         <!-- Only objects that require data from the database should be in here -->
-		
         <style>
+            html * {
+            color: {{colour.font}}; /* THIS IS THE MAIN FONT COLOUR */
+            }
+
+            /* The navigation menu links */
+            .sidenav a {
+            color: #818181;
+            }
+
+            /* When you mouse over the navigation links, change their color */
+            .sidenav a:hover {
+            color: #004d99;
+            }
+
+            .icon-bar {
+            background-color: #555; /* Dark-grey background */
+            }
+
+            .icon-bar a:hover {
+            background-color: red; /* Add a hover color - doesn't work */
+            }
+
+            .active {
+            background-color: #4933b5; /* Add an active/current color */
+            }
+
+            .sidebar {
+            background: {{colour.icons}};
+            }
+
+            #main {
+            background-color: {{colour.background}}; /*main page colour*/
+            }
+
+            .row {
+                border-bottom: 1px solid #AFAFAF;
+            }
+            .row:nth-child(1) {
+                background: gold;
+            }
+            
+            .row:nth-child(2) {
+                background: #c0c0c0;
+            }
+            
+            .row:nth-child(3) {
+                background: #cd7f32;
+            }
+            .user {
+                background-color: red;
+            }
+
+            .water-fountain-button {
+                background-color: blue;
+                color: white;
+            }
+
+            .bus-stop-button {
+                background-color: red;
+                color: white;
+            }
+
+            .bin-button {
+                background-color: green;
+                color: white;
+            }
+
+            .track-button {
+                background-color: white;
+                color: white;
+            }
+
+            .pathDiv {
+                background-color: rgba(0, 163, 255, 0.5);
+            }
+            .box{
+                color: white;
+                text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+                background-color: rgba(0, 163, 255, 0.5);
+            }
+
+            .message{
+                background-color: rgba(0, 163, 255, 1);
+                
+            }
+
+            .minigame-button{
+                background-color: grey;
+                color: white;
+            }
+            .game{
+                background-color: rgba(0, 163, 255, 1);
+            }
+            .start-button{
+            background-color: grey;
+            color: white;
+            }
+
+            textarea {
+            border: 1px solid #ccc;
+            }
+
+            /* Style the submit button with a specific background color etc */
+            input[type='submit'] {
+            background-color: #049ada;
+            color: white;
+            }
+
+            /* When moving the mouse over the submit button, add a darker green color */
+            input[type='submit']:hover {
+            background-color: #049ada;
+            }
+
+            .contentbox{
+            background-color: {{colour.main}};
+            }
+
+            .streaks {
+            background-color: #000000;
+            }
+
+            .streaks_small{
+            background-color: #46ff46;
+            }
+
             .streaks_small{
                 width: {{streak}};
             }
-		
         </style>
-	</head>
-	<body>
-		<!-- Icon Bar (Sidebar - hidden on small screens) -->
-		<nav class="sidebar bar-block small hide-small center">
-			<a
-				href="#"
-				class="bar-icon button padding-large">
-				<i class="fa fa-home xxlarge"></i>
-				<p>Menu</p>
-			</a>
-			<a
-				href="#map_box"
-				class="bar-icon button padding-large">
-				<i class="fa fa-user xxlarge"></i>
-				<p>Map</p>
-			</a>
-			<a
-				href="#leaderboard_box"
-				class="bar-icon button padding-large">
-				<i class="fa fa-user xxlarge"></i>
-				<p>Leaderboard</p>
-			</a>
-			<a
-				href="#friends_box"
-				class="bar-icon button padding-large">
-				<i class="fa fa-user xxlarge"></i>
-				<p>Friends</p>
-			</a>
+    </head>
+    <body>
+        <!-- Icon Bar (Sidebar - hidden on small screens) -->
+        <nav class="sidebar bar-block small hide-small center">
             <a
-				href="#shop_box"
-				class="bar-icon button padding-large">
-				<i class="fa fa-user xxlarge"></i>
-				<p>You have {{ points }} credits</p>
-			</a>
+                href="#"
+                class="bar-icon button padding-large">
+                <i class="fa fa-home xxlarge"></i>
+                <p>Menu</p>
+            </a>
             <a
-				href="#report_box"
-				class="bar-icon button padding-large">
-				<i class="fa fa-user xxlarge"></i>
-				<p>Report</p>
-			</a>
-			<a
-				href="#settings_box"
-				class="bar-icon button padding-large">
-				<i class="fa fa-user xxlarge"></i>
-				<p>Settings</p>
-			</a>
-			<a
-				href="#contactus_box"
-				class="bar-icon button padding-large">
-				<i class="fa fa-user xxlarge"></i>
-				<p>Contact us</p>
-			</a>
-		</nav>
-		<!-- Navbar on small screens (Hidden on medium and large screens) -->
-		<div
-			class="top hide-large hide-medium"
-			id="myNavbar">
-			<div class="bar black center small">
-				<a
-					href="#"
-					class="bar-item button"
-					>Menu</a
-				>
-				<div id="myLinks">
-					<a
-						href="#map_box"
-						class="bar-item button"
-						>Map</a
-					>
-					<a
-						href="#leaderboard_box"
-						class="bar-item button"
-						>Leaderboard</a
-					>
-					<a
-						href="#friends_box"
-						class="bar-item button"
-						>Friends</a
-					>
+                href="#map_box"
+                class="bar-icon button padding-large">
+                <i class="fa fa-user xxlarge"></i>
+                <p>Map</p>
+            </a>
+            <a
+                href="#leaderboard_box"
+                class="bar-icon button padding-large">
+                <i class="fa fa-user xxlarge"></i>
+                <p>Leaderboard</p>
+            </a>
+            <a
+                href="#friends_box"
+                class="bar-icon button padding-large">
+                <i class="fa fa-user xxlarge"></i>
+                <p>Friends</p>
+            </a>
+            <a
+                href="#shop_box"
+                class="bar-icon button padding-large">
+                <i class="fa fa-user xxlarge"></i>
+                <p>You have {{ points }} credits</p>
+            </a>
+            <a
+                href="#report_box"
+                class="bar-icon button padding-large">
+                <i class="fa fa-user xxlarge"></i>
+                <p>Report</p>
+            </a>
+            <a
+                href="#settings_box"
+                class="bar-icon button padding-large">
+                <i class="fa fa-user xxlarge"></i>
+                <p>Settings</p>
+            </a>
+            <a
+                href="#contactus_box"
+                class="bar-icon button padding-large">
+                <i class="fa fa-user xxlarge"></i>
+                <p>Contact us</p>
+            </a>
+        </nav>
+        <!-- Navbar on small screens (Hidden on medium and large screens) -->
+        <div
+            class="top hide-large hide-medium"
+            id="myNavbar">
+            <div class="bar black center small">
+                <a
+                    href="#"
+                    class="bar-item button">Menu</a>
+                <div id="myLinks">
                     <a
-						href="#shop_box"
-						class="bar-item button"
-						>{{points}}#</a
-					>
+                        href="#map_box"
+                        class="bar-item button">Map</a>
                     <a
-						href="#report_box"
-						class="bar-item button"
-						>Report</a
-					>
-					<a
-						href="#settings_box"
-						class="bar-item button"
-						>Settings</a
-					>
-					<a
-						href="#contactus_box"
-						class="bar-item button"
-						>Contact us</a
-					>
-				</div>
-			</div>
-		</div>
+                        href="#leaderboard_box"
+                        class="bar-item button">Leaderboard</a>
+                    <a
+                        href="#friends_box"
+                        class="bar-item button">Friends</a>
+                    <a
+                        href="#shop_box"
+                        class="bar-item button">{{points}}#</a>
+                    <a
+                        href="#report_box"
+                        class="bar-item button">Report</a>
+                    <a
+                        href="#settings_box"
+                        class="bar-item button">Settings</a>
+                    <a
+                        href="#contactus_box"
+                        class="bar-item button">Contact us</a>
+                </div>
+            </div>
+        </div>
 
-        
 
-		<!-- Page Content -->
-		<div
-			class="main-content padding-large"
-			id="main">
-			<!-- Header/Home -->
-			<header
-				class="container-main container padding-32 center"
-				id="home">
-				<h1 class="jumbo">
-					<span class="hide-small">Welcome to </span>iWEB
-				</h1>
-				<!-- Closest things parsed into the parameter closest_things-->
-				<div
-					class="centre"
-					id="closest_things">
-					<a>Your closest options are:</a>
-					{% if closest_things %}
-					<ol>
-						{% for item in closest_things %}
-						<li>
-							{{item.type}}: {{item.building}},
-							{{item.information}}
-						</li>
-						{% endfor %}
-					</ol>
-					{% else %}
-					<p>No data found</p>
-					{% endif %}
-				</div>
-			</header>
-			<!-- Map Section -->
-			<div
-				class="container-main content justify "
-				id="map_box">
+
+        <!-- Page Content -->
+        <div
+            class="main-content padding-large"
+            id="main">
+            <!-- Header/Home -->
+            <header
+                class="contentbox container padding-32 center"
+                id="home">
+                <h1 class="jumbo">
+                    <span class="hide-small">Welcome to </span>iWEB
+                </h1>
+                <!-- Closest things parsed into the parameter closest_things-->
+                <div
+                    class="centre"
+                    id="closest_things">
+                    <a>Your closest options are:</a>
+                    {% if closest_things %}
+                    <ol>
+                        {% for item in closest_things %}
+                        <li>
+                            {{item.type}}: {{item.building}},
+                            {{item.information}}
+                        </li>
+                        {% endfor %}
+                    </ol>
+                    {% else %}
+                    <p>No data found</p>
+                    {% endif %}
+                </div>
+            </header>
+            <!-- Map Section -->
+            <div
+                class="contentbox content justify "
+                id="map_box">
                 <h2>Map</h2>
                 <button class="water-fountain-button">
                     <img
@@ -212,9 +317,9 @@
                     Tracking On
                 </button>
                 <div class="map">
-                        <div class="user">
-                            <script src="/index.js"></script>
-                            <script>
+                    <div class="user">
+                        <script src="/index.js"></script>
+                        <script>
                                 var user = document.querySelector(".user");
                                 var map = document.querySelector(".map");
                                 var mapWidth = map.offsetWidth;
@@ -968,44 +1073,45 @@
                                     }
                                 }
                             </script>
-                        </div>
+                    </div>
                 </div>
-			</div>
-			<!-- End Map Section-->
-			<!-- Leaderboard Section -->
-			<div
-				class="container-main content justify "
-				id="leaderboard_box">
+            </div>
+            <!-- End Map Section-->
+            <!-- Leaderboard Section -->
+            <div
+                class="contentbox content justify "
+                id="leaderboard_box">
                 <h2>Leaderboard</h2>
-				<!-- Leaderboard content-->
-				<div
-					class="centre"
-					id="container2">
-					{% if scores %}
-					<ol>
-						{% for item in scores %}
-						<li>{{ item.username }} {{ item.score }} {{ item.streak }}</li>
-						{% endfor %}
-					</ol>
-					{% else %}
-					<p>No data found</p>
-					{% endif %}
-				</div>
-			</div>
-			<!-- End Leaderboard Section-->
-			<!-- Friends Section -->
-			<div
-				class="container-main content justify "
-				id="friends_box">
-				<h2>Friends</h2>
-				<iframe
-					src="friendlist.html"
-					title="Friends list"></iframe>
-			</div>
-			<!-- End Friends Section-->
+                <!-- Leaderboard content-->
+                <div
+                    class="centre"
+                    id="container2">
+                    {% if scores %}
+                    <ol>
+                        {% for item in scores %}
+                        <li>{{ item.username }} {{ item.score }} {{ item.streak
+                            }}</li>
+                        {% endfor %}
+                    </ol>
+                    {% else %}
+                    <p>No data found</p>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- End Leaderboard Section-->
+            <!-- Friends Section -->
+            <div
+                class="contentbox content justify "
+                id="friends_box">
+                <h2>Friends</h2>
+                <iframe
+                    src="friendlist.html"
+                    title="Friends list"></iframe>
+            </div>
+            <!-- End Friends Section-->
             <!-- Points/Shop Section -->
-			<div
-                class="container-main content justify "
+            <div
+                class="contentbox content justify "
                 id="shop_box">
                 <h2>Shop</h2>
                 <h2>Items in the shop:</h2>
@@ -1026,8 +1132,8 @@
             </div>
             <!-- End Points/Shop Section-->
             <!-- Report Section -->
-			<div
-                class="container-main justify "
+            <div
+                class="contentbox content justify"
                 id="report_box">
                 <h2>Report</h2>
                 {% if submitted %}
@@ -1045,75 +1151,75 @@
                 {% endif %}
             </div>
             <!-- End Report Section-->
-			<!-- Settings Section -->
-			<div
-				class="container-main content justify "
-				id="settings_box">
-				<h2>Settings</h2>
-			</div>
-			<!-- End Settings Section-->
-			<!-- Contact Section -->
-			<div
-				class="container-main  content"
-				id="contactus_box">
-				<h2>Contact Me</h2>
-				<div class="container">
-					<form
-						action="https://formsubmit.co/exetertestcontacts@gmail.com"
-						method="POST">
-						<ul class = "contact-list">
-							<li>
-								<label for="fname">First Name</label>
-								<input
-									type="text"
-									id="fname"
-									name="firstname"
-									placeholder="Your name.."
-									required />
-							</li>
-							<li>
-								<label for="email">Email</label>
-								<input
-									type="text"
-									id="email"
-									name="email"
-									placeholder="Your email address.."
-									required />
-							</li>
-							<li>
-								<label for="subject">Report</label>
-							</li>
-							<li>
-								<textarea
-									id="subject"
+            <!-- Settings Section -->
+            <div
+                class="contentbox content justify"
+                id="settings_box">
+                <h2>Settings</h2>
+            </div>
+            <!-- End Settings Section-->
+            <!-- Contact Section -->
+            <div
+                class="contentbox content"
+                id="contactus_box">
+                <h2>Contact Me</h2>
+                <div class="container">
+                    <form
+                        action="https://formsubmit.co/exetertestcontacts@gmail.com"
+                        method="POST">
+                        <ul class="contact-list">
+                            <li>
+                                <label for="fname">First Name</label>
+                                <input
+                                    type="text"
+                                    id="fname"
+                                    name="firstname"
+                                    placeholder="Your name.."
+                                    required />
+                            </li>
+                            <li>
+                                <label for="email">Email</label>
+                                <input
+                                    type="text"
+                                    id="email"
+                                    name="email"
+                                    placeholder="Your email address.."
+                                    required />
+                            </li>
+                            <li>
+                                <label for="subject">Report</label>
+                            </li>
+                            <li>
+                                <textarea
+                                    id="subject"
                                     class="subject"
-									name="subject"
-									placeholder="Report a change..."
-									required></textarea>
-							</li>
-							<li>
-								<button type="submit">Submit</button>
-							</li>
-						</ul>
-					</form>
-				</div>
-			</div>
-			<!-- End Contact Section -->
-		
+                                    name="subject"
+                                    placeholder="Report a change..."
+                                    required></textarea>
+                            </li>
+                            <li>
+                                <button type="submit">Submit</button>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+            <!-- End Contact Section -->
+
             <!-- Streaks large screen -->
             <div class="streaks hide-small">
                 <h1>{{streak}}</h1>
             </div>
             <!-- Streaks end -->
-        
+
             <!-- Streaks Small screen-->
             <div class="streaks_small hide-medium hide-large">
                 <!-- Not much needs to be here -->
             </div>
             <!-- Streaks end -->
         </div>
-		<!-- END PAGE CONTENT -->
+        <!-- END PAGE CONTENT -->
 
-		<script src="index.css"></script>
-	</body>
+        <script src="index.css"></script>
+    </body>
 </html>

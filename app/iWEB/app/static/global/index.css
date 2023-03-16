@@ -88,7 +88,6 @@ width: 100%;
 .score {
 	position: relative;
 	display: inline-block;
-	width: 25%;
 }
 
 .row-padding img {
@@ -310,9 +309,10 @@ input[type='submit'] {
 }
 
 .container-main{
-  padding: 5%;
+  padding: 10%;
   width: 100%;
   margin-bottom:2%;
+  margin-left: 50%;
 }
 
 .contact-list{
@@ -320,7 +320,7 @@ input[type='submit'] {
 }
 
 .item-table{
-  width: 30%;
+  width: 100%;
 }
 
 .subject{
