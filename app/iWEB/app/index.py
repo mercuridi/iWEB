@@ -78,7 +78,7 @@ def main(request):
     'closest_things': loc_list,
     'location_form': LocationForm,
     'submitted': submitted,
-    'streak':'100', #get streak of current user
+    'streak':current_user_data.streak, #get streak of current user
     'colour': themes[current_user_data.current_template],
     }
 
