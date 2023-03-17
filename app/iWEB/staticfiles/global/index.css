@@ -328,7 +328,7 @@ input[type='submit'] {
 }
 
 .themebox{
-  width: 100px;
+  width: auto;
 }
 
 .streaks {

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from .models import Location, Item, UserProfile
-from .forms import LocationForm, ThemeChangeForm
+from .forms import LocationForm
 from .utils.mapUtilities import read_map
 import json
 
@@ -78,6 +78,7 @@ def main(request):
         if totalThemes[counter] not in ownedThemes:
             themeList.popitem(totalThemes[counter])
         counter += 1
+    
     context = {
     'fountain_locations': fountain_coordinates,
     'bus_stop_locations': bus_stop_coordinates,
