@@ -65,9 +65,19 @@ width: 100%;
 #main {
   margin-left: 120px;
 }
+
+.contentbox{
+  padding: 5%;
+  margin: 5%;
+  margin-left: 120px;
+}
+
 /* Remove margins from "page content" on small screens */
 @media only screen and (max-width: 600px) {
   #main {
+    margin-left: 0;
+  }
+  .contentbox{
     margin-left: 0;
   }
 }
