@@ -38,7 +38,7 @@ def main(request):
     map = read_map()
     leaderboard = get_leaderboard()
     
-    # TODO does this actually give us the closest things?
+    # TODO need to write the function for loc_list to have them actually be closest.
     loc_list = Location.objects.values()
     item_list = Item.objects.values().order_by("price")
     
