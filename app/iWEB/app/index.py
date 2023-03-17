@@ -6,7 +6,7 @@ from .forms import LocationForm
 from .utils.mapUtilities import read_map
 import json
 
-def setTheme(themeName):
+def setTheme(themeName, user):
     print(themeName)
 
 
@@ -17,14 +17,21 @@ def main(request):
     current_user = request.user
     current_user_data = UserProfile.objects.get(user = current_user)
     
-    #add location
+    #post request handling
     submitted = False
     if request.method == "POST":
         data = json.loads(request.body)
+
+        # points handling
         points = data.get("points")
         current_user_data.score += points
+        
+        # theme handling       
+        theme = data.get("newtheme")
+        current_user_data.current_template = theme
         current_user_data.save()
 
+        #location request handling
         form = LocationForm(request.POST)
         if form.is_valid():
             form.save()
@@ -62,19 +69,19 @@ def main(request):
     
 
     themes = {
-        'default':{'name':'default','main':'#3776ac', 'second':'#7a12dd', 'icons':'#3776ac','background':'#ffffff','font':'#ffffff'},
-        'first':{'name':'first','main':'#ffcccc', 'second':'#993366', 'icons':'#ff9999', 'background':'#ffcccc','font':'#ffffff'},
-        'second':{'name':'second','main':'#ffcc66', 'second':'#ff6600', 'icons':'#ff9900', 'background':'#ffcc66','font':'#ffffff'},
-        'third':{'name':'third','main':'#99ccff', 'second':'#6699cc', 'icons':'#6656ff', 'background':'#99ccff','font':'#ffffff'},
-        'fourth':{'name':'fourth','main':'#ccff99', 'second':'#66cc99', 'icons':'#66cc99', 'background':'#ccff99','font':'#ffffff'},
-        'fifth':{'name':'fifth','main':'#ffcc99', 'second':'#cc6800', 'icons':'cc6800', 'background':'ffcc99','font':'#ffffff'},
+        'default':{'main':'#3776ac', 'second':'#7a12dd', 'icons':'#3776ac','background':'#ffffff','font':'#ffffff'},
+        'first':{'main':'#ffcccc', 'second':'#993366', 'icons':'#ff9999', 'background':'#ffcccc','font':'#ffffff'},
+        'second':{'main':'#ffcc66', 'second':'#ff6600', 'icons':'#ff9900', 'background':'#ffcc66','font':'#ffffff'},
+        'third':{'main':'#99ccff', 'second':'#6699cc', 'icons':'#6656ff', 'background':'#99ccff','font':'#ffffff'},
+        'fourth':{'main':'#ccff99', 'second':'#66cc99', 'icons':'#66cc99', 'background':'#ccff99','font':'#ffffff'},
+        'fifth':{'main':'#ffcc99', 'second':'#cc6800', 'icons':'cc6800', 'background':'ffcc99','font':'#ffffff'},
     }
 
     totalThemes = ['default','first','second','third','fourth','fifth']
     ownedThemes = current_user_data.owned_templates
     themeList = themes
     counter = 0
-    for counter in range(0,4):
+    for counter in range(0,5):
         if totalThemes[counter] not in ownedThemes:
             themeList.popitem(totalThemes[counter])
         counter += 1
