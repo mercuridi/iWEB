@@ -24,12 +24,19 @@ def main(request):
 
         # points handling
         points = data.get("points")
-        current_user_data.score += points
+        if points != None:
+            current_user_data.score += points
+            current_user_data.save()
         
         # theme handling       
-        theme = data.get("newtheme")
-        current_user_data.current_template = theme
-        current_user_data.save()
+        
+        if data.get("newtheme") != '':
+            theme = data.get("newtheme")
+            current_user_data.current_template = theme
+            current_user_data.save()
+        else:
+            current_user_data.current_template = "default"
+            current_user_data.save()
 
         #location request handling
         form = LocationForm(request.POST)
@@ -83,7 +90,7 @@ def main(request):
     counter = 0
     for counter in range(0,5):
         if totalThemes[counter] not in ownedThemes:
-            themeList.popitem(totalThemes[counter])
+            themeList.pop(totalThemes[counter])
         counter += 1
     
     context = {

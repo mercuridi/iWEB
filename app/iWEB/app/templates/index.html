@@ -1145,7 +1145,7 @@
                 <h2>Settings</h2>
                     <ul>
                         {% for item in themes %}
-                        <button class= "alt_text" name="themebutton" onClick="setTheme( {{ theme }} )">
+                        <button class= "alt_text" name="themebutton" onClick="setTheme( '{{ item }}' )">
                         {{ item }}
                         </button>
                         {% endfor %}
@@ -1153,7 +1153,6 @@
                     <script>
                         function setTheme(newTheme){
                             var csrftoken = getCookie('csrftoken');
-
                             var request = new XMLHttpRequest();
                             request.open("POST", "/index", true);
                             request.setRequestHeader("Content-Type", "application/json");
