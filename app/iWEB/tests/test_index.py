@@ -9,7 +9,6 @@ from .test_utils import populate_test_database
 
 client = Client()
 
-
 class test_index(TestCase):
     def setUp(self):
         populate_test_database()
@@ -88,3 +87,5 @@ class test_index(TestCase):
             self.assertEqual(database_fountain_last.latitude,       fountains[-1][0])
             self.assertEqual(database_fountain_last.information,    fountains[-1][3])
             
+    def test_points_increment(self):
+        pass

@@ -25,4 +25,4 @@ jobs:
         #pip install -r requirements.txt
     - name: Run Tests
       run: |
-        python app/iWEB/manage.py -wa test --noinput tests/
+        python app/iWEB/manage.py test --noinput app/iWEB/tests/
