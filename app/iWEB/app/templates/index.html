@@ -156,6 +156,12 @@
             background-color: {{colour.main}};
             }
 
+            .alt_text{
+                color: black;
+            }
+            .subject{
+                color: black;
+            }
             .streaks {
             background-color: #000000;
             }
@@ -189,12 +195,6 @@
                 class="bar-icon button padding-large">
                 <i class="fa fa-user xxlarge"></i>
                 <p>Leaderboard</p>
-            </a>
-            <a
-                href="#friends_box"
-                class="bar-icon button padding-large">
-                <i class="fa fa-user xxlarge"></i>
-                <p>Friends</p>
             </a>
             <a
                 href="#shop_box"
@@ -236,9 +236,6 @@
                     <a
                         href="#leaderboard_box"
                         class="bar-item button">Leaderboard</a>
-                    <a
-                        href="#friends_box"
-                        class="bar-item button">Friends</a>
                     <a
                         href="#shop_box"
                         class="bar-item button">{{points}}#</a>
@@ -318,7 +315,6 @@
                 </button>
                 <div class="map">
                     <div class="user">
-                        <script src="/index.js"></script>
                         <script>
                                 var user = document.querySelector(".user");
                                 var map = document.querySelector(".map");
@@ -1099,16 +1095,6 @@
                 </div>
             </div>
             <!-- End Leaderboard Section-->
-            <!-- Friends Section -->
-            <div
-                class="contentbox content justify "
-                id="friends_box">
-                <h2>Friends</h2>
-                <iframe
-                    src="friendlist.html"
-                    title="Friends list"></iframe>
-            </div>
-            <!-- End Friends Section-->
             <!-- Points/Shop Section -->
             <div
                 class="contentbox content justify "
@@ -1141,6 +1127,7 @@
                 {% else %}
                 <h1>Submit a location</h1>
                 <form
+                    class="alt_text"
                     action=""
                     method="POST">
                     {% csrf_token%} {{ location_form.as_p }}
@@ -1156,10 +1143,14 @@
                 class="contentbox content justify"
                 id="settings_box">
                 <h2>Settings</h2>
-                <ul>
-                    <a></a>
-
-                </ul>
+                    <ul>
+                        {% for item in themes %}
+                        <button class= "alt_text" name="themebutton" onClick="setTheme({{ theme }})">
+                        {{ item }}
+                        </button>
+                        {% endfor %}
+                    </ul>
+                    
             </div>
             <!-- End Settings Section-->
             <!-- Contact Section -->
@@ -1175,6 +1166,7 @@
                             <li>
                                 <label for="fname">First Name</label>
                                 <input
+                                    class="alt_text"
                                     type="text"
                                     id="fname"
                                     name="firstname"
@@ -1184,6 +1176,7 @@
                             <li>
                                 <label for="email">Email</label>
                                 <input
+                                    class="alt_text"
                                     type="text"
                                     id="email"
                                     name="email"
@@ -1195,6 +1188,7 @@
                             </li>
                             <li>
                                 <textarea
+                                    class="alt_text"
                                     id="subject"
                                     class="subject"
                                     name="subject"
@@ -1202,7 +1196,7 @@
                                     required></textarea>
                             </li>
                             <li>
-                                <button type="submit">Submit</button>
+                                <button class = "alt_text" type="submit">Submit</button>
                             </li>
                         </ul>
                     </form>

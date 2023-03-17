@@ -2,9 +2,13 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from .models import Location, Item, UserProfile
-from .forms import LocationForm
+from .forms import LocationForm, ThemeChangeForm
 from .utils.mapUtilities import read_map
 import json
+
+def setTheme(themeName):
+    print(themeName)
+
 
 def main(request):
     """This is the main page - everything but the login/register screen should be in this view going forward"""
@@ -29,8 +33,7 @@ def main(request):
         form = LocationForm
         if 'submitted' in request.GET:
             submitted = True
-    form = LocationForm
-
+    
     # context setup
     fountain_locations = Location.objects.filter(type='Fountain')
     bus_stop_locations = Location.objects.filter(type='BusStop')
@@ -59,14 +62,22 @@ def main(request):
     
 
     themes = {
-        'default':{'main':'#3776ac', 'second':'#7a12dd', 'icons':'#3776ac','background':'#ffffff','font':'#ffffff'},
-        'first':{'main':'#ffcccc', 'second':'#993366', 'icons':'#ff9999', 'background':'#ffcccc','font':'#ffffff'},
-        'second':{'main':'#ffcc66', 'second':'#ff6600', 'icons':'#ff9900', 'background':'#ffcc66','font':'#ffffff'},
-        'third':{'main':'#99ccff', 'second':'#6699cc', 'icons':'#6656ff', 'background':'#99ccff','font':'#ffffff'},
-        'fourth':{'main':'#ccff99', 'second':'#66cc99', 'icons':'#66cc99', 'background':'#ccff99','font':'#ffffff'},
-        'fifth':{'main':'#ffcc99', 'second':'#cc6800', 'icons':'cc6800', 'background':'ffcc99','font':'#ffffff'},
+        'default':{'name':'default','main':'#3776ac', 'second':'#7a12dd', 'icons':'#3776ac','background':'#ffffff','font':'#ffffff'},
+        'first':{'name':'first','main':'#ffcccc', 'second':'#993366', 'icons':'#ff9999', 'background':'#ffcccc','font':'#ffffff'},
+        'second':{'name':'second','main':'#ffcc66', 'second':'#ff6600', 'icons':'#ff9900', 'background':'#ffcc66','font':'#ffffff'},
+        'third':{'name':'third','main':'#99ccff', 'second':'#6699cc', 'icons':'#6656ff', 'background':'#99ccff','font':'#ffffff'},
+        'fourth':{'name':'fourth','main':'#ccff99', 'second':'#66cc99', 'icons':'#66cc99', 'background':'#ccff99','font':'#ffffff'},
+        'fifth':{'name':'fifth','main':'#ffcc99', 'second':'#cc6800', 'icons':'cc6800', 'background':'ffcc99','font':'#ffffff'},
     }
 
+    totalThemes = ['default','first','second','third','fourth','fifth']
+    ownedThemes = current_user_data.owned_templates
+    themeList = themes
+    counter = 0
+    for counter in range(0,4):
+        if totalThemes[counter] not in ownedThemes:
+            themeList.popitem(totalThemes[counter])
+        counter += 1
     context = {
     'fountain_locations': fountain_coordinates,
     'bus_stop_locations': bus_stop_coordinates,
@@ -79,6 +90,7 @@ def main(request):
     'location_form': LocationForm,
     'submitted': submitted,
     'streak':current_user_data.streak, #get streak of current user
+    'themes': themeList,
     'colour': themes[current_user_data.current_template],
     }
 

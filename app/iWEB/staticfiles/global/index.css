@@ -327,6 +327,10 @@ input[type='submit'] {
   height: 100px
 }
 
+.themebox{
+  width: 100px;
+}
+
 .streaks {
   width: auto;
   height: auto;
