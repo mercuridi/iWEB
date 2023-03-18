@@ -11,16 +11,18 @@ def main(request):
 
     # load user info from request
     current_user = request.user
-    current_user_data = UserProfile.objects.get(user = current_user)
+    current_user_data = current_user.profile
     
     #add location
     submitted = False
     if request.method == "POST":
+        # handle points increases
         data = json.loads(request.body)
         points = data.get("points")
         current_user_data.score += points
         current_user_data.save()
 
+        # handle location form submissions
         form = LocationForm(request.POST)
         if form.is_valid():
             form.save()
@@ -31,7 +33,36 @@ def main(request):
             submitted = True
     form = LocationForm
 
-    #context setup
+    # context setup
+    all_locations = get_locations()
+    map = read_map()
+    leaderboard = get_leaderboard()
+    
+    # TODO need to write the function for loc_list to have them actually be closest.
+    loc_list = Location.objects.values()
+    item_list = Item.objects.values().order_by("price")
+    
+    context = {
+    'fountain_locations': all_locations["Fountains"],
+    'bus_stop_locations': all_locations["Bus stops"],
+    'bin_locations': all_locations["Bins"],
+    'maze': map,
+    'theme_colour': [333, 589],
+    'points': getattr(current_user_data, "score"),
+    'item_list': item_list,
+    'scores': leaderboard,
+    'closest_things': loc_list,
+    'location_form': LocationForm,
+    'submitted': submitted,
+    'streak': getattr(current_user_data, "streak"),
+    'theme_colours': {'main':'#000000',
+                      'second':'#7t12dd',
+                      'icons':'#000000',
+                      'background':'#000000'}
+    } 
+    return render(request, 'index.html', context)
+
+def get_locations():
     fountain_locations = Location.objects.filter(type='Fountain')
     bus_stop_locations = Location.objects.filter(type='BusStop')
     bin_locations = Location.objects.filter(type='Bin')
@@ -41,36 +72,21 @@ def main(request):
     bin_coordinates = []
     
     for fountain in fountain_locations:
-        fountain_coordinates.append([fountain.latitude, fountain.longitude, fountain.building, fountain.information])
+        fountain_coordinates.append ([fountain.latitude, fountain.longitude, fountain.building, fountain.information])
     for bus_stop in bus_stop_locations:
-        bus_stop_coordinates.append([bus_stop.latitude, bus_stop.longitude, bus_stop.building, bus_stop.information])
+        bus_stop_coordinates.append ([bus_stop.latitude, bus_stop.longitude, bus_stop.building, bus_stop.information])
     for bin in bin_locations:
-        bin_coordinates.append([bin.latitude, bin.longitude, bin.building, bin.information])
+        bin_coordinates.append      ([     bin.latitude,      bin.longitude,      bin.building,      bin.information])
     
-    map = read_map()
+    all_locations = {"Fountains" : fountain_coordinates,
+                     "Bus stops" : bus_stop_coordinates,
+                     "Bins" : bin_coordinates}
+    return all_locations
 
+def get_leaderboard(length=5):
+    length = abs(length)    # just in case somehow we are asked for a negative number
     leaderboard_list = UserProfile.objects.values().order_by("-score")
-    leaderboard_list = leaderboard_list[:5]
+    leaderboard_list = leaderboard_list[:length]
     for profile in leaderboard_list:
         profile["username"] = User.objects.get(pk=profile["user_id"]).username
-            
-    loc_list = Location.objects.values()
-    item_list = Item.objects.all
-    
-    context = {
-    'fountain_locations': fountain_coordinates,
-    'bus_stop_locations': bus_stop_coordinates,
-    'bin_locations': bin_coordinates,
-    'maze': map,
-    'theme_colour': [333, 589],
-    'points': getattr(current_user_data, "score"),
-    'item_list': item_list,
-    'scores': leaderboard_list,
-    'closest_things': loc_list,
-    'location_form': LocationForm,
-    'submitted': submitted,
-    'streak': getattr(current_user_data, "streak"),
-    'theme_colours': {'main':'#000000', 'second':'#7t12dd', 'icons':'#000000','background':'#000000'}
-    } 
-    print(bin_coordinates)
-    return render(request, 'index.html', context)
+    return leaderboard_list
