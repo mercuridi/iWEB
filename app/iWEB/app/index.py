@@ -117,5 +117,4 @@ def main(request):
     'colour': themes[current_user_data.current_template],
     }
 
-    print(bin_coordinates)
     return render(request, 'index.html', context)
