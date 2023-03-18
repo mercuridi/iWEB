@@ -3,7 +3,6 @@
 """
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
-from django.forms.widgets import TextInput, RadioSelect
 from django.contrib.auth.models import User
 from .models import Location
 
@@ -14,8 +13,6 @@ class LocationForm(ModelForm):
     Args:
         ModelForm imported from Django (it just works!)
     """
-    location_form = TextInput()
-
     class Meta:
         model = Location
         fields = ['type', 'building', 'longitude', 'latitude', 'information', 'usable']
@@ -39,5 +36,3 @@ class NewUserForm(UserCreationForm):
         if commit:
             user.save()
         return user
-
-
