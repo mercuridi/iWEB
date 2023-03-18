@@ -11,11 +11,12 @@ def main(request):
     # add location
     # load user info from request
     current_user = request.user
-    current_user_data = UserProfile.objects.get(user = current_user)
+    current_user_data = current_user.profile
     
     #post request handling
     submitted = False
     if request.method == "POST":
+        # handle points increases
         data = json.loads(request.body)
 
         # points handling
@@ -46,30 +47,17 @@ def main(request):
         form = LocationForm
         if 'submitted' in request.GET:
             submitted = True
-    
-    # context setup
-    fountain_locations = Location.objects.filter(type='Fountain')
-    bus_stop_locations = Location.objects.filter(type='BusStop')
-    bin_locations = Location.objects.filter(type='Bin')
-    
-    fountain_coordinates = []
-    bus_stop_coordinates = []
-    bin_coordinates = []
-    
-    for fountain in fountain_locations:
-        fountain_coordinates.append([fountain.latitude, fountain.longitude, fountain.building, fountain.information])
-    for bus_stop in bus_stop_locations:
-        bus_stop_coordinates.append([bus_stop.latitude, bus_stop.longitude, bus_stop.building, bus_stop.information])
-    for bin in bin_locations:
-        bin_coordinates.append([bin.latitude, bin.longitude, bin.building, bin.information])
-    
-    map = read_map()
+    form = LocationForm
 
-    leaderboard_list = UserProfile.objects.values().order_by("-score")
-    leaderboard_list = leaderboard_list[:5]
-    for profile in leaderboard_list:
-        profile["username"] = User.objects.get(pk=profile["user_id"]).username
-            
+    # context setup
+    all_locations = get_locations()
+    fountain_coordinates = all_locations["Fountains"]
+    bus_stop_coordinates = all_locations["Bus stops"]
+    bin_coordinates = all_locations["Bins"]
+    leaderboard_list = get_leaderboard()
+    map = read_map()
+    
+    # TODO need to write the function for loc_list to have them actually be closest.
     loc_list = Location.objects.values()
     
     #remove owned items from shop
@@ -112,3 +100,32 @@ def main(request):
     }
 
     return render(request, 'index.html', context)
+
+def get_leaderboard(length=5):
+    length = abs(length)    # just in case somehow we are asked for a negative number
+    leaderboard_list = UserProfile.objects.values().order_by("-score")
+    leaderboard_list = leaderboard_list[:length]
+    for profile in leaderboard_list:
+        profile["username"] = User.objects.get(pk=profile["user_id"]).username
+    return leaderboard_list
+        
+def get_locations():
+    fountain_locations = Location.objects.filter(type='Fountain')
+    bus_stop_locations = Location.objects.filter(type='BusStop')
+    bin_locations = Location.objects.filter(type='Bin')
+    
+    fountain_coordinates = []
+    bus_stop_coordinates = []
+    bin_coordinates = []
+    
+    for fountain in fountain_locations:
+        fountain_coordinates.append ([fountain.latitude, fountain.longitude, fountain.building, fountain.information])
+    for bus_stop in bus_stop_locations:
+        bus_stop_coordinates.append ([bus_stop.latitude, bus_stop.longitude, bus_stop.building, bus_stop.information])
+    for bin in bin_locations:
+        bin_coordinates.append      ([     bin.latitude,      bin.longitude,      bin.building,      bin.information])
+    
+    all_locations = {"Fountains" : fountain_coordinates,
+                     "Bus stops" : bus_stop_coordinates,
+                     "Bins" : bin_coordinates}
+    return all_locations
