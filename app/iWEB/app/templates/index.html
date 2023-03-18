@@ -1126,6 +1126,7 @@
                     // This is unfortunately the most reliable way to do this
                     function buyTheme(purchase, price){
                         if (price < {{ points }}){
+                            price = -price;
                             var csrftoken = getCookie('csrftoken');
                             var request = new XMLHttpRequest();
                             request.open("POST", "/index", true);

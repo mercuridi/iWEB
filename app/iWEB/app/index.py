@@ -28,6 +28,11 @@ def main(request):
             current_user_data.score += points
             current_user_data.save()
         
+        purchase = data.get("bought")
+        if purchase != None:
+            current_user_data.owned_templates += purchase
+            current_user_data.save()
+
         # theme handling       
         
         if data.get("newtheme") != '':
