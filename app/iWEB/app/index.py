@@ -95,12 +95,11 @@ def main(request):
         'fifth':{'main':'#ffcc99', 'second':'#cc6800', 'icons':'cc6800', 'background':'ffddbb','font':'#a20100'},
     }
 
-    totalThemes = ['default','first','second','third','fourth','fifth']
-    ownedThemes = current_user_data.owned_templates
-    themeList = themes
-    for counter in range(0,len(themes)):
-        if totalThemes[counter] not in ownedThemes:
-            themeList.pop(totalThemes[counter])
+    total_themes = ['default','first','second','third','fourth','fifth']
+    owned_themes = current_user_data.owned_templates
+    for i in range(len(themes)):
+        if total_themes[i] not in owned_themes:
+            themes.pop(total_themes[i])
     
     context = {
     'fountain_locations': fountain_coordinates,
@@ -114,7 +113,7 @@ def main(request):
     'location_form': LocationForm,
     'submitted': submitted,
     'streak':current_user_data.streak, #get streak of current user
-    'themes': themeList,
+    'themes': themes,
     'colour': themes[current_user_data.current_template],
     }
 
