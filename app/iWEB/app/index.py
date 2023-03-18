@@ -28,14 +28,13 @@ def main(request):
             current_user_data.score += points
             current_user_data.save()
         
-        #checks if a theme has been bought
+        #theme purchase handlding
         purchase = data.get("bought")
         if purchase != None:
-            current_user_data.owned_templates += purchase
+            current_user_data.owned_templates += " " + purchase 
             current_user_data.save()
 
         # theme handling       
-        
         if data.get("newtheme") != '':
             theme = data.get("newtheme")
             current_user_data.current_template = theme
@@ -78,8 +77,13 @@ def main(request):
         profile["username"] = User.objects.get(pk=profile["user_id"]).username
             
     loc_list = Location.objects.values()
-    item_list = Item.objects.all
     
+    #remove owned items from shop
+    item_list = Item.objects.all
+    #for item in item_list:
+        #if item.name in current_user_data.owned_templates:
+            #item_list.remove(item)
+
 
     themes = {
         'default':{'main':'#3776ac', 'second':'#7a12dd', 'icons':'#3776ac','background':'#ffffff','font':'#ffffff'},
@@ -93,11 +97,9 @@ def main(request):
     totalThemes = ['default','first','second','third','fourth','fifth']
     ownedThemes = current_user_data.owned_templates
     themeList = themes
-    counter = 0
-    for counter in range(0,5):
+    for counter in range(0,len(themes)):
         if totalThemes[counter] not in ownedThemes:
             themeList.pop(totalThemes[counter])
-        counter += 1
     
     context = {
     'fountain_locations': fountain_coordinates,
