@@ -19,7 +19,7 @@ class Location(models.Model):
 
     # Makes the name of the location and its building appear in the admin panel
     def __str__(self):
-        return (f"{str(self.type)} ({str(self.building)})")
+        return f"{str(self.type)} ({str(self.building)})"
 
 # Items model
 class Item(models.Model):
@@ -37,7 +37,7 @@ class Challenge(models.Model):
     name        = models.CharField(max_length = 50)
     description = models.CharField(max_length = 200)
     difficulty  = models.IntegerField(default = 1)
-    
+
     # Makes the challenge name appear in the admin panel
     def __str__(self):
         return str(self.name)
@@ -58,4 +58,3 @@ class UserProfile(models.Model):
     # Makes the name of the user appear in the admin panel
     def __str__(self):
         return str(self.user)
-
