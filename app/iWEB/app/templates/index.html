@@ -1086,6 +1086,7 @@
                 <div
                     class="centre"
                     id="container2">
+                    <h2> Top scores this week:</h2>
                     {% if scores %}
                     <ol>
                         {% for item in scores %}
@@ -1104,6 +1105,7 @@
                 id="shop_box">
                 <h2>Shop</h2>
                 {% if item_list %}
+                <label>You have {{ points }} credits</label>
                 <h2>Items in the shop:</h2>
                 <table class "item-table">
                     <tr>
