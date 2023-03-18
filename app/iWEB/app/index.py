@@ -24,20 +24,20 @@ def main(request):
 
         # points handling
         points = data.get("points")
-        if points != None:
+        if points is not None:
             current_user_data.score += points
             current_user_data.save()
         
         #theme purchase handlding
         purchase = data.get("bought")
-        if purchase != None:
+        if purchase is not None:
             current_user_data.owned_templates += " " + purchase 
             current_user_data.save()
 
         # theme handling       
-        if data.get("newtheme") != '':
-            theme = data.get("newtheme")
-            current_user_data.current_template = theme
+        new_theme = data.get("newtheme")
+        if new_theme is not None:
+            current_user_data.current_template = new_theme
             current_user_data.save()
         else:
             current_user_data.current_template = "default"
@@ -79,10 +79,11 @@ def main(request):
     loc_list = Location.objects.values()
     
     #remove owned items from shop
-    item_list = Item.objects.all
-    #for item in item_list:
-        #if item.name in current_user_data.owned_templates:
-            #item_list.remove(item)
+    all_items = Item.objects.all()
+    unowned_themes = []
+    for item in all_items:
+        if item.name not in current_user_data.owned_templates:
+            unowned_themes.append(item)
 
 
     themes = {
@@ -107,7 +108,7 @@ def main(request):
     'bin_locations': bin_coordinates,
     'maze': map,
     'points': getattr(current_user_data, "score"),
-    'item_list': item_list,
+    'item_list': unowned_themes,
     'scores': leaderboard_list,
     'closest_things': loc_list,
     'location_form': LocationForm,
