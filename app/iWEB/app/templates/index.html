@@ -1133,8 +1133,9 @@
                             request.setRequestHeader("Content-Type", "application/json");
                             request.setRequestHeader("X-CSRFToken", csrftoken);
                             request.send(JSON.stringify({bought : purchase}, {points : price}));
-                            location.reload();
                         }
+                        location.reload();
+
                     }
                 </script>
             </div>
