@@ -8,41 +8,25 @@ import json
 
 def main(request):
     """This is the main page - everything but the login/register screen should be in this view going forward"""
-    # add location
+
     # load user info from request
     current_user = request.user
     current_user_data = current_user.profile
     
-    #post request handling
+    #add location
     submitted = False
     if request.method == "POST":
         # handle points increases
         data = json.loads(request.body)
-
-        # points handling
         points = data.get("points")
-        if points is not None:
-            current_user_data.score += points
-        
-        #theme purchase handling
-        purchase = data.get("bought")
-        if purchase is not None:
-            current_user_data.owned_templates += " " + purchase 
+        current_user_data.score += points
+        current_user_data.save()
 
-        # theme handling
-        new_theme = data.get("newtheme")
-        if new_theme is not None:
-            current_user_data.current_template = new_theme
-        else:
-            current_user_data.current_template = "default"
-
-        #location request handling
+        # handle location form submissions
         form = LocationForm(request.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/addLocation?submitted=True') #This should probably be changed to avoid redirects to a dead page
-
-        current_user_data.save()
     else:
         form = LocationForm
         if 'submitted' in request.GET:
@@ -101,14 +85,6 @@ def main(request):
 
     return render(request, 'index.html', context)
 
-def get_leaderboard(length=5):
-    length = abs(length)    # just in case somehow we are asked for a negative number
-    leaderboard_list = UserProfile.objects.values().order_by("-score")
-    leaderboard_list = leaderboard_list[:length]
-    for profile in leaderboard_list:
-        profile["username"] = User.objects.get(pk=profile["user_id"]).username
-    return leaderboard_list
-        
 def get_locations():
     fountain_locations = Location.objects.filter(type='Fountain')
     bus_stop_locations = Location.objects.filter(type='BusStop')
@@ -129,3 +105,11 @@ def get_locations():
                      "Bus stops" : bus_stop_coordinates,
                      "Bins" : bin_coordinates}
     return all_locations
+
+def get_leaderboard(length=5):
+    length = abs(length)    # just in case somehow we are asked for a negative number
+    leaderboard_list = UserProfile.objects.values().order_by("-score")
+    leaderboard_list = leaderboard_list[:length]
+    for profile in leaderboard_list:
+        profile["username"] = User.objects.get(pk=profile["user_id"]).username
+    return leaderboard_list
