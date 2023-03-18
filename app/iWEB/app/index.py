@@ -28,7 +28,7 @@ def main(request):
             current_user_data.score += points
             current_user_data.save()
         
-        #theme purchase handlding
+        #theme purchase handling
         purchase = data.get("bought")
         if purchase is not None:
             current_user_data.owned_templates += " " + purchase 
@@ -37,11 +37,7 @@ def main(request):
         # theme handling       
         new_theme = data.get("newtheme")
         if new_theme is not None:
-            current_user_data.current_template = new_theme
-            current_user_data.save()
-        else:
-            current_user_data.current_template = "default"
-            current_user_data.save()
+            current_user_data.update(current_template=new_theme)
 
         #location request handling
         form = LocationForm(request.POST)
@@ -87,20 +83,20 @@ def main(request):
 
 
     themes = {
-        'default':{'main':'#3776ac', 'second':'#7a12dd', 'icons':'#3776ac','background':'#ffffff','font':'#ffffff'},
-        'first':{'main':'#ffcccc', 'second':'#993366', 'icons':'#ff9999', 'background':'#ffdddd','font':'#aa0000'},
-        'second':{'main':'#ffcc66', 'second':'#ff6600', 'icons':'#ff9900', 'background':'#ffdd88','font':'#ffffff'},
-        'third':{'main':'#99ccff', 'second':'#6699cc', 'icons':'#6656ff', 'background':'#aaddff','font':'#444488'},
-        'fourth':{'main':'#ccff99', 'second':'#66cc99', 'icons':'#66cc99', 'background':'#ddffbb','font':'#054405'},
-        'fifth':{'main':'#ffcc99', 'second':'#cc6800', 'icons':'cc6800', 'background':'ffddbb','font':'#a20100'},
+        'default':  {'main':'#3776ac', 'second':'#7a12dd', 'icons':'#3776ac', 'background':'#ffffff','font':'#ffffff'},
+        'first':    {'main':'#ffcccc', 'second':'#993366', 'icons':'#ff9999', 'background':'#ffdddd','font':'#aa0000'},
+        'second':   {'main':'#ffcc66', 'second':'#ff6600', 'icons':'#ff9900', 'background':'#ffdd88','font':'#ffffff'},
+        'third':    {'main':'#99ccff', 'second':'#6699cc', 'icons':'#6656ff', 'background':'#aaddff','font':'#444488'},
+        'fourth':   {'main':'#ccff99', 'second':'#66cc99', 'icons':'#66cc99', 'background':'#ddffbb','font':'#054405'},
+        'fifth':    {'main':'#ffcc99', 'second':'#cc6800', 'icons':'#cc6800', 'background':'#ffddbb','font':'#a20100'},
     }
 
-    totalThemes = ['default','first','second','third','fourth','fifth']
+    theme_names = ['default','first','second','third','fourth','fifth']
     ownedThemes = current_user_data.owned_templates
     themeList = themes
-    for counter in range(0,len(themes)):
-        if totalThemes[counter] not in ownedThemes:
-            themeList.pop(totalThemes[counter])
+    for i in range(len(themes)):
+        if theme_names[i] not in ownedThemes:
+            themeList.pop(theme_names[i])
     
     context = {
     'fountain_locations': fountain_coordinates,
