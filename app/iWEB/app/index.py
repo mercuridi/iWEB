@@ -6,23 +6,44 @@ from .forms import LocationForm
 from .utils.mapUtilities import read_map
 import json
 
+def setTheme(themeName, user):
+    print(themeName)
+
+
 def main(request):
     """This is the main page - everything but the login/register screen should be in this view going forward"""
-
+    # add location
     # load user info from request
     current_user = request.user
-    current_user_data = current_user.profile
+    current_user_data = UserProfile.objects.get(user = current_user)
     
-    #add location
+    #post request handling
     submitted = False
     if request.method == "POST":
-        # handle points increases
         data = json.loads(request.body)
-        points = data.get("points")
-        current_user_data.score += points
-        current_user_data.save()
 
-        # handle location form submissions
+        # points handling
+        points = data.get("points")
+        if points is not None:
+            current_user_data.score += points
+            current_user_data.save()
+        
+        #theme purchase handlding
+        purchase = data.get("bought")
+        if purchase is not None:
+            current_user_data.owned_templates += " " + purchase 
+            current_user_data.save()
+
+        # theme handling       
+        new_theme = data.get("newtheme")
+        if new_theme is not None:
+            current_user_data.current_template = new_theme
+            current_user_data.save()
+        else:
+            current_user_data.current_template = "default"
+            current_user_data.save()
+
+        #location request handling
         form = LocationForm(request.POST)
         if form.is_valid():
             form.save()
@@ -31,17 +52,30 @@ def main(request):
         form = LocationForm
         if 'submitted' in request.GET:
             submitted = True
-    form = LocationForm
-
-    # context setup
-    all_locations = get_locations()
-    fountain_coordinates = all_locations["Fountains"]
-    bus_stop_coordinates = all_locations["Bus stops"]
-    bin_coordinates = all_locations["Bins"]
-    leaderboard_list = get_leaderboard()
-    map = read_map()
     
-    # TODO need to write the function for loc_list to have them actually be closest.
+    # context setup
+    fountain_locations = Location.objects.filter(type='Fountain')
+    bus_stop_locations = Location.objects.filter(type='BusStop')
+    bin_locations = Location.objects.filter(type='Bin')
+    
+    fountain_coordinates = []
+    bus_stop_coordinates = []
+    bin_coordinates = []
+    
+    for fountain in fountain_locations:
+        fountain_coordinates.append([fountain.latitude, fountain.longitude, fountain.building, fountain.information])
+    for bus_stop in bus_stop_locations:
+        bus_stop_coordinates.append([bus_stop.latitude, bus_stop.longitude, bus_stop.building, bus_stop.information])
+    for bin in bin_locations:
+        bin_coordinates.append([bin.latitude, bin.longitude, bin.building, bin.information])
+    
+    map = read_map()
+
+    leaderboard_list = UserProfile.objects.values().order_by("-score")
+    leaderboard_list = leaderboard_list[:5]
+    for profile in leaderboard_list:
+        profile["username"] = User.objects.get(pk=profile["user_id"]).username
+            
     loc_list = Location.objects.values()
     
     #remove owned items from shop
@@ -53,12 +87,12 @@ def main(request):
 
 
     themes = {
-        'default':  {'main':'#3776ac', 'second':'#7a12dd', 'icons':'#3776ac', 'background':'#ffffff','font':'#ffffff'},
-        'first':    {'main':'#ffcccc', 'second':'#993366', 'icons':'#ff9999', 'background':'#ffdddd','font':'#aa0000'},
-        'second':   {'main':'#ffcc66', 'second':'#ff6600', 'icons':'#ff9900', 'background':'#ffdd88','font':'#ffffff'},
-        'third':    {'main':'#99ccff', 'second':'#6699cc', 'icons':'#6656ff', 'background':'#aaddff','font':'#444488'},
-        'fourth':   {'main':'#ccff99', 'second':'#66cc99', 'icons':'#66cc99', 'background':'#ddffbb','font':'#054405'},
-        'fifth':    {'main':'#ffcc99', 'second':'#cc6800', 'icons':'#cc6800', 'background':'#ffddbb','font':'#a20100'},
+        'default':{'main':'#3776ac', 'second':'#7a12dd', 'icons':'#3776ac','background':'#ffffff','font':'#ffffff'},
+        'first':{'main':'#ffcccc', 'second':'#993366', 'icons':'#ff9999', 'background':'#ffdddd','font':'#aa0000'},
+        'second':{'main':'#ffcc66', 'second':'#ff6600', 'icons':'#ff9900', 'background':'#ffdd88','font':'#ffffff'},
+        'third':{'main':'#99ccff', 'second':'#6699cc', 'icons':'#6656ff', 'background':'#aaddff','font':'#444488'},
+        'fourth':{'main':'#ccff99', 'second':'#66cc99', 'icons':'#66cc99', 'background':'#ddffbb','font':'#054405'},
+        'fifth':{'main':'#ffcc99', 'second':'#cc6800', 'icons':'cc6800', 'background':'ffddbb','font':'#a20100'},
     }
 
     total_themes = ['default','first','second','third','fourth','fifth']
@@ -84,32 +118,3 @@ def main(request):
     }
 
     return render(request, 'index.html', context)
-
-def get_locations():
-    fountain_locations = Location.objects.filter(type='Fountain')
-    bus_stop_locations = Location.objects.filter(type='BusStop')
-    bin_locations = Location.objects.filter(type='Bin')
-    
-    fountain_coordinates = []
-    bus_stop_coordinates = []
-    bin_coordinates = []
-    
-    for fountain in fountain_locations:
-        fountain_coordinates.append ([fountain.latitude, fountain.longitude, fountain.building, fountain.information])
-    for bus_stop in bus_stop_locations:
-        bus_stop_coordinates.append ([bus_stop.latitude, bus_stop.longitude, bus_stop.building, bus_stop.information])
-    for bin in bin_locations:
-        bin_coordinates.append      ([     bin.latitude,      bin.longitude,      bin.building,      bin.information])
-    
-    all_locations = {"Fountains" : fountain_coordinates,
-                     "Bus stops" : bus_stop_coordinates,
-                     "Bins" : bin_coordinates}
-    return all_locations
-
-def get_leaderboard(length=5):
-    length = abs(length)    # just in case somehow we are asked for a negative number
-    leaderboard_list = UserProfile.objects.values().order_by("-score")
-    leaderboard_list = leaderboard_list[:length]
-    for profile in leaderboard_list:
-        profile["username"] = User.objects.get(pk=profile["user_id"]).username
-    return leaderboard_list
