@@ -6,10 +6,6 @@ from .forms import LocationForm
 from .utils.mapUtilities import read_map
 import json
 
-def setTheme(themeName, user):
-    print(themeName)
-
-
 def main(request):
     """This is the main page - everything but the login/register screen should be in this view going forward"""
     # add location
@@ -26,28 +22,26 @@ def main(request):
         points = data.get("points")
         if points is not None:
             current_user_data.score += points
-            current_user_data.save()
         
-        #theme purchase handlding
+        #theme purchase handling
         purchase = data.get("bought")
         if purchase is not None:
             current_user_data.owned_templates += " " + purchase 
-            current_user_data.save()
 
-        # theme handling       
+        # theme handling
         new_theme = data.get("newtheme")
         if new_theme is not None:
             current_user_data.current_template = new_theme
-            current_user_data.save()
         else:
             current_user_data.current_template = "default"
-            current_user_data.save()
 
         #location request handling
         form = LocationForm(request.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/addLocation?submitted=True') #This should probably be changed to avoid redirects to a dead page
+
+        current_user_data.save()
     else:
         form = LocationForm
         if 'submitted' in request.GET:
