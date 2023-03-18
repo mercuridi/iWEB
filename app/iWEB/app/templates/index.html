@@ -5,8 +5,8 @@
 <!-- scores is a list of the top 5 players plus the current user, each one requiring a name and a score sorted in descending order -->
 <!-- submitted is a boolean on if the request to add a location has gone through or not -->
 <!-- location_form is the form containing what data needs to be inputted to the database -->
-<!-- points is the number of points (probably an integer) that the user has -->
-<!-- item_list is the list of every object in the shop -->
+<!-- points_wallet is the number of points_wallet (probably an integer) that the user has -->
+<!-- shop_list is the list of every object in the shop -->
 
 <!DOCTYPE html>
 <html>
@@ -204,7 +204,7 @@
                 href="#shop_box"
                 class="bar-icon button padding-large">
                 <i class="fa fa-user xxlarge"></i>
-                <p>You have {{ points }} credits</p>
+                <p>You have {{ points_wallet }} credits</p>
             </a>
             <a
                 href="#report_box"
@@ -242,7 +242,7 @@
                         class="bar-item button">Leaderboard</a>
                     <a
                         href="#shop_box"
-                        class="bar-item button">{{points}}#</a>
+                        class="bar-item button">{{points_wallet}}#</a>
                     <a
                         href="#report_box"
                         class="bar-item button">Report</a>
@@ -1090,7 +1090,7 @@
                     {% if scores %}
                     <ol>
                         {% for item in scores %}
-                        <li>{{ item.username }} {{ item.score }} {{ item.streak }}</li>
+                        <li>{{ item.username }} {{ item.points_this_week }} {{ item.streak }}</li>
                         {% endfor %}
                     </ol>
                     {% else %}
@@ -1104,8 +1104,7 @@
                 class="contentbox justify "
                 id="shop_box">
                 <h2>Shop</h2>
-                {% if item_list %}
-                <label>You have {{ points }} credits</label>
+                {% if shop_list %}
                 <h2>Items in the shop:</h2>
                 <table class "item-table">
                     <tr>
@@ -1113,7 +1112,7 @@
                         <th>Description</th>
                         <th>Price (WEBBS)</th>
                     </tr>
-                    {% for item in item_list %}
+                    {% for item in shop_list %}
                     <tr>
                         <td>
                             <button class= "alt_text" name="shopbutton" onClick="buyTheme( '{{ item.name }}', '{{item.price}}' )">
@@ -1128,14 +1127,14 @@
                 <script>
                     // This is unfortunately the most reliable way to do this
                     function buyTheme(purchase, price){
-                        if (price < {{ points }} ){
-                            price = -price;
+                        if (price < {{ points_wallet }} ){
+                            points_cost = -price;
                             var csrftoken = getCookie('csrftoken');
                             var request = new XMLHttpRequest();
                             request.open("POST", "/index", true);
                             request.setRequestHeader("Content-Type", "application/json");
                             request.setRequestHeader("X-CSRFToken", csrftoken);
-                            request.send(JSON.stringify({bought : purchase, points : price}));
+                            request.send(JSON.stringify({bought : purchase, points : points_cost}));
                             location.reload();
                         }
                     }
