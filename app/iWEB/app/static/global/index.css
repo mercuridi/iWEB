@@ -1,10 +1,4 @@
-body,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+body,h1,h2,h3,h4,h5,h6 {
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -66,6 +60,7 @@ width: 100%;
   margin-left: 120px;
 }
 
+/* This controls the look of each section of the page so that they aare uniform and have a consitent style */
 .contentbox{
   padding: 5%;
   margin: 5%;
@@ -103,7 +98,7 @@ width: 100%;
 .row-padding img {
   margin-bottom: 12px;
 }
-
+/* Controls the styling of the box that holds the map */
 .map {
     position: relative;
     width: 1096px;
@@ -113,6 +108,8 @@ width: 100%;
     margin: 0 auto;
     background-repeat: no-repeat;
 }
+
+/* Controls the size of the dot that signifies the user */
 .user {
     position: absolute;
     width: 40px;
@@ -121,6 +118,8 @@ width: 100%;
     transform: translate(-50%, -50%);
     z-index: 1;
 }
+
+/* Each of these controls a part of the map layout but they are names intuitively so don't need indiviual comments */
 .bottle {
     position: absolute;
     width: 160px;
@@ -316,13 +315,6 @@ input[type='submit'] {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-}
-
-.container-main{
-  padding: 10%;
-  width: 100%;
-  margin-bottom:2%;
-  margin-left: 50%;
 }
 
 .contact-list{

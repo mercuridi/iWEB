@@ -1151,6 +1151,7 @@
                         {% endfor %}
                     </ul>
                     <script>
+                        // This is unfortunately the most reliable way to do this
                         function setTheme(newTheme){
                             var csrftoken = getCookie('csrftoken');
                             var request = new XMLHttpRequest();
