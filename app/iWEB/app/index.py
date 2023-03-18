@@ -60,10 +60,12 @@ def main(request):
             submitted = True
 
     # context setup
+    # get location data from database
     fountain_locations  = Location.objects.filter(type='Fountain')
     bus_stop_locations  = Location.objects.filter(type='BusStop')
     bin_locations       = Location.objects.filter(type='Bin')
 
+    # list initialisation
     fountain_coordinates = []
     bus_stop_coordinates = []
     bin_coordinates      = []
