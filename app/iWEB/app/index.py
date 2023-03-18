@@ -11,18 +11,16 @@ def main(request):
 
     # load user info from request
     current_user = request.user
-    current_user_data = current_user.profile
+    current_user_data = UserProfile.objects.get(user = current_user)
     
     #add location
     submitted = False
     if request.method == "POST":
-        # handle points increases
         data = json.loads(request.body)
         points = data.get("points")
         current_user_data.score += points
         current_user_data.save()
 
-        # handle location form submissions
         form = LocationForm(request.POST)
         if form.is_valid():
             form.save()
@@ -95,21 +93,18 @@ def get_locations():
     bin_coordinates = []
     
     for fountain in fountain_locations:
-        fountain_coordinates.append ([fountain.latitude, fountain.longitude, fountain.building, fountain.information])
+        fountain_coordinates.append([fountain.latitude, fountain.longitude, fountain.building, fountain.information])
     for bus_stop in bus_stop_locations:
-        bus_stop_coordinates.append ([bus_stop.latitude, bus_stop.longitude, bus_stop.building, bus_stop.information])
+        bus_stop_coordinates.append([bus_stop.latitude, bus_stop.longitude, bus_stop.building, bus_stop.information])
     for bin in bin_locations:
-        bin_coordinates.append      ([     bin.latitude,      bin.longitude,      bin.building,      bin.information])
+        bin_coordinates.append([bin.latitude, bin.longitude, bin.building, bin.information])
     
-    all_locations = {"Fountains" : fountain_coordinates,
-                     "Bus stops" : bus_stop_coordinates,
-                     "Bins" : bin_coordinates}
-    return all_locations
+    map = read_map()
 
-def get_leaderboard(length=5):
-    length = abs(length)    # just in case somehow we are asked for a negative number
+def get_leaderboard():
     leaderboard_list = UserProfile.objects.values().order_by("-score")
-    leaderboard_list = leaderboard_list[:length]
+    leaderboard_list = leaderboard_list[:5]
     for profile in leaderboard_list:
         profile["username"] = User.objects.get(pk=profile["user_id"]).username
     return leaderboard_list
+
