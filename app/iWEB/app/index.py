@@ -28,6 +28,7 @@ def main(request):
             current_user_data.score += points
             current_user_data.save()
         
+        #checks if a theme has been bought
         purchase = data.get("bought")
         if purchase != None:
             current_user_data.owned_templates += purchase
