@@ -11,11 +11,12 @@ def main(request):
 
     # load user info from request
     current_user = request.user
-    current_user_data = UserProfile.objects.get(user = current_user)
+    current_user_data = current_user.profile
     
     #add location
     submitted = False
     if request.method == "POST":
+        # handle points increases
         data = json.loads(request.body)
         points = data.get("points")
         current_user_data.score += points
@@ -42,26 +43,46 @@ def main(request):
     
     # TODO need to write the function for loc_list to have them actually be closest.
     loc_list = Location.objects.values()
-    item_list = Item.objects.values().order_by("price")
+    
+    #remove owned items from shop
+    all_items = Item.objects.all()
+    unowned_themes = []
+    for item in all_items:
+        if item.name not in current_user_data.owned_templates:
+            unowned_themes.append(item)
+
+
+    themes = {
+        'default':  {'main':'#3776ac', 'second':'#7a12dd', 'icons':'#3776ac', 'background':'#ffffff','font':'#ffffff'},
+        'first':    {'main':'#ffcccc', 'second':'#993366', 'icons':'#ff9999', 'background':'#ffdddd','font':'#aa0000'},
+        'second':   {'main':'#ffcc66', 'second':'#ff6600', 'icons':'#ff9900', 'background':'#ffdd88','font':'#ffffff'},
+        'third':    {'main':'#99ccff', 'second':'#6699cc', 'icons':'#6656ff', 'background':'#aaddff','font':'#444488'},
+        'fourth':   {'main':'#ccff99', 'second':'#66cc99', 'icons':'#66cc99', 'background':'#ddffbb','font':'#054405'},
+        'fifth':    {'main':'#ffcc99', 'second':'#cc6800', 'icons':'#cc6800', 'background':'#ffddbb','font':'#a20100'},
+    }
+
+    total_themes = ['default','first','second','third','fourth','fifth']
+    owned_themes = current_user_data.owned_templates
+    for i in range(len(themes)):
+        if total_themes[i] not in owned_themes:
+            themes.pop(total_themes[i])
     
     context = {
-    'fountain_locations': all_locations["Fountains"],
-    'bus_stop_locations': all_locations["Bus stops"],
-    'bin_locations': all_locations["Bins"],
+    'fountain_locations': fountain_coordinates,
+    'bus_stop_locations': bus_stop_coordinates,
+    'bin_locations': bin_coordinates,
     'maze': map,
-    'theme_colour': [333, 589],
     'points': getattr(current_user_data, "score"),
-    'item_list': item_list,
-    'scores': leaderboard,
+    'item_list': unowned_themes,
+    'scores': leaderboard_list,
     'closest_things': loc_list,
     'location_form': LocationForm,
     'submitted': submitted,
-    'streak': getattr(current_user_data, "streak"),
-    'theme_colours': {'main':'#000000',
-                      'second':'#7t12dd',
-                      'icons':'#000000',
-                      'background':'#000000'}
-    } 
+    'streak':current_user_data.streak, #get streak of current user
+    'themes': themes,
+    'colour': themes[current_user_data.current_template],
+    }
+
     return render(request, 'index.html', context)
 
 def get_locations():
