@@ -66,7 +66,7 @@
             }
 
             .sidebar {
-            background: {{colour.icons}};
+            background: {{colour.icons}}; /* colour of fonts and icons */
             }
 
             #main {
@@ -156,6 +156,10 @@
             background-color: {{colour.main}};
             }
 
+            .bar{
+            background-color: {{colour.main}};
+            }
+
             .alt_text{
                 color: black;
             }
@@ -225,7 +229,7 @@
         <div
             class="top hide-large hide-medium"
             id="myNavbar">
-            <div class="bar black center small">
+            <div class="bar center small">
                 <a
                     href="#"
                     class="bar-item button">Menu</a>
@@ -1120,7 +1124,7 @@
                 </table>
                 <script>
                     // This is unfortunately the most reliable way to do this
-                    function setTheme(purchase, price){
+                    function buyTheme(purchase, price){
                         if (price < {{ points }}){
                             var csrftoken = getCookie('csrftoken');
                             var request = new XMLHttpRequest();
