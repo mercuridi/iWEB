@@ -1108,12 +1108,30 @@
                     </tr>
                     {% for item in item_list %}
                     <tr>
-                        <td>{{ item.name }}</td>
+                        <td>
+                            <button class= "alt_text" name="shopbutton" onClick="buyTheme( '{{ item.name }}', '{{item.price}}' )">
+                                {{ item.name }}
+                            </button>
+                        </td>
                         <td>{{ item.description }}</td>
                         <td>{{ item.price }}</td>
                     </tr>
                     {% endfor %}
                 </table>
+                <script>
+                    // This is unfortunately the most reliable way to do this
+                    function setTheme(purchase, price){
+                        if (price < {{ points }}){
+                            var csrftoken = getCookie('csrftoken');
+                            var request = new XMLHttpRequest();
+                            request.open("POST", "/index", true);
+                            request.setRequestHeader("Content-Type", "application/json");
+                            request.setRequestHeader("X-CSRFToken", csrftoken);
+                            request.send(JSON.stringify({bought : purchase}, {points : price}));
+                            location.reload();
+                        }
+                    }
+                </script>
             </div>
             <!-- End Points/Shop Section-->
             <!-- Report Section -->
@@ -1227,7 +1245,5 @@
             <!-- Streaks end -->
         </div>
         <!-- END PAGE CONTENT -->
-
-        <script src="index.css"></script>
     </body>
 </html>
