@@ -60,44 +60,15 @@ def main(request):
             submitted = True
 
     # context setup
-    # get location data from database
-    fountain_locations  = Location.objects.filter(type='Fountain')
-    bus_stop_locations  = Location.objects.filter(type='BusStop')
-    bin_locations       = Location.objects.filter(type='Bin')
-
-    # list initialisation
-    fountain_coordinates = []
-    bus_stop_coordinates = []
-    bin_coordinates      = []
-
-    # get the location data into the format that the front end wants for the map
-    for fountain in fountain_locations:
-        fountain_coordinates.append([fountain.latitude,
-                                     fountain.longitude,
-                                     fountain.building,
-                                     fountain.information])
-    for bus_stop in bus_stop_locations:
-        bus_stop_coordinates.append([bus_stop.latitude,
-                                     bus_stop.longitude,
-                                     bus_stop.building,
-                                     bus_stop.information])
-    for bin_loc in bin_locations:
-        bin_coordinates.append([bin_loc.latitude,
-                                bin_loc.longitude,
-                                bin_loc.building,
-                                bin_loc.information])
-
-    # get the representation of the map
-    maze = read_map()
-
-    # get the leaderboard
-    leaderboard_list = UserProfile.objects.values().order_by("-points_this_week")
-    leaderboard_list = leaderboard_list[:5]
-    for profile in leaderboard_list:
-        profile["username"] = User.objects.get(pk=profile["user_id"]).username
-
-    # get the nearest locations
-    # TODO does not get the nearest locations right now
+    # get location data from database   
+    all_locations = get_locations()
+    fountain_coordinates = all_locations["Fountains"]
+    bus_stop_coordinates = all_locations["Bus stops"]
+    bin_coordinates = all_locations["Bins"]
+    leaderboard_list = get_leaderboard()
+    map = read_map()
+    
+    # TODO need to write the function for loc_list to have them actually be closest.
     loc_list = Location.objects.values()
 
     #remove owned themes from shop
@@ -128,7 +99,7 @@ def main(request):
     'fountain_locations' : fountain_coordinates,
     'bus_stop_locations' : bus_stop_coordinates,
          'bin_locations' : bin_coordinates,
-                  'maze' : maze,
+                  'maze' : map,
     # user-related data
           'display_name' : current_user_data.user,
          'points_wallet' : getattr(current_user_data, "points_wallet"),
@@ -147,3 +118,32 @@ def main(request):
     }
 
     return render(request, 'index.html', context)
+
+def get_locations():
+    fountain_locations = Location.objects.filter(type='Fountain')
+    bus_stop_locations = Location.objects.filter(type='BusStop')
+    bin_locations = Location.objects.filter(type='Bin')
+    
+    fountain_coordinates = []
+    bus_stop_coordinates = []
+    bin_coordinates = []
+    
+    for fountain in fountain_locations:
+        fountain_coordinates.append ([fountain.latitude, fountain.longitude, fountain.building, fountain.information])
+    for bus_stop in bus_stop_locations:
+        bus_stop_coordinates.append ([bus_stop.latitude, bus_stop.longitude, bus_stop.building, bus_stop.information])
+    for bin in bin_locations:
+        bin_coordinates.append      ([     bin.latitude,      bin.longitude,      bin.building,      bin.information])
+    
+    all_locations = {"Fountains" : fountain_coordinates,
+                     "Bus stops" : bus_stop_coordinates,
+                     "Bins" : bin_coordinates}
+    return all_locations
+
+def get_leaderboard(length=5):
+    length = abs(length)    # just in case somehow we are asked for a negative number
+    leaderboard_list = UserProfile.objects.values().order_by("-points_this_week")
+    leaderboard_list = leaderboard_list[:length]
+    for profile in leaderboard_list:
+        profile["username"] = User.objects.get(pk=profile["user_id"]).username
+    return leaderboard_list
