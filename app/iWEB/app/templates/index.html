@@ -178,7 +178,6 @@
                 width: {{streak}};
             }
         </style>
-        <h2>{{ display_name }} wallet: {{ points_wallet }} this week: {{ points_this_ week }} lifetime: {{ points_lifetime }}</h2>
     </head>
     <body>
         <!-- Icon Bar (Sidebar - hidden on small screens) -->
@@ -269,6 +268,8 @@
                 id="home">
                 <h1 class="jumbo">
                     <span class="hide-small">Welcome to </span>iWEB
+                    <h2>Hi, {{ display_name }}. You currently have {{ points_wallet }} credits to spend</h2>
+        <h2>This week you've earned {% if points_this_week %}{{ points_this_week }} {% else %} 0 {% endif %} points this week and over your entire time playing over you have earned {% if points_lifetime %}{{ points_lifetime }} {% else %} 0 {% endif %} credits</h2>
                 </h1>
                 <!-- Closest things parsed into the parameter closest_things-->
                 <div
