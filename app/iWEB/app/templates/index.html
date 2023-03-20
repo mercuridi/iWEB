@@ -1,15 +1,34 @@
 <!-- Jude -->
 <!-- This took way longer than it looks -->
 <!-- PARAMETERS: -->
-<!-- closest_things is a list of the closest objects, each one requires a type (bin, water filling station, etc) and a location (probably in words for this section) -->
-<!-- scores is a list of the top 5 players plus the current user, each one requiring a name and a score sorted in descending order -->
-<!-- submitted is a boolean on if the request to add a location has gone through or not -->
-<!-- location_form is the form containing what data needs to be inputted to the database -->
-<!-- points_wallet is the number of points_wallet (probably an integer) that the user has -->
-<!-- shop_list is the list of every object in the shop -->
+<!-- 
+    MAP RELATED CONTENT
+    fountain_locations : the list of fountain locaiton dictionaries,
+    bus_stop_locations : the list of bus stop location dictionaries
+         bin_locations : the list of bin location dictionaries
+                  maze : a list of strings showing that show the data on the map read form the static png file
+    USER RELATED DATA
+          display_name : a string that is the display name of the current logged in user
+         points_wallet : the amount of points the user has to spend, only this decreases when they buy things
+           points_week : the amount of points the user has earned this week
+       points_lifetime : the amonunt of points the user has earned playing th game total
+                streak : current_user_data.streak,
+    SITE UTILITIES
+             shop_list : the list of themes that are availiable for the user to buy, the ones they own already are not displayed
+                scores : the current list of scores for the leaderboard
+        closest_things : a list of the closest items for easy access on the front page
+         location_form : the form that is filled in to submit a location
+             submitted : a boolean showing whether or not the form is submitted
+    SETTINGS
+                themes : the list of themes the user currently owns so that they may switch between them
+                colour : the current theme equipped by the user
+    -->
 
 <!DOCTYPE html>
 <html>
+    <!-- These load the cookies and static files so that the page can
+        load the data for the current user and load static files such as scripts and images-->
+    <!-- We use whitenoise to handle static files outside of DEBUG and insecure running modes-->
     {% load static %} {% csrf_token %}
     <head>
         <title>iWEB test homepage</title>
@@ -17,14 +36,16 @@
         <meta
             name="viewport"
             content="width=device-width, initial-scale=1" />
+        <!-- This style sheet controls the shape and size of things on the website-->
         <link
             rel="stylesheet"
             type="text/css"
             href="{% static 'global/index.css' %}"/>
+        <!-- This is a library of objects called to help the fucntionality of the site-->
         <link
             rel="stylesheet"
             type="text/css"
-            href="{% static 'global/testlib.css' %}" />
+            href="{% static 'global/lib.css' %}" />
         <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Montserrat" />
@@ -182,44 +203,39 @@
     <body>
         <!-- Icon Bar (Sidebar - hidden on small screens) -->
         <nav class="sidebar bar-block small hide-small center">
-            <a
-                href="#"
+            <!-- Each icon has a href which specifies the part of the page they link to,
+                a reference to the lib.css library which specifies their behaviour and a label-->
+            <a href="#"
                 class="bar-icon button padding-large">
                 <i class="fa fa-home xxlarge"></i>
                 <p>Menu</p>
             </a>
-            <a
-                href="#map_box"
+            <a href="#map_box"
                 class="bar-icon button padding-large">
                 <i class="fa fa-user xxlarge"></i>
                 <p>Map</p>
             </a>
-            <a
-                href="#leaderboard_box"
+            <a href="#leaderboard_box"
                 class="bar-icon button padding-large">
                 <i class="fa fa-user xxlarge"></i>
                 <p>Leaderboard</p>
             </a>
-            <a
-                href="#shop_box"
+            <a href="#shop_box"
                 class="bar-icon button padding-large">
                 <i class="fa fa-user xxlarge"></i>
                 <p>You have {{ points_wallet }} credits</p>
             </a>
-            <a
-                href="#report_box"
+            <a href="#report_box"
                 class="bar-icon button padding-large">
                 <i class="fa fa-user xxlarge"></i>
                 <p>Report</p>
             </a>
-            <a
-                href="#settings_box"
+            <a href="#settings_box"
                 class="bar-icon button padding-large">
                 <i class="fa fa-user xxlarge"></i>
                 <p>Settings</p>
             </a>
-            <a
-                href="#contactus_box"
+            <a href="#contactus_box"
                 class="bar-icon button padding-large">
                 <i class="fa fa-user xxlarge"></i>
                 <p>Contact us</p>
@@ -230,27 +246,23 @@
             class="top hide-large hide-medium"
             id="myNavbar">
             <div class="bar center small">
-                <a
-                    href="#"
+                <!-- Each menu option has a href which specifies the part of the page they link to 
+                    and a reference to the lib.css library which dicatates their behaviour and a label.
+                    This is only displayed on small screens so the icons are hidden -->
+                <a href="#"
                     class="bar-item button">Menu</a>
                 <div id="myLinks">
-                    <a
-                        href="#map_box"
+                    <a href="#map_box"
                         class="bar-item button">Map</a>
-                    <a
-                        href="#leaderboard_box"
+                    <a href="#leaderboard_box"
                         class="bar-item button">Leaderboard</a>
-                    <a
-                        href="#shop_box"
+                    <a href="#shop_box"
                         class="bar-item button">{{points_wallet}}#</a>
-                    <a
-                        href="#report_box"
+                    <a href="#report_box"
                         class="bar-item button">Report</a>
-                    <a
-                        href="#settings_box"
+                    <a href="#settings_box"
                         class="bar-item button">Settings</a>
-                    <a
-                        href="#contactus_box"
+                    <a href="#contactus_box"
                         class="bar-item button">Contact us</a>
                 </div>
             </div>
@@ -269,13 +281,12 @@
                 <h1 class="jumbo">
                     <span class="hide-small">Welcome to </span>iWEB
                     <h2>Hi, {{ display_name }}. You currently have {{ points_wallet }} credits to spend</h2>
-        <h2>This week you've earned {% if points_this_week %}{{ points_this_week }} {% else %} 0 {% endif %} points this week and over your entire time playing over you have earned {% if points_lifetime %}{{ points_lifetime }} {% else %} 0 {% endif %} credits</h2>
+        <h2>This week you've earned {% if points_week %}{{ points_week }} {% else %} 0 {% endif %} points and over your entire time playing you have earned {% if points_lifetime %}{{ points_lifetime }} {% else %} 0 {% endif %} credits</h2>
                 </h1>
                 <!-- Closest things parsed into the parameter closest_things-->
-                <div
-                    class="centre"
+                <div class="centre"
                     id="closest_things">
-                    <a>Your closest options are:</a>
+                    <a>For quick access try these:</a>
                     {% if closest_things %}
                     <ol>
                         {% for item in closest_things %}
@@ -291,8 +302,7 @@
                 </div>
             </header>
             <!-- Map Section -->
-            <div
-                class="contentbox justify"
+            <div class="contentbox justify"
                 id="map_box">
                 <h2>Map</h2>
                 <button class="water-fountain-button">
@@ -1080,13 +1090,11 @@
             </div>
             <!-- End Map Section-->
             <!-- Leaderboard Section -->
-            <div
-                class="contentbox justify "
+            <div class="contentbox justify "
                 id="leaderboard_box">
                 <h2>Leaderboard</h2>
                 <!-- Leaderboard content-->
-                <div
-                    class="centre"
+                <div class="centre"
                     id="container2">
                     <h2> Top scores this week:</h2>
                     {% if scores %}
@@ -1102,10 +1110,10 @@
             </div>
             <!-- End Leaderboard Section-->
             <!-- Points/Shop Section -->
-            <div
-                class="contentbox justify "
+            <div class="contentbox justify "
                 id="shop_box">
                 <h2>Shop</h2>
+                <h3>You have {% if points_wallet %}{{ points_wallet }} {% else %} 0 {% endif %} credits to spend:</h3>
                 {% if shop_list %}
                 <h2>Items in the shop:</h2>
                 <table class "item-table">
@@ -1147,8 +1155,7 @@
             </div>
             <!-- End Points/Shop Section-->
             <!-- Report Section -->
-            <div
-                class="contentbox justify"
+            <div class="contentbox justify"
                 id="report_box">
                 <h2>Report</h2>
                 {% if submitted %}
@@ -1168,8 +1175,7 @@
             </div>
             <!-- End Report Section-->
             <!-- Settings Section -->
-            <div
-                class="contentbox justify"
+            <div class="contentbox justify"
                 id="settings_box">
                 <h2>Settings</h2>
                     <ul>
@@ -1194,8 +1200,7 @@
             </div>
             <!-- End Settings Section-->
             <!-- Contact Section -->
-            <div
-                class="contentbox justify"
+            <div class="contentbox justify"
                 id="contactus_box">
                 <h2>Contact Me</h2>
                 <div class="container">
