@@ -65,7 +65,7 @@ class test_models(TestCase):
 
         self.assertEqual(profile_1.user, user_1)
         self.assertEqual(profile_1.streak, 1)
-        self.assertEqual(profile_1.score, 100)
+        self.assertEqual(profile_1.points_this_week, 0)
         self.assertEqual(profile_1.current_template, "default")
         self.assertEqual(profile_1.owned_templates, "default")
         self.assertFalse(profile_1.challenge_done)

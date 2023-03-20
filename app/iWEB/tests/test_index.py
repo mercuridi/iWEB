@@ -49,7 +49,7 @@ class test_index(TestCase):
             # check that every profile exists and matches the one we expect it to
             # when we create a leaderboard for all of them
             # can't be a direct "==" comparison as we add the "username" field to leaderboards
-            profiles = UserProfile.objects.values().order_by("-score")
+            profiles = UserProfile.objects.values().order_by("-points_this_week")
             i = 0
             for profile in profiles:
                 self.assertDictContainsSubset(profile, leaderboard_toobig[i])

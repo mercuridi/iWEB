@@ -12,8 +12,8 @@ class Location(models.Model):
     item_type   = [('Fountain', 'Fountain'), ('BusStop', 'BusStop'), ('Bin', 'Bin')]
     type        = models.CharField(max_length = 8, choices = item_type, default='Fountain')
     building    = models.CharField(max_length = 100)
-    longitude   = models.FloatField()
-    latitude    = models.FloatField()
+    longitude   = models.FloatField(default=0)
+    latitude    = models.FloatField(default=0)
     information = models.CharField(max_length = 200)
     usable      = models.BooleanField(default = True)
 
@@ -26,7 +26,7 @@ class Item(models.Model):
     """Class defining the item model."""
     name        = models.CharField(max_length = 50)
     description = models.CharField(max_length = 100)
-    price       = models.IntegerField()
+    price       = models.IntegerField(default = 0)
 
     # Makes the name of the item appear in the admin panel
     def __str__(self):
@@ -58,3 +58,9 @@ class UserProfile(models.Model):
     # Makes the name of the user appear in the admin panel
     def __str__(self):
         return str(self.user)
+
+# taken from https://www.turnkeylinux.org/blog/django-profile
+# really useful snippet, causes profiles to be created when first referenced
+# if they do not exist and allows referencing to profiles
+# directly as user.profile instead of get_profile() or worse
+User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
