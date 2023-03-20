@@ -5,295 +5,462 @@
 <!-- scores is a list of the top 5 players plus the current user, each one requiring a name and a score sorted in descending order -->
 <!-- submitted is a boolean on if the request to add a location has gone through or not -->
 <!-- location_form is the form containing what data needs to be inputted to the database -->
-<!-- points_wallet is the number of points_wallet (probably an integer) that the user has -->
-<!-- shop_list is the list of every object in the shop -->
-
+<!-- points is the number of points (probably an integer) that the user has -->
+<!-- item_list is the list of every object in the shop -->
 <!DOCTYPE html>
 <html>
-    {% load static %} {% csrf_token %}
-    <head>
-        <title>iWEB test homepage</title>
-        <meta charset="UTF-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1" />
+	{% load static %} {% csrf_token %}
+	<head>
+		<title>iWEB test homepage</title>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1" />
+		<!--link
+			rel="stylesheet"
+			type="text/css"
+			href="index.css" -->
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="contactus.css" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="leaderboard.css" />
         <link
-            rel="stylesheet"
-            type="text/css"
-            href="{% static 'global/index.css' %}"/>
-        <link
-            rel="stylesheet"
-            type="text/css"
-            href="{% static 'global/testlib.css' %}" />
-        <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Montserrat" />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-            />
-
-        <meta
-            http-equiv="Cache-Control"
-            content="no-cache, no-store, must-revalidate" />
-
-        <!-- Only objects that require data from the database should be in here -->
-        <style>
+			rel="stylesheet"
+			type="text/css"
+			href="{% static 'global/testlib.css' %}" />
+		
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css?family=Montserrat" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+		<style>
             html * {
-            color: {{colour.font}}; /* THIS IS THE MAIN FONT COLOUR */
+                color: { theme_colour:icons };
             }
+			body {
+				background-color: { theme_colour:background };
+			}
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				font-family: 'Montserrat', sans-serif;
+			}
+			.row-padding img {
+				margin-bottom: 12px;
+			}
+			/* Set the width of the sidebar to 120px */
+			.sidebar {
+				width: 120px;
+				background: #3776ac;
+			}
+			/* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
+			#main {
+				margin-left: 120px;
+				background-color: { theme_colour:main }; /*main page colour*/ 
+			}
+			/* Remove margins from "page content" on small screens */
+			@media only screen and (max-width: 600px) {
+				#main {
+					margin-left: 0;
+				}
+			}
+		</style>
 
-            /* The navigation menu links */
-            .sidenav a {
-            color: #818181;
-            }
-
-            /* When you mouse over the navigation links, change their color */
-            .sidenav a:hover {
-            color: #004d99;
-            }
-
-            .icon-bar {
-            background-color: #555; /* Dark-grey background */
-            }
-
-            .icon-bar a:hover {
-            background-color: red; /* Add a hover color - doesn't work */
-            }
-
-            .active {
-            background-color: #4933b5; /* Add an active/current color */
-            }
-
-            .sidebar {
-            background: {{colour.icons}}; /* colour of fonts and icons */
-            }
-
-            #main {
-            background-color: {{colour.background}}; /*main page colour*/
-            }
-
-            .row {
-                border-bottom: 1px solid #AFAFAF;
-            }
-            .row:nth-child(1) {
-                background: gold;
-            }
-            
-            .row:nth-child(2) {
-                background: #c0c0c0;
-            }
-            
-            .row:nth-child(3) {
-                background: #cd7f32;
+		<!-- Map set up-->
+		<!-- TO BE READ AND UNDERSTOOD -> most of this should be moved to a .css file -->
+		<meta
+			http-equiv="Cache-Control"
+			content="no-cache, no-store, must-revalidate" />
+		<style>
+            .map {
+                position: relative;
+                width: 1096px;
+                height: 1266px;
+                background-image: url('{% static 'global/images/map.jpg' %}');
+                background-size: 1096px 1266px;
+                margin: 0 auto;
             }
             .user {
+                position: absolute;
+                width: 40px;
+                height: 40px;
                 background-color: red;
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 1;
             }
-
+            .bottle {
+                position: absolute;
+                width: 160px;
+                height: 160px;
+                background-image: url('{% static 'global/images/bottle.png' %}');
+                background-size: cover;
+                transform: translate(-50%, -50%);
+                z-index: 1;
+            }
+            .bus_stop {
+                position: absolute;
+                width: 160px;
+                height: 160px;
+                background-image: url('{% static 'global/images/bus-stop.png' %}');
+                background-size: cover;
+                transform: translate(-50%, -50%);
+                z-index: 1;
+            }
+            .bin {
+                position: absolute;
+                width: 160px;
+                height: 160px;
+                background-image: url('{% static 'global/images/recycling.png' %}');
+                background-size: cover;
+                transform: translate(-50%, -50%);
+                z-index: 1;
+            }
+            .garbage {
+                position: absolute;
+                width: 200px;
+                height: 200px;
+                background-image: url('{% static 'global/images/trash.png' %}');
+                background-size: 200px 200px;
+                transform: translate(-50%, -50%);
+                z-index: 1;
+            }
+    
+            .maze-row {
+                display: flex;
+                flex-direction: row;
+                margin: 0;
+                padding: 0;
+            }
+            .maze-square {
+                width: 18px;
+                height: 18px;
+                margin: 0;
+                padding: 0;
+            }
             .water-fountain-button {
+                display: absolute;
+                align-items: center;
                 background-color: blue;
+                border: none;
                 color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                font-size: 30px;
+                cursor: pointer;
+                border-radius: 5px;
             }
-
+            .water-fountain-button img {
+                height: 50px;
+                margin-right: 10px;
+            }
             .bus-stop-button {
+                display: absolute;
+                align-items: center;
                 background-color: red;
+                border: none;
                 color: white;
-            }
-
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                font-size: 30px;
+                cursor: pointer;
+                border-radius: 5px;
+              }
+              
+            .bus-stop-button img {
+                height: 50px;
+                margin-right: 10px;
+              }
             .bin-button {
+                display: absolute;
+                align-items: center;
                 background-color: green;
+                border: none;
                 color: white;
-            }
-
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                font-size: 30px;
+                cursor: pointer;
+                border-radius: 5px;
+              }
+            .bin-button img {
+                height: 50px;
+                margin-right: 10px;
+              }
             .track-button {
+                display: absolute;
+                align-items: center;
                 background-color: white;
+                border: none;
                 color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                font-size: 30px;
+                cursor: pointer;
+                border-radius: 5px;
+                tracking: false;
+              }
+            .track-button img {
+                height: 50px;
+                margin-right: 10px;
             }
-
             .pathDiv {
+                position: absolute;
+                width: 30px;
+                height: 30px;
                 background-color: rgba(0, 163, 255, 0.5);
-            }
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 1;	
+              }
             .box{
+                display: inline-block;
                 color: white;
                 text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+                font-family: "Times New Roman", Times, serif;
+                position: absolute;
+                text-align: center;
+                text-decoration: none;
+                font-size: 60px;
+                width: 310px;
+                height: 150px;
                 background-color: rgba(0, 163, 255, 0.5);
+                transform: translate(-50%, -50%);
+                z-index: 1;
+                padding: 5px;
             }
-
+    
             .message{
+                position: absolute;
+                left:150px;
+                top: 600px;
                 background-color: rgba(0, 163, 255, 1);
+                transform: translate(-50%, -50%);
+                z-index: 1;
+                padding: 5px;
                 
             }
-
+    
             .minigame-button{
+                display: relative;
+                align-items: center;
                 background-color: grey;
+                border: none;
                 color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                font-size: 30px;
+                cursor: pointer;
+                border-radius: 5px;
+                tracking: false;
             }
             .game{
+                position: absolute;
+                left:150px;
+                top: 500px;
+                width: 310px;
                 background-color: rgba(0, 163, 255, 1);
+                transform: translate(-50%, -50%);
+                z-index: 1;
+                padding: 5px;
             }
             .start-button{
-            background-color: grey;
-            color: white;
+                display: relative;
+                align-items: center;
+                background-color: grey;
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                font-size: 30px;
+                cursor: pointer;
+                border-radius: 5px;
+                tracking: false;
             }
 
-            textarea {
-            border: 1px solid #ccc;
-            }
-
-            /* Style the submit button with a specific background color etc */
-            input[type='submit'] {
-            background-color: #049ada;
-            color: white;
-            }
-
-            /* When moving the mouse over the submit button, add a darker green color */
-            input[type='submit']:hover {
-            background-color: #049ada;
-            }
-
-            .contentbox{
-            background-color: {{colour.main}};
-            }
-
-            .bar{
-            background-color: {{colour.main}};
-            }
-
-            .alt_text{
-                color: black;
-            }
-            .subject{
-                color: black;
-            }
             .streaks {
-            background-color: #000000;
+                width: auto;
+                height: auto;
+                position: sticky;
+                bottom: 10px;
+                right: 10px;
+                float: right;
+                background-color: #000000;
             }
 
             .streaks_small{
-            background-color: #46ff46;
-            }
-
-            .streaks_small{
+                position: sticky;
+                bottom: 0%;
+                float: left;
+                height: 40px;
+                background-color: #46ff46;
                 width: {{streak}};
             }
-        </style>
-    </head>
-    <body>
-        <!-- Icon Bar (Sidebar - hidden on small screens) -->
-        <nav class="sidebar bar-block small hide-small center">
+		</style>
+	</head>
+	<body>
+		<!-- Icon Bar (Sidebar - hidden on small screens) -->
+		<nav class="sidebar bar-block small hide-small center">
+			<a
+				href="#"
+				class="bar-item button padding-large">
+				<i class="fa fa-home xxlarge"></i>
+				<p>Menu</p>
+			</a>
+			<a
+				href="#map_box"
+				class="bar-item button padding-large">
+				<i class="fa fa-user xxlarge"></i>
+				<p>Map</p>
+			</a>
+			<a
+				href="#leaderboard_box"
+				class="bar-item button padding-large">
+				<i class="fa fa-user xxlarge"></i>
+				<p>Leaderboard</p>
+			</a>
+			<a
+				href="#friends_box"
+				class="bar-item button padding-large">
+				<i class="fa fa-user xxlarge"></i>
+				<p>Friends</p>
+			</a>
             <a
-                href="#"
-                class="bar-icon button padding-large">
-                <i class="fa fa-home xxlarge"></i>
-                <p>Menu</p>
-            </a>
+				href="#shop_box"
+				class="bar-item button padding-large">
+				<i class="fa fa-user xxlarge"></i>
+				<p>You have {{ points }} credits</p>
+			</a>
             <a
-                href="#map_box"
-                class="bar-icon button padding-large">
-                <i class="fa fa-user xxlarge"></i>
-                <p>Map</p>
-            </a>
-            <a
-                href="#leaderboard_box"
-                class="bar-icon button padding-large">
-                <i class="fa fa-user xxlarge"></i>
-                <p>Leaderboard</p>
-            </a>
-            <a
-                href="#shop_box"
-                class="bar-icon button padding-large">
-                <i class="fa fa-user xxlarge"></i>
-                <p>You have {{ points_wallet }} credits</p>
-            </a>
-            <a
-                href="#report_box"
-                class="bar-icon button padding-large">
-                <i class="fa fa-user xxlarge"></i>
-                <p>Report</p>
-            </a>
-            <a
-                href="#settings_box"
-                class="bar-icon button padding-large">
-                <i class="fa fa-user xxlarge"></i>
-                <p>Settings</p>
-            </a>
-            <a
-                href="#contactus_box"
-                class="bar-icon button padding-large">
-                <i class="fa fa-user xxlarge"></i>
-                <p>Contact us</p>
-            </a>
-        </nav>
-        <!-- Navbar on small screens (Hidden on medium and large screens) -->
-        <div
-            class="top hide-large hide-medium"
-            id="myNavbar">
-            <div class="bar center small">
-                <a
-                    href="#"
-                    class="bar-item button">Menu</a>
-                <div id="myLinks">
+				href="#report_box"
+				class="bar-item button padding-large">
+				<i class="fa fa-user xxlarge"></i>
+				<p>Report</p>
+			</a>
+			<a
+				href="#settings_box"
+				class="bar-item button padding-large">
+				<i class="fa fa-user xxlarge"></i>
+				<p>Settings</p>
+			</a>
+			<a
+				href="#contactus_box"
+				class="bar-item button padding-large">
+				<i class="fa fa-user xxlarge"></i>
+				<p>Contact us</p>
+			</a>
+		</nav>
+		<!-- Navbar on small screens (Hidden on medium and large screens) -->
+		<div
+			class="top hide-large hide-medium"
+			id="myNavbar">
+			<div class="bar black center small">
+				<a
+					href="#"
+					class="bar-item button"
+					style="width: 25% !important"
+					>Menu</a
+				>
+				<div id="myLinks">
+					<a
+						href="#map_box"
+						class="bar-item button"
+						style="width: 25% !important"
+						>Map</a
+					>
+					<a
+						href="#leaderboard_box"
+						class="bar-item button"
+						style="width: 25% !important"
+						>Leaderboard</a
+					>
+					<a
+						href="#friends_box"
+						class="bar-item button"
+						style="width: 25% !important"
+						>Friends</a
+					>
                     <a
-                        href="#map_box"
-                        class="bar-item button">Map</a>
+						href="#shop_box"
+						class="bar-item button"
+						style="width: 25% !important"
+						>{{points}}#</a
+					>
                     <a
-                        href="#leaderboard_box"
-                        class="bar-item button">Leaderboard</a>
-                    <a
-                        href="#shop_box"
-                        class="bar-item button">{{points_wallet}}#</a>
-                    <a
-                        href="#report_box"
-                        class="bar-item button">Report</a>
-                    <a
-                        href="#settings_box"
-                        class="bar-item button">Settings</a>
-                    <a
-                        href="#contactus_box"
-                        class="bar-item button">Contact us</a>
-                </div>
-            </div>
-        </div>
+						href="#report_box"
+						class="bar-item button"
+						style="width: 25% !important"
+						>Report</a
+					>
+					<a
+						href="#settings_box"
+						class="bar-item button"
+						style="width: 25% !important"
+						>Settings</a
+					>
+					<a
+						href="#contactus_box"
+						class="bar-item button"
+						style="width: 25% !important"
+						>Contact us</a
+					>
+				</div>
+			</div>
+		</div>
 
+        
 
-
-        <!-- Page Content -->
-        <div
-            class="main-content padding-large"
-            id="main">
-            <!-- Header/Home -->
-            <header
-                class="contentbox container padding-32 center"
-                id="home">
-                <h1 class="jumbo">
-                    <span class="hide-small">Welcome to </span>iWEB
-                    <h2>Hi, {{ display_name }}. You currently have {{ points_wallet }} credits to spend</h2>
-        <h2>This week you've earned {% if points_this_week %}{{ points_this_week }} {% else %} 0 {% endif %} points this week and over your entire time playing over you have earned {% if points_lifetime %}{{ points_lifetime }} {% else %} 0 {% endif %} credits</h2>
-                </h1>
-                <!-- Closest things parsed into the parameter closest_things-->
-                <div
-                    class="centre"
-                    id="closest_things">
-                    <a>Your closest options are:</a>
-                    {% if closest_things %}
-                    <ol>
-                        {% for item in closest_things %}
-                        <li>
-                            {{item.type}}: {{item.building}},
-                            {{item.information}}
-                        </li>
-                        {% endfor %}
-                    </ol>
-                    {% else %}
-                    <p>No data found</p>
-                    {% endif %}
-                </div>
-            </header>
-            <!-- Map Section -->
-            <div
-                class="contentbox justify"
-                id="map_box">
+		<!-- Page Content -->
+		<div
+			class="padding-large"
+			id="main">
+			<!-- Header/Home -->
+			<header
+				class="container padding-32 center"
+				id="home"                
+                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
+				<h1 class="jumbo">
+					<span class="hide-small">Welcome to </span>iWEB
+				</h1>
+				<!-- Closest things parsed into the parameter closest_things-->
+				<div
+					class="centre"
+					id="closest_things">
+					<a>Your closest options are:</a>
+					{% if closest_things %}
+					<ol>
+						{% for item in closest_things %}
+						<li>
+							{{item.type}}: {{item.building}},
+							{{item.information}}
+						</li>
+						{% endfor %}
+					</ol>
+					{% else %}
+					<p>No data found</p>
+					{% endif %}
+				</div>
+			</header>
+			<!-- Map Section -->
+			<div
+				class="content justify padding-64"
+				id="map_box"
+                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
                 <h2>Map</h2>
                 <button class="water-fountain-button">
                     <img
@@ -320,21 +487,18 @@
                     Tracking On
                 </button>
                 <div class="map">
-                    <div class="user">
-                        <script>
+                        <div class="user">
+                            <script src="/index.js"></script>
+                            <script>
                                 var user = document.querySelector(".user");
                                 var map = document.querySelector(".map");
-                                var mapWidth = map.offsetWidth;
-                                var mapHeight = map.offsetHeight;
-
-                                width_ratio = mapWidth / 1096;
-                                height_ratio = mapHeight / 1266;
-                                console.log(mapHeight);
+                                var mapWidth = 1096;
+                                var mapHeight = 1266;
                                 createMaze({{maze|safe}});
                         
                                 // Converts from longitude and latitude to x and y coordinates
                                 // The maths behind this function is explained in the documentation
-                                function getCoordinates(lat, lng, map_width = mapWidth, map_height = mapHeight){
+                                function getCoordinates(lat, lng){
                                     // The coordinates of the top left and bottom right corners of the map
                                     var topLeft = {
                                         lat: 50.7390069,
@@ -361,51 +525,12 @@
                                     // relative to the top left and bottom right corners of the map
                                     pos_perX = (posX - topLeftX )/(bottomRightX - topLeftX );
                                     pos_perY = (posY - topLeftY )/(bottomRighty  - topLeftY );
-                                    
-                                    return {
-                                        x: 0 + (map_width - 0)*pos_perX+ "px",
-                                        y: 0 + (map_height - 0)*pos_perY+ "px"
-                                    }
-                                    
-                                }
-
-                                // Converts from x and y coordinates to longitude and latitude
-                                function getLatLong(x, y, map_width = mapWidth, map_height = mapHeight){
-                                    // The coordinates of the top left and bottom right corners of the map
-                                    var topLeft = {
-                                        lat: 50.7390069,
-                                        lng: -3.5379331
-                                    }			
-                                    var bottomRight = {
-                                        lat: 50.7322172,
-                                        lng: -3.52897
-                                    }
-                                    // Radius of the earth in km
-                                    const radius = 6371; 
-                        
-                                    // Calculates the coordinates for the top left and bottom right corners of the map
-                                    topLeftX = radius*topLeft.lng*Math.cos((topLeft.lat + bottomRight.lat)/2);
-                                    topLeftY = radius*topLeft.lat;
-                                    bottomRightX = radius*bottomRight.lng*Math.cos((topLeft.lat + bottomRight.lat)/2);
-                                    bottomRighty = radius*bottomRight.lat;
-                        
-                                    // Calculates the percentage of the input x and y coordinates 
-                                    // relative to the top left and bottom right corners of the map
-                                    pos_perX = (x - 0 )/(map_width - 0);
-                                    pos_perY = (y - 0 )/(map_height - 0);
-                                    
-                                    // Calculates the coordinates for the input x and y coordinates
-                                    posX = topLeftX + (bottomRightX - topLeftX)*pos_perX;
-                                    posY = topLeftY + (bottomRighty - topLeftY)*pos_perY;
-                        
-                                    // Calculates the latitude and longitude for the input x and y coordinates
-                                    lat = posY/radius;
-                                    lng = posX/(radius*Math.cos((topLeft.lat + bottomRight.lat)/2));
                         
                                     return {
-                                        lat: lat,
-                                        lng: lng
+                                        x: 0 + (mapWidth - 0)*pos_perX+ "px",
+                                        y: 0 + (mapHeight - 0)*pos_perY+ "px"
                                     }
+                                    
                                 }
                         
                                 // Get the user's location and sets the user's character to that location
@@ -414,8 +539,6 @@
                                         var latitude  = position.coords.latitude;
                                         var longitude = position.coords.longitude;
                                         var user = document.querySelector('.user');
-                                        user.longitude = longitude;
-                                        user.latitude = latitude;
                                         y = getCoordinates(latitude, longitude).y;
                                         x = getCoordinates(latitude, longitude).x;
                                         user.style.top = y;
@@ -491,8 +614,6 @@
                                     var x = getCoordinates(({{ fountain_locations|safe }})[i][0], ({{ fountain_locations|safe }})[i][1]).x;
                                     var y = getCoordinates(({{ fountain_locations|safe }})[i][0], ({{ fountain_locations|safe }})[i][1]).y;
                         
-                                    bottle.latitude = ({{ fountain_locations|safe }})[i][0];
-                                    bottle.longitude = ({{ fountain_locations|safe }})[i][1];
                                     // Retrieves extra information about the fountain from the database
                                     bottle.textContent = ({{ fountain_locations|safe }})[i][2] + " " + ({{ fountain_locations|safe }})[i][3];
                                     bottle.style.left = x;
@@ -514,9 +635,6 @@
                                     var x = getCoordinates(({{ bus_stop_locations|safe }})[i][0], ({{ bus_stop_locations|safe }})[i][1]).x;
                                     var y = getCoordinates(({{ bus_stop_locations|safe}})[i][0], ({{ bus_stop_locations|safe }})[i][1]).y;
                         
-                                    bus_stop.latitude = ({{ bus_stop_locations|safe}})[i][0];
-                                    bus_stop.longitude = ({{ bus_stop_locations|safe}})[i][1];
-
                                     // Retrieves extra information about the bus stop from the database
                                     bus_stop.textContent = ({{ bus_stop_locations|safe}})[i][2] + " " + ({{ bus_stop_locations|safe}})[i][3];
                                     bus_stop.style.left = x;
@@ -538,10 +656,7 @@
                                     // Gets the x and y coordinates of the bin
                                     var x = getCoordinates(({{ bin_locations|safe}})[i][0], ({{ bin_locations|safe }})[i][1]).x;
                                     var y = getCoordinates(({{ bin_locations|safe}})[i][0], ({{ bin_locations|safe }})[i][1]).y;
-                                    
-                                    bin.latitude = ({{ bin_locations|safe}})[i][0];
-                                    bin.longitude = ({{ bin_locations|safe}})[i][1];
-                                    
+                        
                                     // Retrieves extra information about the bin from the database
                                     bin.textContent = ({{ bin_locations|safe }})[i][2] + " " + ({{ bin_locations|safe }})[i][3];
                                     bin.style.left = x;
@@ -694,6 +809,7 @@
                         
                                     //The coordinates to the bottle, bus stop or bin are stored in the pathButton
                         
+                                    console.log(object.offsetLeft, object.offsetTop);
                                     message.Xcoordinates = (object.offsetLeft);
                                     message.Ycoordinates = (object.offsetTop);
                                     // Sets the position of the message box
@@ -779,9 +895,6 @@
                                     box.style.left = this.style.left;
                                     box.style.top = this.style.top;
                                     box.innerHTML = this.textContent;
-                                    // Stores the id of the bottle, bus stop or bin in the box
-                                    box.item_id = this.id;
-
                                     // Changes the colour of the box depending on the type of object
                                     if (this.className == "bottle"){
                                         var color = "blue";
@@ -882,38 +995,12 @@
                                 function displayPath (e){
                                     // Retrieves the coordinates of the user and converts them to the pixel equivilant
                                     var user = document.querySelector(".user");
-
-
-                                    user_coordinates = getCoordinates(
-                                        user.latitude,
-                                        user.longitude,
-                                        map_width = 1096,
-                                        map_height = 1266);
-                                    // removes the px from the end of the string
-                                    user_coordinates_x = user_coordinates.x.slice(0, -2);
-                                    user_coordinates_y = user_coordinates.y.slice(0, -2);
-      
-                                    user_x = Math.floor(user_coordinates_x/18);
-                                    user_y = Math.floor(user_coordinates_y/18);
-
-                                    // Retrieves the id of the bottle, bus stop or bin
-                                    item_id = this.parentElement.item_id;
-                                    // Retrieves the item from the id of the bottle, bus stop or bin
-                                    var item = document.getElementById(item_id);
-                                    item_coordinates = getCoordinates(
-                                        item.latitude,
-                                        item.longitude,
-                                        map_width = 1096,
-                                        map_height = 1266);
-
-                                    // removes the px from the end of the string
-                                    item_coordinates_x = item_coordinates.x.slice(0, -2);
-                                    item_coordinates_y = item_coordinates.y.slice(0, -2);
-
-                                    console.log(item_coordinates_x, item_coordinates_y);
+                                    user_x = Math.floor(user.offsetLeft/18);
+                                    user_y = Math.floor(user.offsetTop/18);
+                                    
                                     // Retrieves the coordinates of the bottle, bus stop or bin and converts them to the pixel equivilant
-                                    x = Math.floor(item_coordinates_x/18);
-                                    y = Math.floor(item_coordinates_y/18);
+                                    x = Math.floor(this.Xcoordinates/18);
+                                    y = Math.floor(this.Ycoordinates/18);
                         
                                     // Runs the A* algorithm to find the shortest path
                                     maze = {{ maze|safe }};
@@ -940,8 +1027,8 @@
                                         pathDiv.style.backgroundColor = color;
                                         pathDiv.style.opacity = "0.8";
                                         
-                                        pathDiv.style.left = ('' + width_ratio*path[i][1]*18 + 'px');
-                                        pathDiv.style.top = ('' + height_ratio*path[i][0]*18 + 'px');
+                                        pathDiv.style.left = ('' + path[i][1]*18 + 'px');
+                                        pathDiv.style.top = ('' + path[i][0]*18 + 'px');
                                         map.appendChild(pathDiv);
                         
                                     }
@@ -1075,187 +1162,161 @@
                                     }
                                 }
                             </script>
-                    </div>
+                        </div>
                 </div>
-            </div>
-            <!-- End Map Section-->
-            <!-- Leaderboard Section -->
-            <div
-                class="contentbox justify "
-                id="leaderboard_box">
-                <h2>Leaderboard</h2>
-                <!-- Leaderboard content-->
-                <div
-                    class="centre"
-                    id="container2">
-                    <h2> Top scores this week:</h2>
-                    {% if scores %}
-                    <ol>
-                        {% for item in scores %}
-                        <li>{{ item.username }} {{ item.points_this_week }} {{ item.streak }}</li>
-                        {% endfor %}
-                    </ol>
-                    {% else %}
-                    <p>No data found</p>
-                    {% endif %}
-                </div>
-            </div>
-            <!-- End Leaderboard Section-->
+			</div>
+			<!-- End Map Section-->
+			<!-- Leaderboard Section -->
+			<div
+				class="content justify padding-64"
+				id="leaderboard_box"
+                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
+				<h2>Leaderboard</h2>
+				<!-- Leaderboard content-->
+				<div
+					class="centre"
+					id="container2">
+					{% if scores %}
+					<ol>
+						{% for item in scores %}
+						<li>{{ item.username }} {{ item.score }} {{ item.streak }}</li>
+						{% endfor %}
+					</ol>
+					{% else %}
+					<p>No data found</p>
+					{% endif %}
+				</div>
+			</div>
+			<!-- End Leaderboard Section-->
+			<!-- Friends Section -->
+			<div
+				class="content justify padding-64"
+				id="friends_box"
+                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
+				<h2>Friends</h2>
+				<iframe
+					src="friendlist.html"
+					title="Friends list"></iframe>
+			</div>
+			<!-- End Friends Section-->
             <!-- Points/Shop Section -->
-            <div
-                class="contentbox justify "
-                id="shop_box">
-                <h2>Shop</h2>
-                {% if shop_list %}
-                <h2>Items in the shop:</h2>
-                <table class "item-table">
-                    <tr>
-                        <th>Item Name</th>
-                        <th>Description</th>
-                        <th>Price (WEBBS)</th>
-                    </tr>
-                    {% for item in shop_list %}
-                    <tr>
-                        <td>
-                            <button class= "alt_text" name="shopbutton" onClick="buyTheme( '{{ item.name }}', '{{item.price}}' )">
-                                {{ item.name }}
-                            </button>
-                        </td>
-                        <td>{{ item.description }}</td>
-                        <td>{{ item.price }}</td>
-                    </tr>
-                    {% endfor %}
-                </table>
-                <script>
-                    // This is unfortunately the most reliable way to do this
-                    function buyTheme(purchase, price){
-                        if (price < {{ points_wallet }} ){
-                            points_cost = -price;
-                            var csrftoken = getCookie('csrftoken');
-                            var request = new XMLHttpRequest();
-                            request.open("POST", "/index", true);
-                            request.setRequestHeader("Content-Type", "application/json");
-                            request.setRequestHeader("X-CSRFToken", csrftoken);
-                            request.send(JSON.stringify({bought : purchase, points : points_cost}));
-                            location.reload();
-                        }
-                    }
-                </script>
-                {% else %}
-                <p> The shop is empty right now </p>
-                {% endif %}
-            </div>
-            <!-- End Points/Shop Section-->
-            <!-- Report Section -->
-            <div
-                class="contentbox justify"
-                id="report_box">
-                <h2>Report</h2>
-                {% if submitted %}
-                <h1>Thank you for submitting your location!</h1>
-                {% else %}
-                <h1>Submit a location</h1>
-                <form
-                    class="alt_text"
-                    action=""
-                    method="POST">
-                    {% csrf_token%} {{ location_form.as_p }}
-                    <input
-                        type="submit"
-                        value="Add Location" />
-                </form>
-                {% endif %}
-            </div>
-            <!-- End Report Section-->
-            <!-- Settings Section -->
-            <div
-                class="contentbox justify"
-                id="settings_box">
-                <h2>Settings</h2>
-                    <ul>
-                        {% for item in themes %}
-                        <button class= "alt_text" name="themebutton" onClick="setTheme( '{{ item }}' )">
-                        {{ item }}
-                        </button>
-                        {% endfor %}
-                    </ul>
-                    <script>
-                        // This is unfortunately the most reliable way to do this
-                        function setTheme(newTheme){
-                            var csrftoken = getCookie('csrftoken');
-                            var request = new XMLHttpRequest();
-                            request.open("POST", "/index", true);
-                            request.setRequestHeader("Content-Type", "application/json");
-                            request.setRequestHeader("X-CSRFToken", csrftoken);
-                            request.send(JSON.stringify({newtheme : newTheme}));
-                            location.reload();
-                        }
-                    </script>
-            </div>
-            <!-- End Settings Section-->
-            <!-- Contact Section -->
-            <div
-                class="contentbox justify"
-                id="contactus_box">
-                <h2>Contact Me</h2>
-                <div class="container">
-                    <form
-                        action="https://formsubmit.co/exetertestcontacts@gmail.com"
-                        method="POST">
-                        <ul class="contact-list">
-                            <li>
-                                <label for="fname">First Name</label>
-                                <input
-                                    class="alt_text"
-                                    type="text"
-                                    id="fname"
-                                    name="firstname"
-                                    placeholder="Your name.."
-                                    required />
-                            </li>
-                            <li>
-                                <label for="email">Email</label>
-                                <input
-                                    class="alt_text"
-                                    type="text"
-                                    id="email"
-                                    name="email"
-                                    placeholder="Your email address.."
-                                    required />
-                            </li>
-                            <li>
-                                <label for="subject">Report</label>
-                            </li>
-                            <li>
-                                <textarea
-                                    class="alt_text"
-                                    id="subject"
-                                    class="subject"
-                                    name="subject"
-                                    placeholder="Report a change..."
-                                    required></textarea>
-                            </li>
-                            <li>
-                                <button class = "alt_text" type="submit">Submit</button>
-                            </li>
-                        </ul>
-                    </form>
-                </div>
-            </div>
-            <!-- End Contact Section -->
+			<div
+            class="content justify padding-64"
+            id="shop_box"
+            style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
+            <h2>Shop</h2>
+            <h2>Items in the shop:</h2>
+            <table style="width: 30%">
+                <tr>
+                    <th>Item Name</th>
+                    <th>Description</th>
+                    <th>Price (WEBBS)</th>
+                </tr>
+                {% for item in item_list %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.price }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <!-- End Points/Shop Section-->
+        <!-- Report Section -->
+			<div
+            class="content justify padding-64"
+            id="report_box"
+            style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
+            <h2>Report</h2>
+            {% if submitted %}
+            <h1>Thank you for submitting your location!</h1>
+            {% else %}
+            <h1>Submit a location</h1>
 
+            <form
+                action=""
+                method="POST">
+                {% csrf_token%} {{ location_form.as_p }}
+                <input
+                    type="submit"
+                    value="Add Location" />
+            </form>
+            {% endif %}
+        </div>
+        <!-- End Report Section-->
+			<!-- Settings Section -->
+			<div
+				class="content justify padding-64"
+				id="settings_box"
+                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
+				<h2>Settings</h2>
+			</div>
+			<!-- End Settings Section-->
+			<!-- Contact Section -->
+			<div
+				class="padding-64 content"
+				id="contactus_box"
+                style="padding: 5%; margin-bottom: 1%; background-color: #3776ac;">
+				<h2>Contact Me</h2>
+				<div class="container">
+					<form
+						action="https://formsubmit.co/exetertestcontacts@gmail.com"
+						method="POST">
+						<ul style="list-style-type: none">
+							<li>
+								<label for="fname">First Name</label>
+								<input
+									type="text"
+									id="fname"
+									name="firstname"
+									placeholder="Your name.."
+									required />
+							</li>
+							<li>
+								<label for="email">Email</label>
+								<input
+									type="text"
+									id="email"
+									name="email"
+									placeholder="Your email address.."
+									required />
+							</li>
+							<li>
+								<label for="subject">Report</label>
+							</li>
+							<li>
+								<textarea
+									id="subject"
+									name="subject"
+									placeholder="Report a change..."
+									style="height: 100px"
+									required></textarea>
+							</li>
+							<li>
+								<button type="submit">Submit</button>
+							</li>
+						</ul>
+					</form>
+				</div>
+			</div>
+			<!-- End Contact Section -->
+		
             <!-- Streaks large screen -->
             <div class="streaks hide-small">
                 <h1>{{streak}}</h1>
             </div>
             <!-- Streaks end -->
-
+        
             <!-- Streaks Small screen-->
             <div class="streaks_small hide-medium hide-large">
-                <!-- Not much needs to be here -->
+            
             </div>
             <!-- Streaks end -->
+
         </div>
-        <!-- END PAGE CONTENT -->
-    </body>
+		<!-- END PAGE CONTENT -->
+
+        
+		<script src="index.css"></script>
+	</body>
 </html>
