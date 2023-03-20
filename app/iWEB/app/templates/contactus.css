@@ -20,7 +20,7 @@ input[type='submit'] {
 	border: none;
 	border-radius: 4px;
 	cursor: pointer;
-}
+	}
 
 /* When moving the mouse over the submit button, add a darker green color */
 input[type='submit']:hover {
