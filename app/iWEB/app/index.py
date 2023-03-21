@@ -2,10 +2,11 @@
 Python file representing the view for the main page most everything is contained in.
 """
 import json
+import random
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
-from .models import Location, Item, UserProfile
+from .models import Location, Item, UserProfile, Challenge
 from .forms import LocationForm
 from .utils.mapUtilities import read_map
 
@@ -22,7 +23,21 @@ def main(request):
     submitted = False
     if request.method == "POST":
         data = json.loads(request.body)
-
+        
+        # leaderboard reset button handling
+        if data.get("leaderboard_reset") == 0:
+            if current_user.is_staff:
+                # set all users at once to have 0 points this week and an incomplete challenge
+                UserProfile.objects.all().update(
+                    points_this_week=0,
+                    challenge_done=False,
+                    )
+                # iterate across users to give them each a new random challenge
+                # (new challenge can be the same as the last one)
+                for profile in UserProfile.objects.all():
+                    UserProfile.objects.filter(id=profile.id).update(current_challenge_id=random.randint(1,3))
+                
+            
         # points handling
         points_change = data.get("points")
         if points_change is not None:
@@ -33,7 +48,7 @@ def main(request):
                 current_user_data.points_wallet     += points_change
             else:
                 # if we want to take away points, they should only be taken from the wallet
-                # eg. buying a theme uses this logic
+                # eg. buying a theme uses this logic¬
                 current_user_data.points_wallet     += points_change
 
         #theme purchase handling
@@ -102,10 +117,11 @@ def main(request):
                   'maze' : map,
     # user-related data
           'display_name' : current_user_data.user,
+                'streak' : current_user_data.streak,
          'points_wallet' : getattr(current_user_data, "points_wallet"),
            'points_week' : getattr(current_user_data, "points_this_week"),
        'points_lifetime' : getattr(current_user_data, "points_lifetime"),
-                'streak' : current_user_data.streak,
+              'is_staff' : getattr(current_user, "is_staff"),
     # site utilities
              'shop_list' : unowned_themes,
                 'scores' : leaderboard_list,
@@ -142,8 +158,15 @@ def get_locations():
 
 def get_leaderboard(length=5):
     length = abs(length)    # just in case somehow we are asked for a negative number
+    # get all the user profiles, ordered by the points they've got this week
     leaderboard_list = UserProfile.objects.values().order_by("-points_this_week")
+    # remove staff accounts from the leaderboard
+    for profile in leaderboard_list:
+        if User.objects.get(pk=profile["user_id"]).is_staff is True:
+            leaderboard_list = leaderboard_list.exclude(id=profile["user_id"])
+    # slice the list to the requested length
     leaderboard_list = leaderboard_list[:length]
+    # add username information to the profiles to be displayed
     for profile in leaderboard_list:
         profile["username"] = User.objects.get(pk=profile["user_id"]).username
     return leaderboard_list
