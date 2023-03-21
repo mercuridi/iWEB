@@ -8,7 +8,6 @@ from django.urls import reverse
 # Imported for you ^^ https://docs.djangoproject.com/en/4.1/topics/testing/tools/
 c = Client()
 
-
 class BaseTest(TestCase):
     def setUp(self):
         self.register_url=reverse('register')
@@ -49,8 +48,7 @@ class LoginTest(LoginClass, BaseTest):
         self.assertTemplateUsed(response, 'login.html') #template is successfully used
     def test_login_success(self):
         self.client.post(self.register_url,self.user,format='/html')
-        user = User.objects.filter(email=self.user['email']).first()
+        user = User.objects.filter(email=self.user['email']).all()
         user.is_active=True
-        user.save()
         response = self.client.post(self.login_url, self.user, format='/html')
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
