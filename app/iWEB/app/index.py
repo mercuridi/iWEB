@@ -31,7 +31,7 @@ def main(request):
                                 challenge_done=False)
             for profile in all_profiles:
                 profile.current_challenge_id = random.randint(1,3)
-                profile.save
+                profile.save()
             
         # points handling
         points_change = data.get("points")
@@ -157,4 +157,6 @@ def get_leaderboard(length=5):
     leaderboard_list = leaderboard_list[:length]
     for profile in leaderboard_list:
         profile["username"] = User.objects.get(pk=profile["user_id"]).username
+        if profile.is_staff is True:
+            leaderboard_list.pop(profile)
     return leaderboard_list
