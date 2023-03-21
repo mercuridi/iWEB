@@ -13,6 +13,7 @@
            points_week : the amount of points the user has earned this week
        points_lifetime : the amonunt of points the user has earned playing th game total
                 streak : current_user_data.streak,
+              is_staff : a boolean determining if staff utility options should be shown or not
     SITE UTILITIES
              shop_list : the list of themes that are availiable for the user to buy, the ones they own already are not displayed
                 scores : the current list of scores for the leaderboard
@@ -1177,6 +1178,23 @@
                 <!-- Settings Section -->
                 <div class="contentbox justify"
                     id="settings_box">
+                    {% if is_staff %}
+                    <div class = "justify right">
+                        <button class="alt_text" onClick="resetUsers()">HELP ME</button>
+                        <script>
+                            // This is unfortunately the most reliable way to do this
+                            function resetUsers(){
+                                var csrftoken = getCookie('csrftoken');
+                                var request = new XMLHttpRequest();
+                                request.open("POST", "/index", true);
+                                request.setRequestHeader("Content-Type", "application/json");
+                                request.setRequestHeader("X-CSRFToken", csrftoken);
+                                request.send(JSON.stringify({ leaderboard_reset : True}));
+                                location.reload();
+                            }
+                        </script>
+                    </div>
+                    {% endif %}
                     <h2>Settings</h2>
                         <ul>
                             {% for item in themes %}
