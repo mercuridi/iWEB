@@ -2,6 +2,7 @@
 Python file representing the view for the main page most everything is contained in.
 """
 import json
+import random
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
@@ -25,8 +26,13 @@ def main(request):
         
         # leaderboard reset button handling
         if data.get("leaderboard_reset") is True:
-            pass
-
+            all_profiles = UserProfile.objects.all().
+            all_profiles.update(points_this_week=0,
+                                challenge_done=False)
+            for profile in all_profiles:
+                profile.current_challenge_id = random.randint(1,3)
+                profile.save
+            
         # points handling
         points_change = data.get("points")
         if points_change is not None:
