@@ -25,7 +25,7 @@ def main(request):
         data = json.loads(request.body)
         
         # leaderboard reset button handling
-        if data.get("leaderboard_reset") is True:
+        if data.get("leaderboard_reset") == 0:
             all_profiles = UserProfile.objects.all()
             all_profiles.update(points_this_week=0,
                                 challenge_done=False)
