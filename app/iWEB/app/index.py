@@ -6,7 +6,7 @@ import random
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
-from .models import Location, Item, UserProfile
+from .models import Location, Item, UserProfile, Challenge
 from .forms import LocationForm
 from .utils.mapUtilities import read_map
 
@@ -26,12 +26,16 @@ def main(request):
         
         # leaderboard reset button handling
         if data.get("leaderboard_reset") == 0:
-            all_profiles = UserProfile.objects.all()
-            all_profiles.update(points_this_week=0,
-                                challenge_done=False)
-            for profile in all_profiles:
-                profile.current_challenge_id = random.randint(1,3)
-                profile.save
+            # set all users at once to have 0 points this week and an incomplete challenge
+            UserProfile.objects.all().update(
+                points_this_week=0,
+                challenge_done=False,
+                )
+            # iterate across users to give them each a new random challenge
+            # (new challenge can be the same as the last one)
+            for profile in UserProfile.objects.all():
+                UserProfile.objects.filter(id=profile.id).update(current_challenge_id=random.randint(1,3))
+                
             
         # points handling
         points_change = data.get("points")
@@ -43,7 +47,7 @@ def main(request):
                 current_user_data.points_wallet     += points_change
             else:
                 # if we want to take away points, they should only be taken from the wallet
-                # eg. buying a theme uses this logic
+                # eg. buying a theme uses this logic¬
                 current_user_data.points_wallet     += points_change
 
         #theme purchase handling
