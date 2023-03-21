@@ -26,15 +26,16 @@ def main(request):
         
         # leaderboard reset button handling
         if data.get("leaderboard_reset") == 0:
-            # set all users at once to have 0 points this week and an incomplete challenge
-            UserProfile.objects.all().update(
-                points_this_week=0,
-                challenge_done=False,
-                )
-            # iterate across users to give them each a new random challenge
-            # (new challenge can be the same as the last one)
-            for profile in UserProfile.objects.all():
-                UserProfile.objects.filter(id=profile.id).update(current_challenge_id=random.randint(1,3))
+            if current_user.is_staff:
+                # set all users at once to have 0 points this week and an incomplete challenge
+                UserProfile.objects.all().update(
+                    points_this_week=0,
+                    challenge_done=False,
+                    )
+                # iterate across users to give them each a new random challenge
+                # (new challenge can be the same as the last one)
+                for profile in UserProfile.objects.all():
+                    UserProfile.objects.filter(id=profile.id).update(current_challenge_id=random.randint(1,3))
                 
             
         # points handling
