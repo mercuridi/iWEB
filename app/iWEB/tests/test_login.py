@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.test import Client
-from django.contrib.auth.models import User
+from app.models import User
 from django.urls import reverse
 
 
@@ -42,13 +42,19 @@ class LoginClass(TestCase):
         }
         return super().setUp()
 
-class LoginTest(LoginClass, BaseTest):
+class LoginTest(LoginClass, BaseTest ):
     def test_can_view_page(self):
         response=self.client.get(self.login_url)
         self.assertEqual(response.status_code, 200) #page is successfully accessed
         self.assertTemplateUsed(response, 'login.html') #template is successfully used
     def test_login_success(self):
-        self.client.post(self.register_url,self.user,format='/html')
+        user={
+            'username':'username', 
+            'email':'email@email.com', 
+            'password1':'password12', 
+            'password2':'password12'
+        }
+        response=self.client.post(self.register_url,self.user,format='/html')
         user = User.objects.filter(email=self.user['email']).first()
         user.is_active=True
         user.save()
