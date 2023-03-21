@@ -22,6 +22,10 @@ def main(request):
     submitted = False
     if request.method == "POST":
         data = json.loads(request.body)
+        
+        # leaderboard reset button handling
+        if data.get("leaderboard_reset") is True:
+            pass
 
         # points handling
         points_change = data.get("points")
@@ -102,10 +106,11 @@ def main(request):
                   'maze' : map,
     # user-related data
           'display_name' : current_user_data.user,
+                'streak' : current_user_data.streak,
          'points_wallet' : getattr(current_user_data, "points_wallet"),
            'points_week' : getattr(current_user_data, "points_this_week"),
        'points_lifetime' : getattr(current_user_data, "points_lifetime"),
-                'streak' : current_user_data.streak,
+              'is_staff' : getattr(current_user, "is_staff"),
     # site utilities
              'shop_list' : unowned_themes,
                 'scores' : leaderboard_list,
