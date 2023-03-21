@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.test import Client
-from django.contrib.auth.models import User
+from app.models import User
 from django.urls import reverse
 
 
@@ -41,7 +41,7 @@ class LoginClass(TestCase):
         }
         return super().setUp()
 
-class LoginTest(LoginClass, BaseTest):
+class LoginTest(LoginClass, BaseTest ):
     def test_can_view_page(self):
         response=self.client.get(self.login_url)
         self.assertEqual(response.status_code, 200) #page is successfully accessed
