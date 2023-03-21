@@ -1,0 +1,223 @@
+<!-- Jude -->
+<!-- This took way longer than it looks -->
+<!-- PARAMETERS: -->
+<!-- closest_things is a list of the closest objects, each one requires a type (bin, water filling station, etc) and a location (probably in words for this section) -->
+<!-- scores is a list of the top 5 players plus the current user, each one requiring a name and a score sorted in descending order -->
+<!-- submitted is a boolean on if the request to add a location has gone through or not -->
+<!-- location_form is the form containing what data needs to be inputted to the database -->
+<!-- points_wallet is the number of points_wallet (probably an integer) that the user has -->
+<!-- shop_list is the list of every object in the shop -->
+
+<!DOCTYPE html>
+<html>
+    {% load static %} {% csrf_token %}
+    <head>
+        <title>iWEB test homepage</title>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1" />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'global/index.css' %}"/>
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'global/testlib.css' %}" />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Montserrat" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+            />
+
+        <meta
+            http-equiv="Cache-Control"
+            content="no-cache, no-store, must-revalidate" />
+
+        <!-- Only objects that require data from the database should be in here -->
+        <style>
+            html * {
+            color: #ffffff; /* THIS IS THE MAIN FONT COLOUR */
+            }
+
+            /* The navigation menu links */
+            .sidenav a {
+            color: #818181;
+            }
+
+            /* When you mouse over the navigation links, change their color */
+            .sidenav a:hover {
+            color: #004d99;
+            }
+
+            .icon-bar {
+            background-color: #555; /* Dark-grey background */
+            }
+
+            .icon-bar a:hover {
+            background-color: red; /* Add a hover color - doesn't work */
+            }
+
+            .active {
+            background-color: #4933b5; /* Add an active/current color */
+            }
+
+            .sidebar {
+            background: #3776ac; /* colour of fonts and icons */
+            }
+
+            #main {
+            background-color: #ffffff; /*main page colour*/
+            }
+
+            .row {
+                border-bottom: 1px solid #AFAFAF;
+            }
+            .row:nth-child(1) {
+                background: gold;
+            }
+            
+            .row:nth-child(2) {
+                background: #c0c0c0;
+            }
+            
+            .row:nth-child(3) {
+                background: #cd7f32;
+            }
+            .user {
+                background-color: red;
+            }
+
+            .water-fountain-button {
+                background-color: blue;
+                color: white;
+            }
+
+            .bus-stop-button {
+                background-color: red;
+                color: white;
+            }
+
+            .bin-button {
+                background-color: green;
+                color: white;
+            }
+
+            .track-button {
+                background-color: white;
+                color: white;
+            }
+
+            .pathDiv {
+                background-color: rgba(0, 163, 255, 0.5);
+            }
+            .box{
+                color: white;
+                text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+                background-color: rgba(0, 163, 255, 0.5);
+            }
+
+            .message{
+                background-color: rgba(0, 163, 255, 1);
+                
+            }
+
+            .minigame-button{
+                background-color: grey;
+                color: white;
+            }
+            .game{
+                background-color: rgba(0, 163, 255, 1);
+            }
+            .start-button{
+            background-color: grey;
+            color: white;
+            }
+
+            textarea {
+            border: 1px solid #ccc;
+            }
+
+            /* Style the submit button with a specific background color etc */
+            input[type='submit'] {
+            background-color: #049ada;
+            color: white;
+            }
+
+            /* When moving the mouse over the submit button, add a darker green color */
+            input[type='submit']:hover {
+            background-color: #049ada;
+            }
+
+            .contentbox{
+            background-color: #3776ac;
+            }
+
+            .bar{
+            background-color: #3776ac;
+            }
+
+            .alt_text{
+                color: black;
+            }
+            .subject{
+                color: black;
+            }
+            .streaks {
+            background-color: #000000;
+            }
+
+            .streaks_small{
+            background-color: #46ff46;
+            }
+
+            .streaks_small{
+                width: {{streak}};
+            }
+        </style>
+    </head>
+    <body style="margin : 5%;">
+        <!-- Page Content -->
+        <div
+            class="main-content padding-large"
+            id="main"
+            style="margin : 5%;"></div>
+            <!-- Header/Home -->
+            <header
+                class="contentbox container padding-32 center"
+                id="home"
+                style="margin : 5%;">
+                <h1 class="jumbo">
+                    <span class="hide-small">Welcome to </span> Help
+            </header>
+            <!-- Help Main Section -->
+            <div
+                class="contentbox justify"
+                id="help"
+                style="margin : 5%;">
+                <h2>Starting up</h2>
+                <div class="container">
+                <a>
+                    Hello! This is a help page for users just starting up the app 
+
+                    -> registering
+                    -> signing in
+                    -> using the map
+                    -> the leaderboard
+                    -> the shop
+                    -> report
+                    -> settings
+                    -> contact us
+
+
+                </a>
+                </div>
+            </div>
+            <!-- Help Main Section -->
+        </div>
+        <!-- END PAGE CONTENT -->
+    </body>
+</html>
