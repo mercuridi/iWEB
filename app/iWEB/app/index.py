@@ -25,13 +25,13 @@ def main(request):
         data = json.loads(request.body)
         
         # leaderboard reset button handling
-        if data.get("leaderboard_reset") is True:
+        if data.get("leaderboard_reset") == 0:
             all_profiles = UserProfile.objects.all()
             all_profiles.update(points_this_week=0,
                                 challenge_done=False)
             for profile in all_profiles:
                 profile.current_challenge_id = random.randint(1,3)
-                profile.save()
+                profile.save
             
         # points handling
         points_change = data.get("points")
@@ -164,5 +164,4 @@ def get_leaderboard(length=5):
     # add username information to the profiles to be displayed
     for profile in leaderboard_list:
         profile["username"] = User.objects.get(pk=profile["user_id"]).username
-
     return leaderboard_list
