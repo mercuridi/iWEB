@@ -26,7 +26,7 @@ def main(request):
         
         # leaderboard reset button handling
         if data.get("leaderboard_reset") is True:
-            all_profiles = UserProfile.objects.all().
+            all_profiles = UserProfile.objects.all()
             all_profiles.update(points_this_week=0,
                                 challenge_done=False)
             for profile in all_profiles:
