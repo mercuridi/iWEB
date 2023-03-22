@@ -60,7 +60,7 @@ width: 100%;
   margin-left: 120px;
 }
 
-/* This controls the look of each section of the page so that they aare uniform and have a consitent style */
+/* This controls the look of each section of the page so that they are uniform and have a consitent style */
 .contentbox{
   padding: 5%;
   margin: 5%;
@@ -101,10 +101,10 @@ width: 100%;
 /* Controls the styling of the box that holds the map */
 .map {
     position: relative;
-    width: 1096px;
-    height: 1266px;
+    width: 300px;
+    height: 600px;
     background-image: url('images/map.jpg');
-    background-size: 1096px 1266px;
+    background-size: 300px 600px;
     margin: 0 auto;
     background-repeat: no-repeat;
 }
@@ -347,4 +347,53 @@ input[type='submit'] {
   bottom: 0%;
   float: left;
   height: 40px;
+}
+
+#location-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+}
+
+#location-form label {
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+#location-form input,
+#location-form select {
+  padding: 8px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#submit-location {
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  margin-bottom: 0;
+  border-radius: 4px;
+}
+
+#location-form input[type="checkbox"] {
+  appearance: none;
+  background-color: #ccc;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
+}
+
+#location-form input[type="checkbox"]:checked {
+  background-color: #4CAF50;
+  margin-right: 5px;
 }
