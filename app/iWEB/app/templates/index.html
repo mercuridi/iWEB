@@ -682,7 +682,7 @@
                                             request.open("POST", "/index", true);
                                             request.setRequestHeader("Content-Type", "application/json");
                                             request.setRequestHeader("X-CSRFToken", csrftoken);
-                                            request.send(JSON.stringify({points: 250, type_used : this.type}));
+                                            request.send(JSON.stringify({points: 250, type_used : this.type_used}));
                             
                                             displayMessage(this)
                                             
@@ -840,7 +840,6 @@
                             
                                         // Creates a button that when pressed cheks to see if the user is at the bottle, bus stop or bin
                                         var checkButton = document.createElement("button");
-                                        checkButton.type=this.className;
                                         checkButton.id = "checkButton";
                                         checkButton.className = "checkButton";
                                         checkButton.style.left = '80px';
@@ -857,6 +856,7 @@
                                         checkButton.style.cursor = 'pointer';
                                         checkButton.Xcoordinates = (this.offsetLeft);
                                         checkButton.Ycoordinates = (this.offsetTop);
+                                        checkButton.type_used = document.getElementById(bottle_id).className;
                                         box.appendChild(checkButton);
                             
                                         // When the check button is pressed the user's location is checked
