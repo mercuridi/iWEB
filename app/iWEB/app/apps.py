@@ -1,4 +1,6 @@
-# Kai: Does anyone know what this does? Pylint doesn't like us redefining AppConfig after importing it. Why do we do this?
+"""
+Define the names of the apps we use. Since all our work is in one app, we just call it "app".
+"""
 
 from django.apps import AppConfig
 class AppConfig(AppConfig):

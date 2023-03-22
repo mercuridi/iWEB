@@ -1,9 +1,10 @@
 # Dimitar: Imported the models so that the admin can access them
-# Kai: Wrote module docstring
+# Kai: Module docstring, import challenge
 
-"""Module imports models so that the admin function of the side can access
-    them; ie. give the admin functionality to administrate
-    """
+"""
+The admin module imports models so that the admin function of the side can access
+them; ie. give the admin functionality to administrate
+"""
 
 from django.contrib import admin
 from .models import Location

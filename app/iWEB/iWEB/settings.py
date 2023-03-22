@@ -17,10 +17,6 @@ from django.contrib.messages import constants as messages
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
-
 SECRET_KEY = 'django-insecure-^$@d7@6h0@sc9qjhip42fmnb)**!$dm1*x_$cnj$r+29gpdjc5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -28,8 +24,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-
-# Application definition
+# Application definitions
 
 INSTALLED_APPS = [
     'django.contrib.admin',
