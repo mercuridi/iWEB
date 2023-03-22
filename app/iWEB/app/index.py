@@ -149,6 +149,7 @@ def main(request):
        'points_lifetime' : getattr(current_user_data, "points_lifetime"),
               'is_staff' : getattr(current_user, "is_staff"),
     # site utilities
+            'usage_data' : Usage.objects.get(pk=1),
              'shop_list' : unowned_themes,
                 'scores' : leaderboard_list,
         'closest_things' : loc_list,
