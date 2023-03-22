@@ -502,6 +502,21 @@
                             location.reload();
                         }
                     }
+
+                    function getCookie(name) {
+                        var cookieValue = null;
+                        if (document.cookie && document.cookie !== '') {
+                            var cookies = document.cookie.split(';');
+                            for (var i = 0; i < cookies.length; i++) {
+                                var cookie = cookies[i].trim();
+                                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                    break;
+                                }
+                            }
+                        }
+                        return cookieValue;
+                    }
                 </script>
                 {% else %}
                 <p> The shop is empty right now </p>
@@ -678,8 +693,6 @@
                         {% endfor %}
                     </ul>
                     <script>
-
-                        
                         // This is unfortunately the most reliable way to do this
                         function setTheme(newTheme){
                             var csrftoken = getCookie('csrftoken');
@@ -689,6 +702,20 @@
                             request.setRequestHeader("X-CSRFToken", csrftoken);
                             request.send(JSON.stringify({newtheme : newTheme}));
                             location.reload();
+                        }
+                        function getCookie(name) {
+                            var cookieValue = null;
+                            if (document.cookie && document.cookie !== '') {
+                                var cookies = document.cookie.split(';');
+                                for (var i = 0; i < cookies.length; i++) {
+                                    var cookie = cookies[i].trim();
+                                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                        break;
+                                    }
+                                }
+                            }
+                            return cookieValue;
                         }
                     </script>
             </div>
