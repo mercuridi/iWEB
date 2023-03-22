@@ -1,0 +1,414 @@
+body,h1,h2,h3,h4,h5,h6 {
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* The side navigation menu */
+.sidenav {
+  height: 100%; /* 100% Full-height */
+  width: 60px;
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  overflow-x: hidden; /* Disable horizontal scroll */
+}
+
+/* The navigation menu links */
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  display: block;
+  transition: 0.3s;
+}
+
+.bar-icon{
+width: 100%;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+.icon-bar {
+  width: 60px; /* Set a specific width */
+}
+
+.icon-bar a {
+  display: block; /* Make the links appear below each other instead of side-by-side */
+  text-align: center; /* Center-align text */
+  padding: 16px; /* Add some padding */
+  transition: all 0.3s ease; /* Add transition for hover effects */
+  font-size: 36px; /* Increased font-size */
+}
+
+.bar-item{
+  width: 25% !important;
+}
+
+.row-padding img {
+  margin-bottom: 12px;
+}
+/* Set the width of the sidebar to 120px */
+.sidebar {
+  width: 120px;
+}
+/* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
+#main {
+  margin-left: 120px;
+}
+
+/* This controls the look of each section of the page so that they are uniform and have a consitent style */
+.contentbox{
+  padding: 5%;
+  margin: 5%;
+  margin-left: 120px;
+}
+
+/* Remove margins from "page content" on small screens */
+@media only screen and (max-width: 600px) {
+  #main {
+    margin-left: 0;
+  }
+  .contentbox{
+    margin-left: 0;
+  }
+}
+    
+
+.row {
+	position: relative;
+	display: block;
+	height: 40px;
+}
+
+.name {
+	position: relative;
+	display: inline-block;
+	line-height: 45px;
+}
+
+.score {
+	position: relative;
+	display: inline-block;
+}
+
+.row-padding img {
+  margin-bottom: 12px;
+}
+/* Controls the styling of the box that holds the map */
+.map {
+    position: relative;
+    width: 300px;
+    height: 600px;
+    background-image: url("images/map.f26e686c2b51.jpg");
+    background-size: 300px 600px;
+    margin: 0 auto;
+    background-repeat: no-repeat;
+}
+
+/* Controls the size of the dot that signifies the user */
+.user {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    pointer-events: none; /* This allows click events to pass through the upper div */
+}
+
+/* Each of these controls a part of the map layout but they are names intuitively so don't need indiviual comments */
+.bottle {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-image: url("images/bottle.f53dd97f968f.png");
+    background-size: cover;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+.bus_stop {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-image: url("images/bus-stop.01221e23cfd6.png");
+    background-size: cover;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+.bin {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-image: url("images/recycling.1c0aa4766ef9.png");
+    background-size: cover;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+.garbage {
+    position: absolute;
+    width: 30px;
+    height: 40px;
+    background-image: url("images/trash.ac3bbd29e2af.png");
+    background-size: 30px 40px;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
+
+.maze-row {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
+}
+.maze-square {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+}
+.water-fountain-button {
+    display: absolute;
+    align-items: center;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.water-fountain-button img {
+    height: 30px;
+    margin-right: 10px;
+}
+.bus-stop-button {
+    display: absolute;
+    align-items: center;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+.bus-stop-button img {
+    height: 30px;
+    margin-right: 10px;
+  }
+.bin-button {
+    display: absolute;
+    align-items: center;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+.bin-button img {
+    height: 30px;
+    margin-right: 10px;
+  }
+.track-button {
+    display: absolute;
+    align-items: center;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    tracking: false;
+  }
+.track-button img {
+    height: 30px;
+    margin-right: 10px;
+}
+.pathDiv {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;	
+  }
+.info-box{
+    border-radius: 6px;
+    margin-top: 30px;
+    display: inline-block;
+    position: absolute;
+    text-align: center;
+    text-decoration: none;
+    font-size: 10px;
+    width: 60px;
+    height: 60px;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    padding: 5px;
+    
+}
+
+.message{
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    left: 50%;
+    top: 260px; /* Align the top edge of the message with the bottom edge of the box */
+    transform: translate(-50%, 0); /* Updated transform to remove vertical translation */
+    z-index: 1;
+    padding: 5px;
+    border-radius: 6px;
+    
+}
+
+.minigame-button{
+    position: absolute;
+    left: 0px;
+    top: 65px; /* Align the top edge of the message with the bottom edge of the box */
+    width: 60px;
+    height: 60px;
+    display: relative;
+    align-items: center;
+    border: none;
+
+    text-align: center;
+    text-decoration: none;
+    font-size: 10px;
+    cursor: pointer;
+    tracking: false;
+    border-radius: 6px;
+}
+.game{
+    position: absolute;
+    left: 50%;
+    top: 60px; /* Align the top edge of the message with the bottom edge of the box */
+    position: absolute;
+    width: 60px;
+    height: 120px;
+    transform: translate(-50%, -50%);
+    border-radius: 6px;
+    z-index: 1;
+}
+.start-button{
+  display: absolute;
+  align-items: center;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 6px;
+  tracking: false;
+}
+
+/* Style inputs with type="text", select elements and textareas */
+input[type='text'],
+select,
+textarea {
+  padding: 12px; /* Some padding */
+  border-radius: 4px; /* Rounded borders */
+  box-sizing: border-box; /* Make sure that padding and width stays in place */
+  margin-top: 6px; /* Add a top margin */
+  margin-bottom: 16px; /* Bottom margin */
+  resize: vertical; /* Allow the user to vertically resize the textarea (not horizontally) */
+}
+
+/* Style the submit button with a specific background color etc */
+input[type='submit'] {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.contact-list{
+  list-style-type: none
+}
+
+.item-table{
+  width: 100%;
+}
+
+.subject{
+  height: 100px
+}
+
+.themebox{
+  width: auto;
+}
+
+.help{
+  width: auto;
+  height: auto;
+  position: sticky;
+  top: 10px;
+  right: 10px;
+  float: right;
+}
+
+.streaks {
+  width: auto;
+  height: auto;
+  position: sticky;
+  bottom: 10px;
+  right: 10px;
+  float: right;
+}
+
+.streaks_small{
+  position: sticky;
+  bottom: 0%;
+  float: left;
+  height: 40px;
+}
+
+#location-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+#location-form label {
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+#location-form input,
+#location-form select {
+  padding: 8px;
+  margin-bottom: 16px;
+  border-radius: 4px;
+}
+
+#submit-location {
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  margin-bottom: 0;
+  border-radius: 4px;
+}
+
+#location-form input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
+}
+
+#location-form input[type="checkbox"]:checked {
+  margin-right: 5px;
+}
