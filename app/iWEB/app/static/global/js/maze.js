@@ -200,7 +200,6 @@ function startListeners(maze_array) {
     waterButton.addEventListener('click', function () {
         
         for (var i = 0; i < bottles.length; i++) {
-        console.log(bottles[i].style.display);
         if (bottles[i].style.display == "none") {
             bottles[i].style.display = "block";
             waterButton.style.backgroundColor = "black";
@@ -215,7 +214,6 @@ function startListeners(maze_array) {
     var busButton = document.querySelector('.bus-stop-button');
     busButton.addEventListener('click', function() {
         for (var i = 0; i < bus_stops.length; i++) {
-            console.log(bus_stops[i].style.display);
             if (bus_stops[i].style.display == "none") {
                 bus_stops[i].style.display = "block";
                 busButton.style.backgroundColor = "black";
@@ -230,7 +228,6 @@ function startListeners(maze_array) {
     var binButton = document.querySelector('.bin-button');
     binButton.addEventListener('click', function() {
         for (var i = 0; i < bins.length; i++) {
-            console.log(bins[i].style.display);
             if (bins[i].style.display == "none") {
                 bins[i].style.display = "block";
                 binButton.style.backgroundColor = "black";
@@ -263,8 +260,8 @@ function createBox(map_array){
     var bottle_id = this.id;
     // Creates the first box that isn't interactive but contains the information about the bottle, bus stop or bin
     var box = document.createElement("div");
-    box.id = "box";
-    box.className = "box";
+    box.id = "info-box";
+    box.className = "info-box";
     box.style.left = this.style.left;
     box.style.top = this.style.top;
     box.innerHTML = this.textContent;
@@ -290,20 +287,21 @@ function createBox(map_array){
     
     // Creates the second box that when clicked displays the shortest path to the bottle, bus stop or bin
     var pathButton = document.createElement("button");
+    pathButton.style.position = 'absolute';
     pathButton.id = "pathButton";
     pathButton.className = "pathButton";
-    pathButton.style.left = '80px';
-    pathButton.style.top = '100px';
     pathButton.innerHTML = "Find Shortest Path";
-    pathButton.style.fontSize = "30px";
-    pathButton.style.width = "280px";
-    pathButton.style.height = "80px";
-    pathButton.style.padding = '12px 24px';
+    pathButton.style.fontSize = "10px";
+    pathButton.style.width = "60px";
+    pathButton.style.height = "60px";
     pathButton.style.color = '#fff';
     pathButton.style.backgroundColor = color;
     pathButton.style.borderRadius = '6px';
     pathButton.style.border = 'none';
     pathButton.style.cursor = 'pointer';
+    pathButton.style.marginTop = '30px';
+    pathButton.style.left = '0%';
+    pathButton.style.top = '35px';
 
     //The coordinates to the bottle, bus stop or bin are stored in the pathButton
     pathButton.Xcoordinates = (this.offsetLeft);
@@ -322,18 +320,19 @@ function createBox(map_array){
     var checkButton = document.createElement("button");
     checkButton.id = "checkButton";
     checkButton.className = "checkButton";
-    checkButton.style.left = '80px';
-    checkButton.style.top = '200px';
+    checkButton.style.position = 'absolute';
+    checkButton.style.left = '0px';
+    checkButton.style.top = '120px';
     checkButton.innerHTML = "Veryify Location";
-    checkButton.style.fontSize = "30px";
-    checkButton.style.width = "280px";
-    checkButton.style.height = "80px";
-    checkButton.style.padding = '12px 24px';
+    checkButton.style.fontSize = "10px";
+    checkButton.style.width = "60px";
+    checkButton.style.height = "60px";
     checkButton.style.color = '#fff';
     checkButton.style.backgroundColor = 'brown';
     checkButton.style.borderRadius = '6px';
     checkButton.style.border = 'none';
     checkButton.style.cursor = 'pointer';
+    checkButton.style.marginTop = "10px";
     checkButton.Xcoordinates = (this.offsetLeft);
     checkButton.Ycoordinates = (this.offsetTop);
     box.appendChild(checkButton);
@@ -344,15 +343,19 @@ function createBox(map_array){
     // Creates a red exit button that appears on the box and when pressed removes the box
     var exitButton = document.createElement("button");
     exitButton.id = "exitButton";
+    exitButton.style.position = 'absolute';
     exitButton.className = "exitButton";
-    exitButton.style.left = '80px';
-    exitButton.style.top = '100px';
+    exitButton.style.left = '0px';
+    exitButton.style.top = '185px';
     exitButton.innerHTML = "X";
     exitButton.style.cursor = 'pointer';
     exitButton.style.backgroundColor = "red";
     exitButton.style.fontSize = "30px";
-    exitButton.style.width = "80px";
-    exitButton.style.height = "80px";
+    exitButton.style.width = "60px";
+    exitButton.style.height = "60px";
+    exitButton.style.borderRadius = "6px";
+    // Sets the exit button's top margin to 10px
+    exitButton.style.marginTop = "10px";
     box.appendChild(exitButton);
     // When the exit button is pressed the box is removed
     exitButton.addEventListener('click', function() {
@@ -591,10 +594,6 @@ function checkLocation(e){
     }
 
 }
-
-
-
-
                         
                         
 // Displays a message to the user, telling them that they have completed the challange
@@ -624,17 +623,30 @@ function displayMessage(object){
 // The user has 10 seconds to click on as many garbages as possible
 function minigame(){
     const map = document.querySelector(".map");
+    mapWidth = map.offsetWidth;
+    mapHeight = map.offsetHeight;
     // Creates a box that contains the game
     var game = document.createElement("div");
     game.id = "game";
     game.className = "game";
     game.innerHTML = "Click on the trashbags as fast as you can! <br> <button class='start-button'>Start</button>";
+    game.style.zIndex = '10000';
     var object = this.parentElement;
     object.appendChild(game);
 
     // Creates a button that starts the game
     var startButton = document.querySelector('.start-button');
     startButton.addEventListener('click', function() {
+        // Create the overlay after starting the game
+        const overlay = document.createElement('div');
+        overlay.style.position = 'absolute';
+        overlay.style.width = '100%';
+        overlay.style.height = '100%';
+        overlay.style.top = '0';
+        overlay.style.zIndex = '500';
+        //overlay.style.pointerEvents = 'none'; // Keep this line
+        overlay.style.backgroundColor = 'rgba(0,0,0,0.5)';
+        map.appendChild(overlay);
         // Creates a timer that counts down from 10
         var timer = document.createElement("div");
         timer.id = "timer";
@@ -646,16 +658,20 @@ function minigame(){
             time--;
             timer.innerHTML = time;
             if (time == 0){
+                var csrftoken = getCookie('csrftoken');
                 clearInterval(timerID);
                 game.innerHTML = "Game Over! <br> You clicked on " + score + " trashbags! <br>";
+                garbage.remove();
+                overlay.remove(); // Remove the overlay
                 // Removes the garbage
                 garbage.remove();
                 var request = new XMLHttpRequest();
                 request.open("POST", "/index", true);
                 request.setRequestHeader("Content-Type", "application/json");
                 request.setRequestHeader("X-CSRFToken", csrftoken);
-                extra_points = score * 10 + 250;
+                var extra_points = score * 10 + 250;
                 request.send(JSON.stringify({points: extra_points}));
+                location.reload();
             }
         }, 1000);
 
@@ -667,25 +683,82 @@ function minigame(){
         scoreCounter.innerHTML = "Score: " + score;
         game.appendChild(scoreCounter);
 
-        // Creates a button that allows the user to click on the garbages
         var garbage = document.createElement("div");
         garbage.id = "garbage";
         garbage.className = "garbage";
         garbage.style.left = Math.floor(Math.random() * mapWidth) + "px";
         garbage.style.top = Math.floor(Math.random() * mapHeight) + "px";
-        garbage.addEventListener('click', function() {
+        garbage.style.zIndex = '10001'; // Set the zIndex of the garbage element
+        garbage.addEventListener('click', function (e) {
             score++;
-            scoreCounter.innerHTML = "Score: " + score;
-            garbage.style.left = Math.floor(Math.random() * mapWidth) + "px";
-            garbage.style.top = Math.floor(Math.random() * mapHeight) + "px";
-        });
+            scoreCounter.innerHTML = 'Score: ' + score;
+          
+            const map = document.querySelector('.map');
+            const mapRect = map.getBoundingClientRect();
+            const garbageRect = garbage.getBoundingClientRect();
+          
+            const garbage_x = garbageRect.left - mapRect.left + garbage.offsetWidth / 2;
+            const garbage_y = garbageRect.top - mapRect.top + garbage.offsetHeight / 2;
+          
+            createParticles(garbage_x, garbage_y);
+            garbage.style.left = Math.floor(Math.random() * mapWidth) + 'px';
+            garbage.style.top = Math.floor(Math.random() * mapHeight) + 'px';
+          });
         map.appendChild(garbage);
     });
 
         
 }
 
+function createParticles(x, y) {
+    const particleCount = 30; // Number of particles to create
+  
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
 
+      // Apply the CSS properties in JavaScript
+      particle.style.position = 'absolute';
+      particle.style.width = '5px';
+      particle.style.height = '5px';
+      particle.style.backgroundColor = '#fff';
+      particle.style.borderRadius = '50%';
+      particle.style.zIndex = '1003';
+
+      document.querySelector('.map').appendChild(particle);
+  
+      // Set the initial position of the particles
+      particle.style.left = x + 'px';
+      particle.style.top = y + 'px';
+  
+      // Generate random animation duration and angle
+      const duration = Math.random() * 0.5 + 0.25; // Random duration between 0.25s and 0.75s
+      const angle = Math.random() * Math.PI * 2; // Random angle
+  
+      // Calculate the particle's new position based on the angle and a random distance
+      const distance = Math.random() * 50 + 25;
+      const newX = x + Math.cos(angle) * distance;
+      const newY = y + Math.sin(angle) * distance;
+  
+      // Animate the particle
+      particle.animate(
+        [
+            { transform: `translate(0, 0)` },
+            { transform: `translate(${newX - x}px, ${newY - y}px)` },
+        ],
+        {
+          duration: duration * 1000,
+          easing: 'linear',
+          fill: 'forwards',
+        }
+      );
+  
+    //   // Remove the particle after the animation is completed
+      setTimeout(() => {
+        particle.remove();
+      }, duration * 1500);
+    }
+  }
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {

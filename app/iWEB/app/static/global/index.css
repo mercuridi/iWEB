@@ -112,18 +112,19 @@ width: 100%;
 /* Controls the size of the dot that signifies the user */
 .user {
     position: absolute;
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1;
+    z-index: 2;
+    pointer-events: none; /* This allows click events to pass through the upper div */
 }
 
 /* Each of these controls a part of the map layout but they are names intuitively so don't need indiviual comments */
 .bottle {
     position: absolute;
-    width: 160px;
-    height: 160px;
+    width: 60px;
+    height: 60px;
     background-image: url("images/bottle.png");
     background-size: cover;
     transform: translate(-50%, -50%);
@@ -131,8 +132,8 @@ width: 100%;
 }
 .bus_stop {
     position: absolute;
-    width: 160px;
-    height: 160px;
+    width: 60px;
+    height: 60px;
     background-image: url("images/bus-stop.png");
     background-size: cover;
     transform: translate(-50%, -50%);
@@ -140,8 +141,8 @@ width: 100%;
 }
 .bin {
     position: absolute;
-    width: 160px;
-    height: 160px;
+    width: 60px;
+    height: 60px;
     background-image: url("images/recycling.png");
     background-size: cover;
     transform: translate(-50%, -50%);
@@ -149,12 +150,12 @@ width: 100%;
 }
 .garbage {
     position: absolute;
-    width: 200px;
-    height: 200px;
+    width: 30px;
+    height: 40px;
     background-image: url("images/trash.png");
-    background-size: 200px 200px;
+    background-size: 30px 40px;
     transform: translate(-50%, -50%);
-    z-index: 1;
+    z-index: 999;
 }
 
 .maze-row {
@@ -176,12 +177,12 @@ width: 100%;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
-    font-size: 30px;
+    font-size: 10px;
     cursor: pointer;
     border-radius: 5px;
 }
 .water-fountain-button img {
-    height: 50px;
+    height: 30px;
     margin-right: 10px;
 }
 .bus-stop-button {
@@ -191,13 +192,13 @@ width: 100%;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
-    font-size: 30px;
+    font-size: 10px;
     cursor: pointer;
     border-radius: 5px;
   }
   
 .bus-stop-button img {
-    height: 50px;
+    height: 30px;
     margin-right: 10px;
   }
 .bin-button {
@@ -207,12 +208,12 @@ width: 100%;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
-    font-size: 30px;
+    font-size: 10px;
     cursor: pointer;
     border-radius: 5px;
   }
 .bin-button img {
-    height: 50px;
+    height: 30px;
     margin-right: 10px;
   }
 .track-button {
@@ -222,78 +223,89 @@ width: 100%;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
-    font-size: 30px;
+    font-size: 10px;
     cursor: pointer;
     border-radius: 5px;
     tracking: false;
   }
 .track-button img {
-    height: 50px;
+    height: 30px;
     margin-right: 10px;
 }
 .pathDiv {
     position: absolute;
-    width: 30px;
-    height: 30px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;	
   }
-.box{
+.info-box{
+    border-radius: 6px;
+    margin-top: 30px;
     display: inline-block;
-    font-family: "Times New Roman", Times, serif;
     position: absolute;
     text-align: center;
     text-decoration: none;
-    font-size: 60px;
-    width: 310px;
-    height: 150px;
-    transform: translate(-50%, -50%);
-    z-index: 1;
-    padding: 5px;
-}
-
-.message{
-    position: absolute;
-    left:150px;
-    top: 600px;
+    font-size: 10px;
+    width: 60px;
+    height: 60px;
     transform: translate(-50%, -50%);
     z-index: 1;
     padding: 5px;
     
 }
 
+.message{
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    left: 50%;
+    top: 260px; /* Align the top edge of the message with the bottom edge of the box */
+    transform: translate(-50%, 0); /* Updated transform to remove vertical translation */
+    z-index: 1;
+    padding: 5px;
+    border-radius: 6px;
+    
+}
+
 .minigame-button{
+    position: absolute;
+    left: 0px;
+    top: 65px; /* Align the top edge of the message with the bottom edge of the box */
+    width: 60px;
+    height: 60px;
     display: relative;
     align-items: center;
     border: none;
-    padding: 10px 20px;
+
     text-align: center;
     text-decoration: none;
-    font-size: 30px;
+    font-size: 10px;
     cursor: pointer;
-    border-radius: 5px;
     tracking: false;
+    border-radius: 6px;
 }
 .game{
     position: absolute;
-    left:150px;
-    top: 500px;
-    width: 310px;
+    left: 50%;
+    top: 60px; /* Align the top edge of the message with the bottom edge of the box */
+    position: absolute;
+    width: 60px;
+    height: 120px;
     transform: translate(-50%, -50%);
+    border-radius: 6px;
     z-index: 1;
-    padding: 5px;
 }
 .start-button{
-  display: relative;
+  display: absolute;
   align-items: center;
   border: none;
-  padding: 10px 20px;
   text-align: center;
   text-decoration: none;
-  font-size: 30px;
+  font-size: 20px;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 6px;
   tracking: false;
 }
 
@@ -348,6 +360,10 @@ input[type='submit'] {
   float: left;
   height: 40px;
 }
+
+
+
+
 
 #location-form {
   display: flex;
