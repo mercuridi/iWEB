@@ -103,7 +103,7 @@ width: 100%;
     position: relative;
     width: 300px;
     height: 600px;
-    background-image: url('images/map.jpg');
+    background-image: url("images/map.f26e686c2b51.jpg");
     background-size: 300px 600px;
     margin: 0 auto;
     background-repeat: no-repeat;
@@ -125,7 +125,7 @@ width: 100%;
     position: absolute;
     width: 60px;
     height: 60px;
-    background-image: url("images/bottle.png");
+    background-image: url("images/bottle.f53dd97f968f.png");
     background-size: cover;
     transform: translate(-50%, -50%);
     z-index: 1;
@@ -134,7 +134,7 @@ width: 100%;
     position: absolute;
     width: 60px;
     height: 60px;
-    background-image: url("images/bus-stop.png");
+    background-image: url("images/bus-stop.01221e23cfd6.png");
     background-size: cover;
     transform: translate(-50%, -50%);
     z-index: 1;
@@ -143,7 +143,7 @@ width: 100%;
     position: absolute;
     width: 60px;
     height: 60px;
-    background-image: url("images/recycling.png");
+    background-image: url("images/recycling.1c0aa4766ef9.png");
     background-size: cover;
     transform: translate(-50%, -50%);
     z-index: 1;
@@ -152,7 +152,7 @@ width: 100%;
     position: absolute;
     width: 30px;
     height: 40px;
-    background-image: url("images/trash.png");
+    background-image: url("images/trash.ac3bbd29e2af.png");
     background-size: 30px 40px;
     transform: translate(-50%, -50%);
     z-index: 999;
@@ -361,12 +361,17 @@ input[type='submit'] {
   height: 40px;
 }
 
+
+
+
+
 #location-form {
   display: flex;
   flex-direction: column;
   max-width: 300px;
   margin: 0 auto;
   padding: 20px;
+  background-color: #f1f1f1;
   border-radius: 5px;
 }
 
@@ -379,10 +384,13 @@ input[type='submit'] {
 #location-form select {
   padding: 8px;
   margin-bottom: 16px;
+  border: 1px solid #ccc;
   border-radius: 4px;
 }
 
 #submit-location {
+  background-color: #4CAF50;
+  color: white;
   font-weight: bold;
   border: none;
   cursor: pointer;
@@ -393,6 +401,7 @@ input[type='submit'] {
 
 #location-form input[type="checkbox"] {
   appearance: none;
+  background-color: #ccc;
   width: 20px;
   height: 20px;
   border-radius: 4px;
@@ -401,5 +410,6 @@ input[type='submit'] {
 }
 
 #location-form input[type="checkbox"]:checked {
+  background-color: #4CAF50;
   margin-right: 5px;
 }

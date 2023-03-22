@@ -361,17 +361,12 @@ input[type='submit'] {
   height: 40px;
 }
 
-
-
-
-
 #location-form {
   display: flex;
   flex-direction: column;
   max-width: 300px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f1f1f1;
   border-radius: 5px;
 }
 
@@ -384,13 +379,10 @@ input[type='submit'] {
 #location-form select {
   padding: 8px;
   margin-bottom: 16px;
-  border: 1px solid #ccc;
   border-radius: 4px;
 }
 
 #submit-location {
-  background-color: #4CAF50;
-  color: white;
   font-weight: bold;
   border: none;
   cursor: pointer;
@@ -401,7 +393,6 @@ input[type='submit'] {
 
 #location-form input[type="checkbox"] {
   appearance: none;
-  background-color: #ccc;
   width: 20px;
   height: 20px;
   border-radius: 4px;
@@ -410,6 +401,5 @@ input[type='submit'] {
 }
 
 #location-form input[type="checkbox"]:checked {
-  background-color: #4CAF50;
   margin-right: 5px;
 }

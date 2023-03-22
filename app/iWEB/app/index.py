@@ -22,6 +22,7 @@ def main(request):
     submitted = False
     if request.method == "POST":
         data = json.loads(request.body)
+        print(data)
 
         # points handling
         points_change = data.get("points")
