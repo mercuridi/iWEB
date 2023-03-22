@@ -36,7 +36,9 @@ class Challenge(models.Model):
     """Class defining the challenges that exist in the app."""
     name        = models.CharField(max_length = 50)
     description = models.CharField(max_length = 200)
+    type        = models.CharField(max_length=50)
     difficulty  = models.IntegerField(default = 1)
+
 
     # Makes the challenge name appear in the admin panel
     def __str__(self):

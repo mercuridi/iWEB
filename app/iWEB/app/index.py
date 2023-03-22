@@ -37,6 +37,21 @@ def main(request):
                 for profile in UserProfile.objects.all():
                     UserProfile.objects.filter(id=profile.id).update(current_challenge_id=random.randint(1,3))
                 
+        # streak incrementation and handling upon challenge completion
+        location_used = data.get("type_used")
+        if location_used is not None:
+            if current_user_data.current_challenge.type == location_used:
+                if current_user_data.challenge_done is False:
+                    # Set the challenge to done, increment streak
+                    current_user_data.challenge_done = True
+                    current_user_data.streak += 1
+                    
+                    # Bonus points for completing the challenge
+                    bonus_points = 500
+                    current_user_data.points_lifetime   += bonus_points
+                    current_user_data.points_this_week  += bonus_points
+                    current_user_data.points_wallet     += bonus_points
+                    
             
         # points handling
         points_change = data.get("points")

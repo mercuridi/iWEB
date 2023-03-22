@@ -682,7 +682,7 @@
                                             request.open("POST", "/index", true);
                                             request.setRequestHeader("Content-Type", "application/json");
                                             request.setRequestHeader("X-CSRFToken", csrftoken);
-                                            request.send(JSON.stringify({points: 250}));
+                                            request.send(JSON.stringify({points: 250, type_used : this.type_used}));
                             
                                             displayMessage(this)
                                             
@@ -696,12 +696,12 @@
                                     // Displays a message to the user, telling them that they have completed the challange
                                     // There is 2 buttons in the message, one allows the user to play a minigame and the other allows the user to go back to the map
                                     function displayMessage(object){
-                                        // Sets the onject variable to the box, which is the parent of the object that the user clicked on
+                                        // Sets the object variable to the box, which is the parent of the object that the user clicked on
                                         object = object.parentElement;
                                         var message = document.createElement("div");
                                         message.id = "message";
                                         message.className = "message";
-                                        message.innerHTML = "Challange Completed!! <br> <button class='minigame-button'>Play minigame</button>";
+                                        message.innerHTML = "Challenge Completed!! <br> <button class='minigame-button'>Play minigame</button>";
                             
                                         //The coordinates to the bottle, bus stop or bin are stored in the pathButton
                             
@@ -844,7 +844,7 @@
                                         checkButton.className = "checkButton";
                                         checkButton.style.left = '80px';
                                         checkButton.style.top = '200px';
-                                        checkButton.innerHTML = "Veryify Location";
+                                        checkButton.innerHTML = "Verify Location";
                                         checkButton.style.fontSize = "30px";
                                         checkButton.style.width = "280px";
                                         checkButton.style.height = "80px";
@@ -856,6 +856,7 @@
                                         checkButton.style.cursor = 'pointer';
                                         checkButton.Xcoordinates = (this.offsetLeft);
                                         checkButton.Ycoordinates = (this.offsetTop);
+                                        checkButton.type_used = document.getElementById(bottle_id).className;
                                         box.appendChild(checkButton);
                             
                                         // When the check button is pressed the user's location is checked
