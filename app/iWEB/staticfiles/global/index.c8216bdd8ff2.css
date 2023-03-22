@@ -60,7 +60,7 @@ width: 100%;
   margin-left: 120px;
 }
 
-/* This controls the look of each section of the page so that they are uniform and have a consitent style */
+/* This controls the look of each section of the page so that they aare uniform and have a consitent style */
 .contentbox{
   padding: 5%;
   margin: 5%;
@@ -101,10 +101,10 @@ width: 100%;
 /* Controls the styling of the box that holds the map */
 .map {
     position: relative;
-    width: 300px;
-    height: 600px;
-    background-image: url('images/map.jpg');
-    background-size: 300px 600px;
+    width: 1096px;
+    height: 1266px;
+    background-image: url("images/map.f26e686c2b51.jpg");
+    background-size: 1096px 1266px;
     margin: 0 auto;
     background-repeat: no-repeat;
 }
@@ -112,50 +112,49 @@ width: 100%;
 /* Controls the size of the dot that signifies the user */
 .user {
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    z-index: 2;
-    pointer-events: none; /* This allows click events to pass through the upper div */
+    z-index: 1;
 }
 
 /* Each of these controls a part of the map layout but they are names intuitively so don't need indiviual comments */
 .bottle {
     position: absolute;
-    width: 60px;
-    height: 60px;
-    background-image: url("images/bottle.png");
+    width: 160px;
+    height: 160px;
+    background-image: url("images/bottle.f53dd97f968f.png");
     background-size: cover;
     transform: translate(-50%, -50%);
     z-index: 1;
 }
 .bus_stop {
     position: absolute;
-    width: 60px;
-    height: 60px;
-    background-image: url("images/bus-stop.png");
+    width: 160px;
+    height: 160px;
+    background-image: url("images/bus-stop.01221e23cfd6.png");
     background-size: cover;
     transform: translate(-50%, -50%);
     z-index: 1;
 }
 .bin {
     position: absolute;
-    width: 60px;
-    height: 60px;
-    background-image: url("images/recycling.png");
+    width: 160px;
+    height: 160px;
+    background-image: url("images/recycling.1c0aa4766ef9.png");
     background-size: cover;
     transform: translate(-50%, -50%);
     z-index: 1;
 }
 .garbage {
     position: absolute;
-    width: 30px;
-    height: 40px;
-    background-image: url("images/trash.png");
-    background-size: 30px 40px;
+    width: 200px;
+    height: 200px;
+    background-image: url("images/trash.ac3bbd29e2af.png");
+    background-size: 200px 200px;
     transform: translate(-50%, -50%);
-    z-index: 999;
+    z-index: 1;
 }
 
 .maze-row {
@@ -177,12 +176,12 @@ width: 100%;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
-    font-size: 10px;
+    font-size: 30px;
     cursor: pointer;
     border-radius: 5px;
 }
 .water-fountain-button img {
-    height: 30px;
+    height: 50px;
     margin-right: 10px;
 }
 .bus-stop-button {
@@ -192,13 +191,13 @@ width: 100%;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
-    font-size: 10px;
+    font-size: 30px;
     cursor: pointer;
     border-radius: 5px;
   }
   
 .bus-stop-button img {
-    height: 30px;
+    height: 50px;
     margin-right: 10px;
   }
 .bin-button {
@@ -208,12 +207,12 @@ width: 100%;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
-    font-size: 10px;
+    font-size: 30px;
     cursor: pointer;
     border-radius: 5px;
   }
 .bin-button img {
-    height: 30px;
+    height: 50px;
     margin-right: 10px;
   }
 .track-button {
@@ -223,89 +222,78 @@ width: 100%;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
-    font-size: 10px;
+    font-size: 30px;
     cursor: pointer;
     border-radius: 5px;
     tracking: false;
   }
 .track-button img {
-    height: 30px;
+    height: 50px;
     margin-right: 10px;
 }
 .pathDiv {
     position: absolute;
-    width: 10px;
-    height: 10px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;	
   }
-.info-box{
-    border-radius: 6px;
-    margin-top: 30px;
+.box{
     display: inline-block;
+    font-family: "Times New Roman", Times, serif;
     position: absolute;
     text-align: center;
     text-decoration: none;
-    font-size: 10px;
-    width: 60px;
-    height: 60px;
+    font-size: 60px;
+    width: 310px;
+    height: 150px;
     transform: translate(-50%, -50%);
     z-index: 1;
     padding: 5px;
-    
 }
 
 .message{
     position: absolute;
-    width: 60px;
-    height: 60px;
-    left: 50%;
-    top: 260px; /* Align the top edge of the message with the bottom edge of the box */
-    transform: translate(-50%, 0); /* Updated transform to remove vertical translation */
+    left:150px;
+    top: 600px;
+    transform: translate(-50%, -50%);
     z-index: 1;
     padding: 5px;
-    border-radius: 6px;
     
 }
 
 .minigame-button{
-    position: absolute;
-    left: 0px;
-    top: 65px; /* Align the top edge of the message with the bottom edge of the box */
-    width: 60px;
-    height: 60px;
     display: relative;
     align-items: center;
     border: none;
-
+    padding: 10px 20px;
     text-align: center;
     text-decoration: none;
-    font-size: 10px;
+    font-size: 30px;
     cursor: pointer;
+    border-radius: 5px;
     tracking: false;
-    border-radius: 6px;
 }
 .game{
     position: absolute;
-    left: 50%;
-    top: 60px; /* Align the top edge of the message with the bottom edge of the box */
-    position: absolute;
-    width: 60px;
-    height: 120px;
+    left:150px;
+    top: 500px;
+    width: 310px;
     transform: translate(-50%, -50%);
-    border-radius: 6px;
     z-index: 1;
+    padding: 5px;
 }
 .start-button{
-  display: absolute;
+  display: relative;
   align-items: center;
   border: none;
+  padding: 10px 20px;
   text-align: center;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 30px;
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 5px;
   tracking: false;
 }
 
@@ -368,47 +356,4 @@ input[type='submit'] {
   bottom: 0%;
   float: left;
   height: 40px;
-}
-
-#location-form {
-  display: flex;
-  flex-direction: column;
-  max-width: 300px;
-  margin: 0 auto;
-  padding: 20px;
-  border-radius: 5px;
-}
-
-#location-form label {
-  margin-bottom: 8px;
-  font-weight: bold;
-}
-
-#location-form input,
-#location-form select {
-  padding: 8px;
-  margin-bottom: 16px;
-  border-radius: 4px;
-}
-
-#submit-location {
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  margin-bottom: 0;
-  border-radius: 4px;
-}
-
-#location-form input[type="checkbox"] {
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  outline: none;
-}
-
-#location-form input[type="checkbox"]:checked {
-  margin-right: 5px;
 }

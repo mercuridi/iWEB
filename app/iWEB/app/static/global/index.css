@@ -345,6 +345,15 @@ input[type='submit'] {
   width: auto;
 }
 
+.help{
+  width: auto;
+  height: auto;
+  position: sticky;
+  top: 10px;
+  right: 10px;
+  float: right;
+}
+
 .streaks {
   width: auto;
   height: auto;

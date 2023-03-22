@@ -1,15 +1,36 @@
 <!-- Jude -->
 <!-- This took way longer than it looks -->
 <!-- PARAMETERS: -->
-<!-- closest_things is a list of the closest objects, each one requires a type (bin, water filling station, etc) and a location (probably in words for this section) -->
-<!-- scores is a list of the top 5 players plus the current user, each one requiring a name and a score sorted in descending order -->
-<!-- submitted is a boolean on if the request to add a location has gone through or not -->
-<!-- location_form is the form containing what data needs to be inputted to the database -->
-<!-- points_wallet is the number of points_wallet (probably an integer) that the user has -->
-<!-- shop_list is the list of every object in the shop -->
+<!-- 
+    MAP RELATED CONTENT
+    fountain_locations : the list of fountain locaiton dictionaries,
+    bus_stop_locations : the list of bus stop location dictionaries
+         bin_locations : the list of bin location dictionaries
+                  maze : a list of strings showing that show the data on the map read form the static png file
+    USER RELATED DATA
+            usage_data : a dictionary of the stats of every user on the database
+          display_name : a string that is the display name of the current logged in user
+         points_wallet : the amount of points the user has to spend, only this decreases when they buy things
+           points_week : the amount of points the user has earned this week
+       points_lifetime : the amonunt of points the user has earned playing th game total
+                streak : current_user_data.streak,
+              is_staff : a boolean determining if staff utility options should be shown or not
+    SITE UTILITIES
+             shop_list : the list of themes that are availiable for the user to buy, the ones they own already are not displayed
+                scores : the current list of scores for the leaderboard
+        closest_things : a list of the closest items for easy access on the front page
+         location_form : the form that is filled in to submit a location
+             submitted : a boolean showing whether or not the form is submitted
+    SETTINGS
+                themes : the list of themes the user currently owns so that they may switch between them
+                colour : the current theme equipped by the user
+    -->
 
 <!DOCTYPE html>
 <html>
+    <!-- These load the cookies and static files so that the page can
+        load the data for the current user and load static files such as scripts and images-->
+    <!-- We use whitenoise to handle static files outside of DEBUG and insecure running modes-->
     {% load static %} {% csrf_token %}
     <head>
         <title>iWEB test homepage</title>
@@ -40,37 +61,37 @@
         <!-- Only objects that require data from the database should be in here -->
         <style>
             html * {
-            color: {{colour.font}}; /* THIS IS THE MAIN FONT COLOUR */
+                color: {{colour.font}}; /* THIS IS THE MAIN FONT COLOUR */
             }
 
             /* The navigation menu links */
             .sidenav a {
-            color: #818181;
+                color: #818181;
             }
 
             /* When you mouse over the navigation links, change their color */
             .sidenav a:hover {
-            color: #004d99;
+                color: #004d99;
             }
 
             .icon-bar {
-            background-color: #555; /* Dark-grey background */
+                background-color: #555; /* Dark-grey background */
             }
 
             .icon-bar a:hover {
-            background-color: red; /* Add a hover color - doesn't work */
+                background-color: red; /* Add a hover color - doesn't work */
             }
 
             .active {
-            background-color: #4933b5; /* Add an active/current color */
+                background-color: #4933b5; /* Add an active/current color */
             }
 
             .sidebar {
-            background: {{colour.icons}}; /* colour of fonts and icons */
+                background: {{colour.icons}}; /* colour of fonts and icons */
             }
 
             #main {
-            background-color: {{colour.background}}; /*main page colour*/
+                background-color: {{colour.background}}; /*main page colour*/
             }
 
             .row {
@@ -133,32 +154,35 @@
                 background-color: rgba(0, 163, 255, 1);
             }
             .start-button{
-            background-color: grey;
-            color: white;
+                background-color: grey;
+                color: white;
             }
 
 
+            input[type='text'],
+            select, 
             textarea {
-            border: 1px solid #ccc;
+                border: 1px solid #ccc;
+                color:black;
             }
 
             /* Style the submit button with a specific background color etc */
             input[type='submit'] {
-            background-color: #049ada;
-            color: white;
+                background-color: #049ada;
+                color: white;
             }
 
             /* When moving the mouse over the submit button, add a darker green color */
-            input[type='submit']:hover {
-            background-color: #049ada;
+                input[type='submit']:hover {
+                background-color: #049ada;
             }
 
             .contentbox{
-            background-color: {{colour.main}};
+                background-color: {{colour.main}};
             }
 
             .bar{
-            background-color: {{colour.main}};
+                background-color: {{colour.main}};
             }
 
             .alt_text{
@@ -168,18 +192,20 @@
                 color: black;
             }
             .streaks {
-            background-color: #000000;
+                background-color: #000000;
             }
-
+            .help{
+                    color: black;
+            }
             .streaks_small{
-            background-color: #46ff46;
+                background-color: #46ff46;
             }
 
             .streaks_small{
                 width: {{streak}};
             }
             #location-form {
-            background-color: #f1f1f1;
+                background-color: #f1f1f1;
             }
 
             #location-form label {
@@ -318,6 +344,19 @@
                     {% endif %}
                 </div>
             </header>
+
+            <!-- Total Stats Section-->
+            <div class= "contentbox justify">
+                <h2> Together everyone using this app has:</h2>
+                <ul>
+                    <li>Saved {{ usage_data.fountains_used}} grams of carbon from not using single use bottles</li>
+                    <li>Taken {{ usage_data.bus_stops_used }} fewer car journeys</li>
+                    <li>Recycled {{ usage_data.bins_used }} times</li> 
+                    <li>In total used environmentally friendly campus services {{ usage_data.total_used }} times</li>
+                </ul>
+            </div>
+            <!-- End Stats Section-->
+            
             <!-- Map Section -->
             <div
                 class="contentbox justify"

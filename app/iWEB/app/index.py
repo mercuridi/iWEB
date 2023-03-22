@@ -5,7 +5,7 @@ import json
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
-from .models import Location, Item, UserProfile
+from .models import Location, Item, UserProfile, Challenge, Usage
 from .forms import LocationForm
 from .utils.mapUtilities import read_map
 
@@ -22,8 +22,47 @@ def main(request):
     submitted = False
     if request.method == "POST":
         data = json.loads(request.body)
-        print(data)
-
+        
+        # leaderboard reset button handling
+        if data.get("leaderboard_reset") == 0:
+            if current_user.is_staff:
+                # set all users at once to have 0 points this week and an incomplete challenge
+                UserProfile.objects.all().update(
+                    points_this_week=0,
+                    challenge_done=False,
+                    )
+                # iterate across users to give them each a new random challenge
+                # (new challenge can be the same as the last one)
+                for profile in UserProfile.objects.all():
+                    UserProfile.objects.filter(id=profile.id).update(current_challenge_id=random.randint(1,3))
+                
+        # streak incrementation and handling upon challenge completion
+        location_used = data.get("type_used")
+        if location_used is not None:
+            if current_user_data.current_challenge.type == location_used:
+                if current_user_data.challenge_done is False:
+                    # Set the challenge to done, increment streak
+                    current_user_data.challenge_done = True
+                    current_user_data.streak += 1
+                    
+                    # Bonus points for completing the challenge
+                    bonus_points = 500
+                    current_user_data.points_lifetime   += bonus_points
+                    current_user_data.points_this_week  += bonus_points
+                    current_user_data.points_wallet     += bonus_points
+            
+            usage = Usage.objects.get(pk=1)
+            usage.total_used += 1
+            match(location_used):
+                case("fountain"):
+                    usage.fountains_used += 1
+                case("bus_stop"):
+                    usage.bus_stops_used += 1
+                case("bin"):
+                    usage.bins_used += 1
+            usage.save()
+                    
+            
         # points handling
         points_change = data.get("points")
         if points_change is not None:
@@ -101,6 +140,13 @@ def main(request):
         if all_themes[i] not in owned_themes:
             themes.pop(all_themes[i])
 
+    # handle total stats for display on main page         
+    usage = Usage.objects.get(pk=1)
+    fountains_used = usage.fountains_used * 54
+    bus_stops_used = usage.bus_stops_used
+    bins_used = usage.bins_used
+    total_used = usage.total_used
+
     context = {
     # map-related context
     'fountain_locations' : fountain_coordinates,
@@ -114,6 +160,7 @@ def main(request):
        'points_lifetime' : getattr(current_user_data, "points_lifetime"),
                 'streak' : current_user_data.streak,
     # site utilities
+            'usage_data' : {'fountains_used':fountains_used,'bus_stops_used':bus_stops_used,'bins_used':bins_used,'total_used':total_used},
              'shop_list' : unowned_themes,
                 'scores' : leaderboard_list,
         'closest_things' : loc_list,
