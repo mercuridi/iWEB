@@ -1,0 +1,132 @@
+<!-- Jude -->
+<!-- Help file for the reader -->
+<!DOCTYPE html>
+<html>
+    {% load static %} {% csrf_token %}
+    <head>
+        <title>iWEB test homepage</title>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1" />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'global/index.css' %}"/>
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'global/testlib.css' %}" />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Montserrat" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+            />
+
+        <meta
+            http-equiv="Cache-Control"
+            content="no-cache, no-store, must-revalidate" />
+
+        <!-- Only objects that require data from the database should be in here -->
+        <style>
+            html * {
+            color: #ffffff; /* THIS IS THE MAIN FONT COLOUR */
+            }
+
+            /* The navigation menu links */
+            .sidenav a {
+            color: #818181;
+            }
+
+            /* When you mouse over the navigation links, change their color */
+            .sidenav a:hover {
+            color: #004d99;
+            }
+
+            .icon-bar {
+            background-color: #555; /* Dark-grey background */
+            }
+
+            .icon-bar a:hover {
+            background-color: red; /* Add a hover color - doesn't work */
+            }
+
+            .active {
+            background-color: #4933b5; /* Add an active/current color */
+            }
+
+            .sidebar {
+            background: #3776ac; /* colour of fonts and icons */
+            }
+
+            #main {
+            background-color: #ffffff; /*main page colour*/
+            }
+            
+            .contentbox{
+            background-color: #3776ac;
+            }
+
+            .bar{
+            background-color: #3776ac;
+            }
+        </style>
+    </head>
+    <body style="margin : 5%;">
+        <!-- Page Content -->
+        <div
+            class="main-content padding-large"
+            id="main"
+            style="margin : 5%;"></div>
+            <!-- Header/Home -->
+            <header
+                class="contentbox container padding-32 center"
+                id="home"
+                style="margin : 5%;">
+                <h1 class="jumbo">
+                    <span class="hide-small">Welcome to </span> Help
+            </header>
+            <!-- Help Main Section -->
+            <div
+                class="contentbox justify"
+                id="help"
+                style="margin : 5%;">
+                <h2>Starting up</h2>
+                <div class="container">
+                <p>
+                    Hello! This is a help page for users who want to learn how the site works.
+                </p>
+                <h2>Registering</h2>
+                <p> Go to the <a href="/register">registration page</a> to start on registering yourself to our site. Here you will find a page with 4 text boxes. Fill each of those out and hit the register button to create your account.</p>
+                <h2>Signing In</h2>
+                <p> Go to the <a href="/">login page</a> to sign in if you already have an account.</p>
+                <h2>The Map & The </h2>
+                <p> Once you have signed in or registered you will be redirected to the main page. The first thing you'll see is the map section. You can go back to it at any time by using the icon bar on the left of the screen on desktop or using the menu at the top of the screen on mobile devices.</p>
+                <p> The map has 4 buttons over it. To begin, click any or all of the first three buttons to show the object they symbolise on the map. Click the fourth button and your browser will ask for your location. Click allow and a red dot will show up on the map, showing your exact location on it.</p>
+                <p> Click or tap a particular bin, bus stop or water bottle filling station to bring up the selection menu. Tapping or clicking "Find Shortest Path" will draw a line from it to your exact location, so you can easily find it. Pressing the "Verify Location" button while being near to that particular object will "use" the object.</p>
+                <p> Using an object while nearby it will give you some points and allow you to play a bonus minigame. This minigame will give you extra points to climb the leaderboard and buy new themes! </p>
+                <p> On top of allowing you to play the minigame, if your weekly challenge is completed by the verification, you'll get even more points and your weekly streak will increase. </p>
+                <p>Press the "X" button to close the menu.</p>
+                <h2>The Leaderboard</h2>
+                <p> The leaderboard shows the top point scorers this week, the amount of points they've scored, and their current streak. </p>
+                <p> If you want to get to the top, make sure you complete your challenge every week, use the app consistently, and always play the minigame after you use an object!</p>
+                <h2> The Shop </h2>
+                <p> After you've earned some points, you might want to spend some of them. Lucky for you, the Shop covers that! </p>
+                <p> The Shop contains some themes which cost points. You can spend the points you've earned to customise the look of your app! </p>
+                <p> Once you've bought a theme, they live in your Settings. You can go there any time to swap out to something different. </p>
+                <h2> Reports </h2>
+                <p> Notice something wrong with our data? You can help out us and your fellow users by submitting a Location Report! </p>
+                <p> If you find a location that's not in our database, or perhaps one that's not working, you can let us know by filling out a Location Report. </p>
+                <p> Your location will be automatically filled by our system, and you can tell us everything else we need to know. Once you're done, the report will be checked by a Gamekeeper who will be able to adjust the game's systems accordingly to reflect the new information you gave us! </p>
+                <p> You even get points for submitting a Location Report, so make sure you let us know if we've got something wrong! </p>
+                <h2> Settings </h2>
+                <p> Settings is where you can adjust your experience. This is where your owned Themes are kept, and if you're a Gamekeeper, you can also reset the weekly leaderboard and give everyone a new, random challenge from this section. </p>
+                </div>
+            </div>
+            <!-- Help Main Section -->
+        </div>
+        <!-- END PAGE CONTENT -->
+    </body>
+</html>

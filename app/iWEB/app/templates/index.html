@@ -151,6 +151,7 @@
                 .minigame-button{
                     background-color: grey;
                     color: white;
+                
                 }
                 .game{
                     background-color: rgba(0, 163, 255, 1);
@@ -166,26 +167,26 @@
                 border: 1px solid #ccc;
                 color:black;
                 }
-                
+
                 /* Style the submit button with a specific background color etc */
                 input[type='submit'] {
                 background-color: #049ada;
                 color: white;
                 }
-    
+
                 /* When moving the mouse over the submit button, add a darker green color */
                 input[type='submit']:hover {
                 background-color: #049ada;
                 }
-    
+
                 .contentbox{
                 background-color: {{colour.main}};
                 }
-    
+
                 .bar{
                 background-color: {{colour.main}};
                 }
-    
+
                 .alt_text{
                     color: black;
                 }
@@ -195,11 +196,14 @@
                 .streaks {
                 background-color: #000000;
                 }
-    
+
+                .help{
+                    color: black;
+                }
                 .streaks_small{
                 background-color: #46ff46;
                 }
-    
+
                 .streaks_small{
                     width: {{streak}};
                 }
@@ -208,39 +212,44 @@
         <body>
             <!-- Icon Bar (Sidebar - hidden on small screens) -->
             <nav class="sidebar bar-block small hide-small center">
-                <!-- Each icon has a href which specifies the part of the page they link to,
-                    a reference to the lib.css library which specifies their behaviour and a label-->
-                <a href="#"
+                <a
+                    href="#"
                     class="bar-icon button padding-large">
                     <i class="fa fa-home xxlarge"></i>
                     <p>Menu</p>
                 </a>
-                <a href="#map_box"
+                <a
+                    href="#map_box"
                     class="bar-icon button padding-large">
                     <i class="fa fa-user xxlarge"></i>
                     <p>Map</p>
                 </a>
-                <a href="#leaderboard_box"
+                <a
+                    href="#leaderboard_box"
                     class="bar-icon button padding-large">
                     <i class="fa fa-user xxlarge"></i>
                     <p>Leaderboard</p>
                 </a>
-                <a href="#shop_box"
+                <a
+                    href="#shop_box"
                     class="bar-icon button padding-large">
                     <i class="fa fa-user xxlarge"></i>
                     <p>You have {{ points_wallet }} credits</p>
                 </a>
-                <a href="#report_box"
+                <a
+                    href="#report_box"
                     class="bar-icon button padding-large">
                     <i class="fa fa-user xxlarge"></i>
                     <p>Report</p>
                 </a>
-                <a href="#settings_box"
+                <a
+                    href="#settings_box"
                     class="bar-icon button padding-large">
                     <i class="fa fa-user xxlarge"></i>
                     <p>Settings</p>
                 </a>
-                <a href="#contactus_box"
+                <a
+                    href="#contactus_box"
                     class="bar-icon button padding-large">
                     <i class="fa fa-user xxlarge"></i>
                     <p>Contact us</p>
@@ -251,30 +260,36 @@
                 class="top hide-large hide-medium"
                 id="myNavbar">
                 <div class="bar center small">
-                    <!-- Each menu option has a href which specifies the part of the page they link to 
-                        and a reference to the lib.css library which dicatates their behaviour and a label.
-                        This is only displayed on small screens so the icons are hidden -->
-                    <a href="#"
+                    <a
+                        href="#"
                         class="bar-item button">Menu</a>
                     <div id="myLinks">
-                        <a href="#map_box"
+                        <a
+                            href="#map_box"
                             class="bar-item button">Map</a>
-                        <a href="#leaderboard_box"
+                        <a
+                            href="#leaderboard_box"
                             class="bar-item button">Leaderboard</a>
-                        <a href="#shop_box"
+                        <a
+                            href="#shop_box"
                             class="bar-item button">{{points_wallet}}#</a>
-                        <a href="#report_box"
+                        <a
+                            href="#report_box"
                             class="bar-item button">Report</a>
-                        <a href="#settings_box"
+                        <a
+                            href="#settings_box"
                             class="bar-item button">Settings</a>
-                        <a href="#contactus_box"
+                        <a
+                            href="#contactus_box"
                             class="bar-item button">Contact us</a>
                     </div>
                 </div>
             </div>
-    
-    
-    
+
+            <div class="help alt_text">
+                <a href="/help"><h3 class = "help">Click here for help</h3></a>
+            </div>
+
             <!-- Page Content -->
             <div
                 class="main-content padding-large"
@@ -286,12 +301,13 @@
                     <h1 class="jumbo">
                         <span class="hide-small">Welcome to </span>iWEB
                         <h2>Hi, {{ display_name }}. You currently have {{ points_wallet }} credits to spend</h2>
-            <h2>This week you've earned {% if points_week %}{{ points_week }} {% else %} 0 {% endif %} points and over your entire time playing you have earned {% if points_lifetime %}{{ points_lifetime }} {% else %} 0 {% endif %} credits</h2>
+            <h2>This week you've earned {% if points_this_week %}{{ points_this_week }} {% else %} 0 {% endif %} points this week and over your entire time playing over you have earned {% if points_lifetime %}{{ points_lifetime }} {% else %} 0 {% endif %} credits</h2>
                     </h1>
                     <!-- Closest things parsed into the parameter closest_things-->
-                    <div class="centre"
+                    <div
+                        class="centre"
                         id="closest_things">
-                        <a>For quick access try these:</a>
+                        <a>Your closest options are:</a>
                         {% if closest_things %}
                         <ol>
                             {% for item in closest_things %}
@@ -320,7 +336,8 @@
                 <!-- End Stats Section-->
                 
                 <!-- Map Section -->
-                <div class="contentbox justify"
+                <div
+                    class="contentbox justify"
                     id="map_box">
                     <h2>Map</h2>
                     <button class="water-fountain-button">
@@ -354,7 +371,7 @@
                                     var map = document.querySelector(".map");
                                     var mapWidth = map.offsetWidth;
                                     var mapHeight = map.offsetHeight;
-    
+
                                     width_ratio = mapWidth / 1096;
                                     height_ratio = mapHeight / 1266;
                                     console.log(mapHeight);
@@ -396,7 +413,7 @@
                                         }
                                         
                                     }
-    
+
                                     // Converts from x and y coordinates to longitude and latitude
                                     function getLatLong(x, y, map_width = mapWidth, map_height = mapHeight){
                                         // The coordinates of the top left and bottom right corners of the map
@@ -544,7 +561,7 @@
                             
                                         bus_stop.latitude = ({{ bus_stop_locations|safe}})[i][0];
                                         bus_stop.longitude = ({{ bus_stop_locations|safe}})[i][1];
-    
+
                                         // Retrieves extra information about the bus stop from the database
                                         bus_stop.textContent = ({{ bus_stop_locations|safe}})[i][2] + " " + ({{ bus_stop_locations|safe}})[i][3];
                                         bus_stop.style.left = x;
@@ -699,7 +716,7 @@
                                             request.open("POST", "/index", true);
                                             request.setRequestHeader("Content-Type", "application/json");
                                             request.setRequestHeader("X-CSRFToken", csrftoken);
-                                            request.send(JSON.stringify({points: 250, type_used : this.type_used}));
+                                            request.send(JSON.stringify({points: 250}));
                             
                                             displayMessage(this)
                                             
@@ -713,12 +730,12 @@
                                     // Displays a message to the user, telling them that they have completed the challange
                                     // There is 2 buttons in the message, one allows the user to play a minigame and the other allows the user to go back to the map
                                     function displayMessage(object){
-                                        // Sets the object variable to the box, which is the parent of the object that the user clicked on
+                                        // Sets the onject variable to the box, which is the parent of the object that the user clicked on
                                         object = object.parentElement;
                                         var message = document.createElement("div");
                                         message.id = "message";
                                         message.className = "message";
-                                        message.innerHTML = "Challenge Completed!! <br> <button class='minigame-button'>Play minigame</button>";
+                                        message.innerHTML = "Challange Completed!! <br> <button class='minigame-button'>Play minigame</button>";
                             
                                         //The coordinates to the bottle, bus stop or bin are stored in the pathButton
                             
@@ -809,7 +826,7 @@
                                         box.innerHTML = this.textContent;
                                         // Stores the id of the bottle, bus stop or bin in the box
                                         box.item_id = this.id;
-    
+
                                         // Changes the colour of the box depending on the type of object
                                         if (this.className == "bottle"){
                                             var color = "blue";
@@ -873,7 +890,6 @@
                                         checkButton.style.cursor = 'pointer';
                                         checkButton.Xcoordinates = (this.offsetLeft);
                                         checkButton.Ycoordinates = (this.offsetTop);
-                                        checkButton.type_used = document.getElementById(bottle_id).className;
                                         box.appendChild(checkButton);
                             
                                         // When the check button is pressed the user's location is checked
@@ -911,8 +927,8 @@
                                     function displayPath (e){
                                         // Retrieves the coordinates of the user and converts them to the pixel equivilant
                                         var user = document.querySelector(".user");
-    
-    
+
+
                                         user_coordinates = getCoordinates(
                                             user.latitude,
                                             user.longitude,
@@ -921,10 +937,10 @@
                                         // removes the px from the end of the string
                                         user_coordinates_x = user_coordinates.x.slice(0, -2);
                                         user_coordinates_y = user_coordinates.y.slice(0, -2);
-          
+        
                                         user_x = Math.floor(user_coordinates_x/18);
                                         user_y = Math.floor(user_coordinates_y/18);
-    
+
                                         // Retrieves the id of the bottle, bus stop or bin
                                         item_id = this.parentElement.item_id;
                                         // Retrieves the item from the id of the bottle, bus stop or bin
@@ -934,11 +950,11 @@
                                             item.longitude,
                                             map_width = 1096,
                                             map_height = 1266);
-    
+
                                         // removes the px from the end of the string
                                         item_coordinates_x = item_coordinates.x.slice(0, -2);
                                         item_coordinates_y = item_coordinates.y.slice(0, -2);
-    
+
                                         console.log(item_coordinates_x, item_coordinates_y);
                                         // Retrieves the coordinates of the bottle, bus stop or bin and converts them to the pixel equivilant
                                         x = Math.floor(item_coordinates_x/18);
@@ -1054,7 +1070,7 @@
                                                 var nodePosition = [
                                                     currentNode.position[0] + newPosition[0],
                                                     currentNode.position[1] + newPosition[1]
-                                                   
+                                                
                                                 ];
                                     
                                                 // Checks if the node is in the map
