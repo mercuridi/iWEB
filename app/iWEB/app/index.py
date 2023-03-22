@@ -135,6 +135,13 @@ def main(request):
         if all_themes[i] not in owned_themes:
             themes.pop(all_themes[i])
 
+    # handle total stats for display on main page         
+    usage = Usage.objects.get(pk=1)
+    fountains_used = usage.fountains_used * 54
+    bus_stops_used = usage.bus_stops_used
+    bins_used = usage.bins_used
+    total_used = usage.total_used
+
     context = {
     # map-related context
     'fountain_locations' : fountain_coordinates,
@@ -149,7 +156,7 @@ def main(request):
        'points_lifetime' : getattr(current_user_data, "points_lifetime"),
               'is_staff' : getattr(current_user, "is_staff"),
     # site utilities
-            'usage_data' : Usage.objects.get(pk=1),
+            'usage_data' : {'fountains_used':fountains_used,'bus_stops_used':bus_stops_used,'bins_used':bins_used,'total_used':total_used},
              'shop_list' : unowned_themes,
                 'scores' : leaderboard_list,
         'closest_things' : loc_list,
