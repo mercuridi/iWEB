@@ -1,13 +1,5 @@
 <!-- Jude -->
-<!-- This took way longer than it looks -->
-<!-- PARAMETERS: -->
-<!-- closest_things is a list of the closest objects, each one requires a type (bin, water filling station, etc) and a location (probably in words for this section) -->
-<!-- scores is a list of the top 5 players plus the current user, each one requiring a name and a score sorted in descending order -->
-<!-- submitted is a boolean on if the request to add a location has gone through or not -->
-<!-- location_form is the form containing what data needs to be inputted to the database -->
-<!-- points_wallet is the number of points_wallet (probably an integer) that the user has -->
-<!-- shop_list is the list of every object in the shop -->
-
+<!-- Help file for the reader -->
 <!DOCTYPE html>
 <html>
     {% load static %} {% csrf_token %}
@@ -207,7 +199,6 @@
                 <p> Go to the <a href="/register">registration page</a> to start on registering yourself to our site. Here you will find a page with 4 text boxes. Fill each of those out and hit the register button to create your account</p>
                 <h2>Signing In</h2>
                 <p> Go to the <a href="/">login page</a> to sign in if you already have an account</p>
-                <p>-> using the map</p>
                 <h2>The Map</h2>
                 <p> Once you have signed in or registered you will be redirected to the main page. The first thing you'll see is the map section. You can go back to it at any time by using the icon bar on the left of the screen on desktop or using the menu at the top of the screen on mobile devices.</p>
                 <p> The maap has 4 buttons over it. To begin, click any or all of the first three buttons to show the object they symbolise on the map. Click the third button and your browser will ask for your location. Click allow and a red dot will show up on the map, showing your exact location on it.</p>
