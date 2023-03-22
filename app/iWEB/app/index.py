@@ -39,6 +39,8 @@ def main(request):
                 
         # streak incrementation and handling upon challenge completion
         location_used = data.get("type_used")
+        print(current_user_data.current_challenge.type)
+        print(location_used)
         if location_used is not None:
             if current_user_data.current_challenge.type == location_used:
                 if current_user_data.challenge_done is False:
@@ -47,9 +49,10 @@ def main(request):
                     current_user_data.streak += 1
                     
                     # Bonus points for completing the challenge
-                    current_user_data.points_lifetime   += 500
-                    current_user_data.points_this_week  += 500
-                    current_user_data.points_wallet     += 500
+                    bonus_points = 500
+                    current_user_data.points_lifetime   += bonus_points
+                    current_user_data.points_this_week  += bonus_points
+                    current_user_data.points_wallet     += bonus_points
                     
             
         # points handling
