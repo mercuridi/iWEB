@@ -3,6 +3,8 @@
 #       context data passed to front end, get_leaderboard and get_locations functions,
 #       commenting, docstrings, refactoring
 # Dash: Colour codes for themes
+# Jude: Colour tweaking for compatibility/readability, Theme handling before refactor,
+#       organising of all code into single file after restructuring
 """
 Python file representing the view for the main page most everything is contained in.
 """
