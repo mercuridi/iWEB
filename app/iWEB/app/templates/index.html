@@ -8,6 +8,7 @@
          bin_locations : the list of bin location dictionaries
                   maze : a list of strings showing that show the data on the map read form the static png file
     USER RELATED DATA
+            usage_data : a dictionary of the stats of every user on the database
           display_name : a string that is the display name of the current logged in user
          points_wallet : the amount of points the user has to spend, only this decreases when they buy things
            points_week : the amount of points the user has earned this week
@@ -302,6 +303,19 @@
                         {% endif %}
                     </div>
                 </header>
+
+                <!-- Total Stats Section-->
+                <div class= "contentbox justify">
+                    <h2> Together everyone using this app has saved:</h2>
+                    <ul>
+                        <li>{{ usage_data.fountains_used}}grams of carbon from not using single use bottles</li>
+                        <li>{{ usage_data.bus_stops_used }}</li>
+                        <li>{{ usage_data.bins_used }}</li>
+                        <li>{{ usage_data.total_used }}</li>
+                    </ul>
+                </div>
+                <!-- End Stats Section-->
+                
                 <!-- Map Section -->
                 <div class="contentbox justify"
                     id="map_box">
