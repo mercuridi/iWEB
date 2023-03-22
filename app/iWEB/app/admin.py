@@ -6,12 +6,10 @@
     """
 
 from django.contrib import admin
-from .models import Location
-from .models import Item
-from .models import UserProfile
-from .models import Challenge
+from .models import Location, Item, UserProfile, Challenge, Usage
 
 admin.site.register(Location)
 admin.site.register(Item)
 admin.site.register(UserProfile)
 admin.site.register(Challenge)
+admin.site.register(Usage)

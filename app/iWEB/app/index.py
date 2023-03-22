@@ -6,7 +6,7 @@ import random
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
-from .models import Location, Item, UserProfile, Challenge
+from .models import Location, Item, UserProfile, Challenge, Usage
 from .forms import LocationForm
 from .utils.mapUtilities import read_map
 
@@ -51,6 +51,17 @@ def main(request):
                     current_user_data.points_lifetime   += bonus_points
                     current_user_data.points_this_week  += bonus_points
                     current_user_data.points_wallet     += bonus_points
+            
+            usage = Usage.objects.get(pk=1)
+            usage.total_used += 1
+            match(location_used):
+                case("fountain"):
+                    usage.fountains_used += 1
+                case("bus_stop"):
+                    usage.bus_stops_used += 1
+                case("bin"):
+                    usage.bins_used += 1
+            usage.save()
                     
             
         # points handling
@@ -124,6 +135,13 @@ def main(request):
         if all_themes[i] not in owned_themes:
             themes.pop(all_themes[i])
 
+    # handle total stats for display on main page         
+    usage = Usage.objects.get(pk=1)
+    fountains_used = usage.fountains_used * 54
+    bus_stops_used = usage.bus_stops_used
+    bins_used = usage.bins_used
+    total_used = usage.total_used
+
     context = {
     # map-related context
     'fountain_locations' : fountain_coordinates,
@@ -138,6 +156,7 @@ def main(request):
        'points_lifetime' : getattr(current_user_data, "points_lifetime"),
               'is_staff' : getattr(current_user, "is_staff"),
     # site utilities
+            'usage_data' : {'fountains_used':fountains_used,'bus_stops_used':bus_stops_used,'bins_used':bins_used,'total_used':total_used},
              'shop_list' : unowned_themes,
                 'scores' : leaderboard_list,
         'closest_things' : loc_list,

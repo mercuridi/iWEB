@@ -8,6 +8,7 @@
          bin_locations : the list of bin location dictionaries
                   maze : a list of strings showing that show the data on the map read form the static png file
     USER RELATED DATA
+            usage_data : a dictionary of the stats of every user on the database
           display_name : a string that is the display name of the current logged in user
          points_wallet : the amount of points the user has to spend, only this decreases when they buy things
            points_week : the amount of points the user has earned this week
@@ -160,8 +161,11 @@
                 color: white;
                 }
 
+                input[type='text'],
+                select, 
                 textarea {
                 border: 1px solid #ccc;
+                color:black;
                 }
 
                 /* Style the submit button with a specific background color etc */
@@ -318,6 +322,19 @@
                         {% endif %}
                     </div>
                 </header>
+
+                <!-- Total Stats Section-->
+                <div class= "contentbox justify">
+                    <h2> Together everyone using this app has:</h2>
+                    <ul>
+                        <li>Saved {{ usage_data.fountains_used}} grams of carbon from not using single use bottles</li>
+                        <li>Taken {{ usage_data.bus_stops_used }} fewer car journeys</li>
+                        <li>Recycled {{ usage_data.bins_used }} times</li> 
+                        <li>In total used environmentally friendly campus services {{ usage_data.total_used }} times</li>
+                    </ul>
+                </div>
+                <!-- End Stats Section-->
+                
                 <!-- Map Section -->
                 <div
                     class="contentbox justify"
@@ -1181,7 +1198,6 @@
                     {% else %}
                     <h1>Submit a location</h1>
                     <form
-                        class="alt_text"
                         action=""
                         method="POST">
                         {% csrf_token%} {{ location_form.as_p }}
