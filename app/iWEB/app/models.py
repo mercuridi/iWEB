@@ -1,5 +1,5 @@
 # Dimitar: Location model, Items model
-# Kai: Challenges model, UserProfile model
+# Kai: Challenges model, UserProfile model, Usage model
 """
 Module defining the Location, Items, Challenge, and UserProfile models.
 """
@@ -66,3 +66,10 @@ class UserProfile(models.Model):
 # if they do not exist and allows referencing to profiles
 # directly as user.profile instead of get_profile() or worse
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
+
+class Usage(models.Model):
+    """Class defining the model that tracks usage across the app."""
+    fountains_used  = models.IntegerField(default=0)
+    bus_stops_used  = models.IntegerField(default=0)
+    bins_used       = models.IntegerField(default=0)
+    total_used      = models.IntegerField(default=0)

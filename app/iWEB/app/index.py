@@ -6,7 +6,7 @@ import random
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
-from .models import Location, Item, UserProfile, Challenge
+from .models import Location, Item, UserProfile, Challenge, Usage
 from .forms import LocationForm
 from .utils.mapUtilities import read_map
 
@@ -51,6 +51,17 @@ def main(request):
                     current_user_data.points_lifetime   += bonus_points
                     current_user_data.points_this_week  += bonus_points
                     current_user_data.points_wallet     += bonus_points
+            
+            usage = Usage.objects.get(pk=1)
+            usage.total_used += 1
+            match(location_used):
+                case("fountain"):
+                    usage.fountains_used += 1
+                case("bus_stop"):
+                    usage.bus_stops_used += 1
+                case("bin"):
+                    usage.bins_used += 1
+            usage.save()
                     
             
         # points handling
