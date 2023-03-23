@@ -67,8 +67,6 @@ From this point onwards, commands must be executed in the project's root directo
 `mkcert -cert-file cert.pem -key-file key.pem localhost 127.0.0.1`
 `pip install django-extensions Werkzeug`
 `pip install pyOpenSSL`
-`python3 manage.py runserver_plus 0.0.0.0:8000 --cert-file cert.pem --key-file key.pem`
-
 
 In order to run the server, Django must also be provided with a valid user to access a valid mySQL database. This section of the readme will guide you through creating these requirements, assuming you have the earlier named dependencies installed.
 
@@ -123,6 +121,7 @@ This will construct the database schema required to run iWEB properly on the emp
 To run the server, navigate to `./iWEB/app-mysql/iWEB` and run the command:
 `python manage.py runserver`
 If all has gone well, this will open the server on the localhost which can be accessed through any web browser at `http://127.0.0.1:8000/`.
+To run the HTTPS secure server, instead use the command `python3 manage.py runserver_plus 0.0.0.0:8000 --cert-file cert.pem --key-file key.pem`
 
 ## Running tests
 To manually run the iWEB test suite, navigate to `./iWEB/app-mysql/iWEB` or `./iWEB/app-sqlite/iWEB` and run the command:
