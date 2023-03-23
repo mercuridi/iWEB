@@ -871,6 +871,6 @@ function getCookie(name) {
   // Return the cookie value (or null if not found)
   return cookieValue;
 }
-export { getCoordinates, createItems, getLocation, createMaze, startListeners, createBox, displayMessage, minigame, getCookie }
+export { getCoordinates, createElement, createItems, getLocation, createMaze, startListeners, createBox, displayMessage, minigame, getCookie, displayPath, aStar, checkLocation }
 
 
