@@ -23,7 +23,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install django
         pip install whitenoise
-        #pip install -r requirements.txt
+        pip install django-extensions Werkzeug
+        pip install pyOpenSSL
     - name: Run Tests
       run: |
         python app/iWEB/manage.py test --noinput app/iWEB/tests/
