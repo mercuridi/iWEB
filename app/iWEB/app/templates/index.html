@@ -15,6 +15,8 @@
        points_lifetime : the amonunt of points the user has earned playing th game total
                 streak : current_user_data.streak,
               is_staff : a boolean determining if staff utility options should be shown or not
+     current_challenge : the current challenge issued to te user
+        challenge_done : a boolean value determining if the user has completed their challenge or not
     SITE UTILITIES
              shop_list : the list of themes that are availiable for the user to buy, the ones they own already are not displayed
                 scores : the current list of scores for the leaderboard
@@ -309,9 +311,7 @@
                 </div>
             </div>
         </div>
-
-
-
+        
         <!-- Page Content -->
         <div
             class="main-content padding-large"
@@ -362,7 +362,11 @@
                 class="contentbox justify"
                 id="map_box">
                 <h2>Map</h2>
-                <h4>You're challenge is: {{challenge}}</h4>
+                {% if {{ challenge_done }}%}
+                <h4>Your challenge is: {{current_challenge}}</h4>
+                {% else %}
+                <h4>You have no uncomplete challenges</h4>
+                {% endif %}
                 <button class="water-fountain-button">
                     <img
                         src="{% static 'global/images/bottle.png' %}"

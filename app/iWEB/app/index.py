@@ -158,6 +158,9 @@ def main(request):
          'points_wallet' : getattr(current_user_data, "points_wallet"),
            'points_week' : getattr(current_user_data, "points_this_week"),
        'points_lifetime' : getattr(current_user_data, "points_lifetime"),
+     'current_challenge' : getattr(current_user_data, "current_challenge"),
+        'challenge_done' : getattr(current_user_data, "challenge_done"),
+              'is_staff' : getattr(current_user, "is_staff"),
                 'streak' : current_user_data.streak,
     # site utilities
             'usage_data' : {'fountains_used':fountains_used,'bus_stops_used':bus_stops_used,'bins_used':bins_used,'total_used':total_used},
