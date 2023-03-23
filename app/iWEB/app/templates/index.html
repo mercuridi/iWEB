@@ -311,7 +311,11 @@
                 </div>
             </div>
         </div>
-        
+
+        <div class="help alt_text">
+            <a href="/help"><h3 class = "help">Click here for help</h3></a>
+        </div>
+
         <!-- Page Content -->
         <div
             class="main-content padding-large"
@@ -362,10 +366,10 @@
                 class="contentbox justify"
                 id="map_box">
                 <h2>Map</h2>
-                {% if {{ challenge_done }}%}
-                <h4>Your challenge is: {{current_challenge}}</h4>
-                {% else %}
+                {% if challenge_done %}
                 <h4>You have no uncomplete challenges</h4>
+                {% else %}
+                <h4>Your challenge is: {{current_challenge}}</h4>
                 {% endif %}
                 <button class="water-fountain-button">
                     <img
