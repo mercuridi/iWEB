@@ -2,9 +2,9 @@
 
 
 // Import function from maze.js
-const {
-  getCoordinates,
+import {
   createElement,
+  getCoordinates,
   getLocation,
   createMaze,
   startListeners,
@@ -12,7 +12,7 @@ const {
   displayPath,
   aStar,
   checkLocation,
-} = require('../app/static/global/js/maze');
+} from '../app/static/global/js/maze.js';
 
 // Mock data to be used in the tests
 const mockData = {
