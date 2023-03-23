@@ -2,7 +2,7 @@
 Module defining the web app's different directories and structures.
 """
 from django.urls import path
-from . import debug, index, login, help
+from . import index, login, help
 urlpatterns = [
     path('index', index.main,name='index'),
     path('register', login.register_request, name='register'),
