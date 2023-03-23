@@ -2,6 +2,7 @@
 Python file representing the view for the main page most everything is contained in.
 """
 import json
+import random
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
@@ -32,7 +33,7 @@ def main(request):
                 # also, if they haven't completed their challenge, reset their streak
                 for profile in all_profiles:
                     UserProfile.objects.filter(id=profile.id).update(current_challenge_id=random.randint(1,3))
-                UserProfile.objects.filter(challenge_done=False).update(streak=0)
+                    UserProfile.objects.filter(challenge_done=False).update(streak=0)
                 # set all users at once to have 0 points this week and an incomplete challenge
                 UserProfile.objects.all().update(
                     points_this_week=0,
