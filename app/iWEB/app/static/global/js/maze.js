@@ -585,7 +585,7 @@ function checkLocation(e){
         request.open("POST", "/index", true);
         request.setRequestHeader("Content-Type", "application/json");
         request.setRequestHeader("X-CSRFToken", csrftoken);
-        request.send(JSON.stringify({points: 250}));
+        request.send(JSON.stringify({points: 250, type_used : this.type_used}));
 
         displayMessage(this)
         
