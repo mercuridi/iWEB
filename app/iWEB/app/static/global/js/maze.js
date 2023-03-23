@@ -360,7 +360,7 @@ function createBox(map_array) {
     checkButton.style.position = 'absolute';
     checkButton.style.left = '0px';
     checkButton.style.top = '120px';
-    checkButton.innerHTML = "Veryify Location";
+    checkButton.innerHTML = "Verify Location";
     checkButton.style.fontSize = "10px";
     checkButton.style.width = "60px";
     checkButton.style.height = "60px";
