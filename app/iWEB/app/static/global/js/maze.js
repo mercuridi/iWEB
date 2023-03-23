@@ -335,6 +335,7 @@ function createBox(map_array){
     checkButton.style.marginTop = "10px";
     checkButton.Xcoordinates = (this.offsetLeft);
     checkButton.Ycoordinates = (this.offsetTop);
+    checkButton.type_used = document.getElementById(bottle_id).className;
     box.appendChild(checkButton);
 
     // When the check button is pressed the user's location is checked
