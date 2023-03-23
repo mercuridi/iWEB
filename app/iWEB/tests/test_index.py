@@ -1,3 +1,4 @@
+#Kai: this file
 from django.test import TestCase
 from django.test import Client
 from app.models import Location
