@@ -673,7 +673,7 @@ function displayMessage(object){
     var message = document.createElement("div");
     message.id = "message";
     message.className = "message";
-    message.innerHTML = "Challange Completed!! <br> <button class='minigame-button'>Play minigame</button>";
+    message.innerHTML = "Challenge Completed!! <br> <button class='minigame-button'>Play minigame</button>";
 
     //The coordinates to the bottle, bus stop or bin are stored in the pathButton
 
