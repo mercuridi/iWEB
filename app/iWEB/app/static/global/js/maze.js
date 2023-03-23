@@ -1,10 +1,18 @@
+// Every function has been written by Dimitar
+
 var map
 var mapWidth = 1096;
 var mapHeight = 1266;
 var watchID;
 
-// Converts from longitude and latitude to x and y coordinates
-// The maths behind this function is explained in the documentation
+/**
+ * Converts from longitude and latitude to x and y coordinates.
+ * The maths behind this function is explained in the documentation.
+ *
+ * @param {number} lat - The latitude of the input coordinates.
+ * @param {number} lng - The longitude of the input coordinates.
+ * @returns {Object} - An object with x and y properties in pixels, representing the converted coordinates.
+ */
 function getCoordinates(lat, lng, map_width = mapWidth, map_height = mapHeight){
     // The coordinates of the top left and bottom right corners of the map
     var topLeft = {
@@ -40,37 +48,53 @@ function getCoordinates(lat, lng, map_width = mapWidth, map_height = mapHeight){
     
 }
 
-
+/**
+ * Creates an HTML element with the specified attributes and positions it on the map.
+ * @param {number} index - The index of the element.
+ * @param {Array} data - The data containing latitude, longitude, and text content for the element.
+ * @param {string} className - The class name for the element.
+ * @returns {HTMLElement} - The created HTML element.
+ */
 function createElement(index, data, className) {
-    const map = document.querySelector(".map");
-    const element = document.createElement("div");
-    element.id = `${className}-${index}`;
-    element.className = className;
+  const map = document.querySelector(".map");
+  const element = document.createElement("div");
+  element.id = `${className}-${index}`;
+  element.className = className;
+
+  const { x, y } = getCoordinates(data[0], data[1], map.offsetWidth, map.offsetHeight);
+
+  element.latitude = data[0];
+  element.longitude = data[1];
+  element.textContent = `${data[2]} ${data[3]}`;
+  element.style.left = x;
+  element.style.top = y;
+  element.style.display = "none";
+  element.style.fontSize = "0px";
+
+  return element;
+}
   
-    const { x, y } = getCoordinates(data[0], data[1], map.offsetWidth, map.offsetHeight);
-  
-    element.latitude = data[0];
-    element.longitude = data[1];
-    element.textContent = `${data[2]} ${data[3]}`;
-    element.style.left = x;
-    element.style.top = y;
-    element.style.display = "none";
-    element.style.fontSize = "0px";
-  
-    return element;
-  }
-  
+/**
+ * Creates and appends items to the map based on given item data and class name.
+ * @param {Array} itemData - Array of data objects, each containing coordinates and text content for an item.
+ * @param {string} className - Class name to be applied to the created elements.
+ */
 function createItems(itemData, className) {
-    const map = document.querySelector(".map");
-  
-    itemData.forEach((data, index) => {
-      const element = createElement(index, data, className);
-      map.appendChild(element);
-    });
-  }
+  const map = document.querySelector(".map");
+
+  itemData.forEach((data, index) => {
+    const element = createElement(index, data, className);
+    map.appendChild(element);
+  });
+}
 
 
-  function getLocation(track = false, askPermission = true) {
+/**
+ * Gets the user's location and sets the user's character to that location.
+ * @param {boolean} [track=false] - If true, continuously updates the user's location.
+ * @param {boolean} [askPermission=true] - If true, asks the user for permission to access their location.
+ */
+function getLocation(track = false, askPermission = true) {
     var map = document.querySelector(".map");
     var mapWidth = map.offsetWidth;
     var mapHeight = map.offsetHeight;
@@ -123,11 +147,12 @@ function createItems(itemData, className) {
         navigator.geolocation.getCurrentPosition(success, error, options);
       }
     }
-  }
+}
 
-
-
-// Represents the text file of the map as divs on the page
+/**
+ * Represents the text file of the map as divs on the page.
+ * @param {string[]} map - An array of strings representing the maze.
+ */
 function createMaze(map) {
     // Removes all the previous maze divs if they exist
     var blocks = document.querySelectorAll('.maze-square');
@@ -161,8 +186,10 @@ function createMaze(map) {
         document.querySelector('.map').appendChild(maze_row);
     }
 }
-
-
+/**
+ * Adds event listeners to various elements on the page.
+ * @param {Array} maze_array - The array representing the maze.
+ */
 function startListeners(maze_array) {
     var bottles = document.querySelectorAll('.bottle');
     var bus_stops = document.querySelectorAll('.bus_stop');
@@ -254,39 +281,47 @@ function startListeners(maze_array) {
 }
 
 
-// The function that creates the box with the information about the bottle, bus stop or bin
-function createBox(map_array){
+/**
+ * Creates a box with information about a bottle, bus stop, or bin, and adds interactivity
+ * to the box, including finding the shortest path to the object, verifying location,
+ * and closing the box.
+ * 
+ * @param {Array} map_array - Array representing the map.
+ */
+function createBox(map_array) {
+  // Get the ID of the bottle, bus stop, or bin
+  const bottle_id = this.id;
 
-    var bottle_id = this.id;
-    // Creates the first box that isn't interactive but contains the information about the bottle, bus stop or bin
-    var box = document.createElement("div");
-    box.id = "info-box";
-    box.className = "info-box";
-    box.style.left = this.style.left;
-    box.style.top = this.style.top;
-    box.innerHTML = this.textContent;
-    // Stores the id of the bottle, bus stop or bin in the box
-    box.item_id = this.id;
+  // Create a div element to hold the information about the object
+  const box = document.createElement("div");
+  box.id = "info-box";
+  box.className = "info-box";
+  box.style.left = this.style.left;
+  box.style.top = this.style.top;
+  box.innerHTML = this.textContent;
+  box.item_id = this.id;
 
-    // Changes the colour of the box depending on the type of object
-    if (this.className == "bottle"){
-        var color = "blue";
-        var color_light = "#ADD8E6";
-    } else if (this.className == "bus_stop"){
-        var color = "red";
-        var color_light = "pink";
-    } else if (this.className == "bin"){
-        var color = "green";
-        var color_light = "lightgreen";
-    }
-    box.style.backgroundColor = color_light;
+  // Set the background color of the box based on the type of object
+  let color;
+  let color_light;
+  if (this.className === "bottle") {
+    color = "blue";
+    color_light = "#ADD8E6";
+  } else if (this.className === "bus_stop") {
+    color = "red";
+    color_light = "pink";
+  } else if (this.className === "bin") {
+    color = "green";
+    color_light = "lightgreen";
+  }
+  box.style.backgroundColor = color_light;
 
-    // Adds the box to the map and displays it ontop of the bottle, bus stop or bin
-    var map = document.querySelector('.map');
-    map.appendChild(box);
-    
-    // Creates the second box that when clicked displays the shortest path to the bottle, bus stop or bin
-    var pathButton = document.createElement("button");
+  // Add the box to the map
+  const map = document.querySelector(".map");
+  map.appendChild(box);
+
+  // Create a button to find the shortest path to the object
+  const pathButton = document.createElement("button");
     pathButton.style.position = 'absolute';
     pathButton.id = "pathButton";
     pathButton.className = "pathButton";
@@ -307,17 +342,19 @@ function createBox(map_array){
     pathButton.Xcoordinates = (this.offsetLeft);
     pathButton.Ycoordinates = (this.offsetTop);
 
+    // Add the path button to the box
     box.appendChild(pathButton);
 
-    // Stops the box from being created multiple times
-    this.removeEventListener('click', createBox);
-    // When the path button is clicked the shortest path to the bottle, bus stop or bin is displayed
-    pathButton.addEventListener('click', function(){
-        displayPath.call(this, map_array);
+    // Remove the event listener to prevent multiple boxes
+    this.removeEventListener("click", createBox);
+
+    // Add an event listener to display the shortest path when the button is clicked
+    pathButton.addEventListener("click", function () {
+      displayPath.call(this, map_array);
     });
 
-    // Creates a button that when pressed cheks to see if the user is at the bottle, bus stop or bin
-    var checkButton = document.createElement("button");
+    // Create a button to verify the user's location
+    const checkButton = document.createElement("button");
     checkButton.id = "checkButton";
     checkButton.className = "checkButton";
     checkButton.style.position = 'absolute';
@@ -335,14 +372,14 @@ function createBox(map_array){
     checkButton.style.marginTop = "10px";
     checkButton.Xcoordinates = (this.offsetLeft);
     checkButton.Ycoordinates = (this.offsetTop);
-    checkButton.type_used = document.getElementById(bottle_id).className;
+    // Add the check button to the box
     box.appendChild(checkButton);
+ 
+    // Add an event listener to check the user's location when the button is clicked
+    checkButton.addEventListener("click", checkLocation);
 
-    // When the check button is pressed the user's location is checked
-    checkButton.addEventListener('click', checkLocation);
-
-    // Creates a red exit button that appears on the box and when pressed removes the box
-    var exitButton = document.createElement("button");
+    // Create a button to close the box
+    const exitButton = document.createElement("button");
     exitButton.id = "exitButton";
     exitButton.style.position = 'absolute';
     exitButton.className = "exitButton";
@@ -357,9 +394,11 @@ function createBox(map_array){
     exitButton.style.borderRadius = "6px";
     // Sets the exit button's top margin to 10px
     exitButton.style.marginTop = "10px";
+    // Add the exit button to the box
     box.appendChild(exitButton);
-    // When the exit button is pressed the box is removed
-    exitButton.addEventListener('click', function() {
+
+    // Add an event listener to remove the box when the exit button is clicked
+    exitButton.addEventListener("click", function () {
         // All of the boxes are removed
         pathButton.parentNode.removeChild(pathButton);
         this.parentNode.removeChild(this);
@@ -371,9 +410,15 @@ function createBox(map_array){
 
         
     });
+  // Return the created box element for testing purposes
+  return box;
 }
 
-// A function that displays the shortest path from the user to the bottle, bus stop or bin
+/**
+ * Displays the shortest path from the user to a target item (bottle, bus stop, or bin) on the map.
+ * 
+ * @param {Array} map_array - An array representing the maze/map structure.
+ */
 function displayPath (map_array){
         // Retrieves the coordinates of the user and converts them to the pixel equivilant
         var user = document.querySelector(".user");
@@ -415,8 +460,18 @@ function displayPath (map_array){
 
 }
 
-// A function that recieves the dictioniary of the shortest path and then turns the indexes into the correct coordinates and creates divs to represent the path
+/**
+ * A function that receives a dictionary of the shortest path and then
+ * turns the indexes into the correct coordinates and creates divs to
+ * represent the path.
+ *
+ * @param {Object} path - A dictionary of the shortest path, where the keys
+ * are the coordinates (as a tuple) and the values are the distances.
+ * @param {string} color - The color to use for the path divs.
+ * @returns {void}
+ */
 function createPath(path, color){
+    // Get the map element and calculate the width and height ratios
     const map = document.querySelector(".map");
     var width_ratio = map.offsetWidth / 1096;
     var height_ratio = map.offsetHeight / 1266;
@@ -425,6 +480,8 @@ function createPath(path, color){
     for (var i = 0; i < blocks.length; i++) {
         blocks[i].parentNode.removeChild(blocks[i]);
     }
+    
+     // Create a path div for each coordinate in the path dictionary
     for (i in path){
         var pathDiv = document.createElement("div");
         pathDiv.id = "path" + i;
@@ -454,10 +511,16 @@ class Node {
     }
 }
 
-// This function runs the A* algorithm to find the shortest path
-// It takes in the maze, the start and end coordinates and returns the shortest path
-// The A* algorithm is explained better in the documentation
-// The code for the A* algorithm was adapted from psuedo code from https://en.wikipedia.org/wiki/A*_search_algorithm
+/**
+ * This function runs the A* algorithm to find the shortest path.
+ * It takes in the maze, the start and end coordinates, and returns the shortest path.
+ * The A* algorithm is explained better in the documentation.
+ * The code for the A* algorithm was adapted from pseudocode from https://en.wikipedia.org/wiki/A*_search_algorithm
+ * @param {Array} maze - The maze as a 2D array.
+ * @param {Array} start - The start coordinates [y, x].
+ * @param {Array} end - The end coordinates [y, x].
+ * @return {Array} - The shortest path as an array of coordinates.
+ */
 function aStar(maze, start, end){
     // Creates a deep copy of the maze to prevent modifying the original maze
     var mazeGrid = maze.map(row => row.slice());
@@ -572,8 +635,10 @@ function aStar(maze, start, end){
     }
 }
 
-
-// Checks if the user has completed the challange
+/**
+ * Checks if the user has completed the challenge.
+ * @param {Event} e - The event triggered by the function call.
+ */
 function checkLocation(e){
     const user = document.querySelector(".user");
     let x = user.offsetLeft - this.Xcoordinates
@@ -586,7 +651,7 @@ function checkLocation(e){
         request.open("POST", "/index", true);
         request.setRequestHeader("Content-Type", "application/json");
         request.setRequestHeader("X-CSRFToken", csrftoken);
-        request.send(JSON.stringify({points: 250, type_used : this.type_used}));
+        request.send(JSON.stringify({points: 250}));
 
         displayMessage(this)
         
@@ -597,8 +662,11 @@ function checkLocation(e){
 }
                         
                         
-// Displays a message to the user, telling them that they have completed the challange
-// There is 2 buttons in the message, one allows the user to play a minigame and the other allows the user to go back to the map
+/**
+ * Displays a message to the user, telling them that they have completed the challenge.
+ * There are two buttons in the message, one allows the user to play a minigame, and the other allows the user to go back to the map.
+ * @param {Object} object - The DOM object representing the clicked element.
+ */
 function displayMessage(object){
     // Sets the onject variable to the box, which is the parent of the object that the user clicked on
     object = object.parentElement;
@@ -620,70 +688,79 @@ function displayMessage(object){
     minigameButton.addEventListener('click', minigame)
 }
 
-// A function that creates a small game where the user has to click on the bottles
-// The user has 10 seconds to click on as many garbages as possible
-function minigame(){
-    const map = document.querySelector(".map");
-    mapWidth = map.offsetWidth;
-    mapHeight = map.offsetHeight;
-    // Creates a box that contains the game
-    var game = document.createElement("div");
-    game.id = "game";
-    game.className = "game";
-    game.innerHTML = "Click on the trashbags as fast as you can! <br> <button class='start-button'>Start</button>";
-    game.style.zIndex = '10000';
-    var object = this.parentElement;
-    object.appendChild(game);
+/**
+ * A function that creates a "trash collection" mini-game on the map, where the user
+ * clicks on randomly placed trash bags to score points. The game is contained within
+ * a new div element that is appended to the parent element of the current object.
+ * When the game ends, a score is posted to the server and the page is reloaded.
+ *
+ * @returns {void}
+ */
+function minigame() {
+  // Get the map element and its width and height
+  const map = document.querySelector('.map');
+  const mapWidth = map.offsetWidth;
+  const mapHeight = map.offsetHeight;
 
-    // Creates a button that starts the game
-    var startButton = document.querySelector('.start-button');
-    startButton.addEventListener('click', function() {
-        // Create the overlay after starting the game
-        const overlay = document.createElement('div');
-        overlay.style.position = 'absolute';
-        overlay.style.width = '100%';
-        overlay.style.height = '100%';
-        overlay.style.top = '0';
-        overlay.style.zIndex = '500';
-        //overlay.style.pointerEvents = 'none'; // Keep this line
-        overlay.style.backgroundColor = 'rgba(0,0,0,0.5)';
-        map.appendChild(overlay);
-        // Creates a timer that counts down from 10
-        var timer = document.createElement("div");
-        timer.id = "timer";
-        timer.className = "timer";
-        timer.innerHTML = "10";
-        game.appendChild(timer);
-        var time = 10;
-        var timerID = setInterval(function(){
-            time--;
-            timer.innerHTML = time;
-            if (time == 0){
-                var csrftoken = getCookie('csrftoken');
-                clearInterval(timerID);
-                game.innerHTML = "Game Over! <br> You clicked on " + score + " trashbags! <br>";
-                garbage.remove();
-                overlay.remove(); // Remove the overlay
-                // Removes the garbage
-                garbage.remove();
-                var request = new XMLHttpRequest();
-                request.open("POST", "/index", true);
-                request.setRequestHeader("Content-Type", "application/json");
-                request.setRequestHeader("X-CSRFToken", csrftoken);
-                var extra_points = score * 10 + 250;
-                request.send(JSON.stringify({points: extra_points}));
-                location.reload();
-            }
-        }, 1000);
+  // Create a new game div and append it to the parent element of the current object
+  const game = document.createElement('div');
+  game.id = 'game';
+  game.className = 'game';
+  game.innerHTML = 'Click on the trashbags as fast as you can! <br> <button class="start-button">Start</button>';
+  game.style.zIndex = '10000';
+  const object = this.parentElement;
+  object.appendChild(game);
 
-        // Creates a score counter
-        var score = 0;
-        var scoreCounter = document.createElement("div");
-        scoreCounter.id = "scoreCounter";
-        scoreCounter.className = "scoreCounter";
-        scoreCounter.innerHTML = "Score: " + score;
-        game.appendChild(scoreCounter);
+  // Add a click event listener to the start button to begin the game
+  const startButton = document.querySelector('.start-button');
+  startButton.addEventListener('click', function () {
+    // Create an overlay to block interactions with the map while the game is in progress
+    const overlay = document.createElement('div');
+    overlay.style.position = 'absolute';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.top = '0';
+    overlay.style.zIndex = '500';
+    overlay.style.backgroundColor = 'rgba(0,0,0,0.5)';
+    map.appendChild(overlay);
 
+    // Create a timer that counts down from 10 seconds
+    const timer = document.createElement('div');
+    timer.id = 'timer';
+    timer.className = 'timer';
+    timer.innerHTML = '10';
+    game.appendChild(timer);
+    let time = 10;
+    const timerID = setInterval(function () {
+      time--;
+      timer.innerHTML = time;
+      if (time == 0) {
+        // When the timer runs out, post the score to the server and reload the page
+        const csrftoken = getCookie('csrftoken');
+        clearInterval(timerID);
+        game.innerHTML = 'Game Over! <br> You clicked on ' + score + ' trashbags! <br>';
+        garbage.remove();
+        overlay.remove(); // Remove the overlay
+        garbage.remove(); // Remove the garbage
+        const request = new XMLHttpRequest();
+        request.open('POST', '/index', true);
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.setRequestHeader('X-CSRFToken', csrftoken);
+        const extra_points = score * 10 + 250;
+        request.send(JSON.stringify({ points: extra_points }));
+        location.reload();
+      }
+    }, 1000);
+
+    // Create a score counter and set its initial value to zero
+    let score = 0;
+    const scoreCounter = document.createElement('div');
+    scoreCounter.id = 'scoreCounter';
+    scoreCounter.className = 'scoreCounter';
+    scoreCounter.innerHTML = 'Score: ' + score;
+    game.appendChild(scoreCounter);
+
+    // Create a new garbage div with a random position and add a click event listener
         var garbage = document.createElement("div");
         garbage.id = "garbage";
         garbage.className = "garbage";
@@ -707,72 +784,92 @@ function minigame(){
           });
         map.appendChild(garbage);
     });
-
-        
 }
 
+/**
+ * A function that creates and animates particles at a given (x, y) position on the map.
+ * 
+ * @param {number} x - The x-coordinate of the position to create particles at.
+ * @param {number} y - The y-coordinate of the position to create particles at.
+ * @returns {void}
+ */
 function createParticles(x, y) {
-    const particleCount = 30; // Number of particles to create
-  
-    for (let i = 0; i < particleCount; i++) {
-      const particle = document.createElement('div');
-      particle.classList.add('particle');
+  const particleCount = 30; // Number of particles to create
 
-      // Apply the CSS properties in JavaScript
-      particle.style.position = 'absolute';
-      particle.style.width = '5px';
-      particle.style.height = '5px';
-      particle.style.backgroundColor = '#fff';
-      particle.style.borderRadius = '50%';
-      particle.style.zIndex = '1003';
+  // Create a particle div for each particle count
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
 
-      document.querySelector('.map').appendChild(particle);
-  
-      // Set the initial position of the particles
-      particle.style.left = x + 'px';
-      particle.style.top = y + 'px';
-  
-      // Generate random animation duration and angle
-      const duration = Math.random() * 0.5 + 0.25; // Random duration between 0.25s and 0.75s
-      const angle = Math.random() * Math.PI * 2; // Random angle
-  
-      // Calculate the particle's new position based on the angle and a random distance
-      const distance = Math.random() * 50 + 25;
-      const newX = x + Math.cos(angle) * distance;
-      const newY = y + Math.sin(angle) * distance;
-  
-      // Animate the particle
-      particle.animate(
-        [
-            { transform: `translate(0, 0)` },
-            { transform: `translate(${newX - x}px, ${newY - y}px)` },
-        ],
-        {
-          duration: duration * 1000,
-          easing: 'linear',
-          fill: 'forwards',
-        }
-      );
-  
-    //   // Remove the particle after the animation is completed
-      setTimeout(() => {
-        particle.remove();
-      }, duration * 1500);
+    // Apply the CSS properties in JavaScript
+    particle.style.position = 'absolute';
+    particle.style.width = '5px';
+    particle.style.height = '5px';
+    particle.style.backgroundColor = '#fff';
+    particle.style.borderRadius = '50%';
+    particle.style.zIndex = '1003';
+
+    document.querySelector('.map').appendChild(particle);
+
+    // Set the initial position of the particles
+    particle.style.left = x + 'px';
+    particle.style.top = y + 'px';
+
+    // Generate random animation duration and angle
+    const duration = Math.random() * 0.5 + 0.25; // Random duration between 0.25s and 0.75s
+    const angle = Math.random() * Math.PI * 2; // Random angle
+
+    // Calculate the particle's new position based on the angle and a random distance
+    const distance = Math.random() * 50 + 25;
+    const newX = x + Math.cos(angle) * distance;
+    const newY = y + Math.sin(angle) * distance;
+
+    // Animate the particle
+    particle.animate(
+      [
+        { transform: `translate(0, 0)` },
+        { transform: `translate(${newX - x}px, ${newY - y}px)` },
+      ],
+      {
+        duration: duration * 1000,
+        easing: 'linear',
+        fill: 'forwards',
+      }
+    );
+
+    // Remove the particle after the animation is completed
+    setTimeout(() => {
+      particle.remove();
+    }, duration * 1500);
+  }
+}
+
+/**
+ * A function that retrieves a cookie value by name from the document's
+ * cookie string.
+ *
+ * @param {string} name - The name of the cookie to retrieve.
+ * @returns {string|null} - The value of the cookie, or null if not found.
+ */
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    // Split the cookie string into individual cookies
+    var cookies = document.cookie.split(';');
+
+    // Iterate over the cookies to find the one with the requested name
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i].trim();
+
+      // If the cookie has the requested name, decode its value and return it
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
     }
   }
-function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
+  // Return the cookie value (or null if not found)
+  return cookieValue;
 }
 export { getCoordinates, createItems, getLocation, createMaze, startListeners, createBox, displayMessage, minigame, getCookie }
 
