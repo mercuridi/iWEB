@@ -49,6 +49,8 @@ def main(request):
                 
         # streak incrementation and handling upon challenge completion
         location_used = data.get("type_used")
+        print(location_used)
+        print(current_user_data.current_challenge.type)
         if location_used is not None:
             if current_user_data.current_challenge.type == location_used:
                 if current_user_data.challenge_done is False:
