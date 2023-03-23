@@ -51,9 +51,26 @@ The Trello board tracks our project's day-to-day development and process. This i
 The Gitbook contains further documentation for the map system.
 
 ## Getting started
-In order to run iWEB locally, there are certain dependencies that must be installed. Namely, these are Django, mySQL (server and client), and whitenoise. Whitenoise is an open-source Python addon we use to serve static files in our site; it can be installed from the command line simply by `pip install whitenoise`, assuming you have `pip` already.
+### Requirements & dependencies
+In order to run iWEB locally, there are certain dependencies that must be installed. Namely, these are Django, mySQL (server and client), whitenoise, and a system for HTTPS certification. Whitenoise is an open-source Python addon we use to serve static files in our site.
+The requirements for the project can be installed from the command line; we assume you already have mySQL or SQLite3 installed, along with the Python package manager pip:
+`pip install django`
+`pip install whitenoise`
+The Javascript testing suite also has extra `npm` dependencies. These are detailed in the "Running tests" section of this README. 
 
-In order to run the server, Django must be provided with a valid user to access a valid mySQL database. This section of the readme will guide you through creating these requirements, assuming you have the earlier named dependencies installed.
+The HTTPS certification to run the server can be gotten from a Linux apt-connected command line with the following sequence of commands:
+`apt install libnss3-tools`
+`apt install mkcert`
+`mkcert -install`
+If you attempt to run `mkcert -install` without the appropriate dependencies, it will tell you what you're missing. Follow instructions from mkcert and ensure this step was successful before moving on.
+From this point onwards, commands must be executed in the project's root directory. This is the same directory that `manage.py` is contained in.
+`mkcert -cert-file cert.pem -key-file key.pem localhost 127.0.0.1`
+`pip install django-extensions Werkzeug`
+`pip install pyOpenSSL`
+`python3 manage.py runserver_plus 0.0.0.0:8000 --cert-file cert.pem --key-file key.pem`
+
+
+In order to run the server, Django must also be provided with a valid user to access a valid mySQL database. This section of the readme will guide you through creating these requirements, assuming you have the earlier named dependencies installed.
 
 ### mySQL setup
 1. Enter the mySQL command-line client as your root user.
