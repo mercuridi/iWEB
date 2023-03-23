@@ -4,9 +4,6 @@ from django.test import Client
 from app.models import User
 from django.urls import reverse
 
-
-# Kai: Try using the Client from django.test?
-# Imported for you ^^ https://docs.djangoproject.com/en/4.1/topics/testing/tools/
 c = Client()
 
 class BaseTest(TestCase):
