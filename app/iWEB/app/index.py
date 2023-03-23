@@ -202,8 +202,15 @@ def get_locations():
 
 def get_leaderboard(length=5):
     length = abs(length)    # just in case somehow we are asked for a negative number
+    # get all the user profiles, ordered by the points they've got this week
     leaderboard_list = UserProfile.objects.values().order_by("-points_this_week")
+    # remove staff accounts from the leaderboard
+    for profile in leaderboard_list:
+        if User.objects.get(pk=profile["user_id"]).is_staff is True:
+            leaderboard_list = leaderboard_list.exclude(id=profile["user_id"])
+    # slice the list to the requested length
     leaderboard_list = leaderboard_list[:length]
+    # add username information to the profiles to be displayed
     for profile in leaderboard_list:
         profile["username"] = User.objects.get(pk=profile["user_id"]).username
     return leaderboard_list
