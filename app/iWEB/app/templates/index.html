@@ -1,5 +1,11 @@
 <!-- Jude -->
 <!-- This took way longer than it looks -->
+<!-- Jude : Navigation bars, page content and layout dislaying -->
+<!--        Also did the css layout/behaviour files although they are static so credited here-->
+<!-- Dash : Prototyped code for the contact us-->
+<!-- Dimitar : Map section and associated scripting-->
+
+
 <!-- PARAMETERS: -->
 <!-- 
     MAP RELATED CONTENT
@@ -15,6 +21,8 @@
        points_lifetime : the amonunt of points the user has earned playing th game total
                 streak : current_user_data.streak,
               is_staff : a boolean determining if staff utility options should be shown or not
+     current_challenge : the current challenge issued to te user
+        challenge_done : a boolean value determining if the user has completed their challenge or not
     SITE UTILITIES
              shop_list : the list of themes that are availiable for the user to buy, the ones they own already are not displayed
                 scores : the current list of scores for the leaderboard
@@ -26,1192 +34,672 @@
                 colour : the current theme equipped by the user
     -->
 
-    <!DOCTYPE html>
-    <html>
-        <!-- These load the cookies and static files so that the page can
-            load the data for the current user and load static files such as scripts and images-->
-        <!-- We use whitenoise to handle static files outside of DEBUG and insecure running modes-->
-        {% load static %} {% csrf_token %}
-        <head>
-            <title>iWEB test homepage</title>
-            <meta charset="UTF-8" />
-            <meta
-                name="viewport"
-                content="width=device-width, initial-scale=1" />
-            <!-- This style sheet controls the shape and size of things on the website-->
-            <link
-                rel="stylesheet"
-                type="text/css"
-                href="{% static 'global/index.css' %}"/>
-            <!-- This is a library of objects called to help the fucntionality of the site-->
-            <link
-                rel="stylesheet"
-                type="text/css"
-                href="{% static 'global/lib.css' %}" />
-            <link
-                rel="stylesheet"
-                href="https://fonts.googleapis.com/css?family=Montserrat" />
-            <link
-                rel="stylesheet"
-                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-                />
-    
-            <meta
-                http-equiv="Cache-Control"
-                content="no-cache, no-store, must-revalidate" />
-    
-            <!-- Only objects that require data from the database should be in here -->
-            <style>
-                html * {
+<!DOCTYPE html>
+<html>
+    <!-- These load the cookies and static files so that the page can
+        load the data for the current user and load static files such as scripts and images-->
+    <!-- We use whitenoise to handle static files outside of DEBUG and insecure running modes-->
+    {% load static %} {% csrf_token %}
+    <head>
+        <title>iWEB test homepage</title>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1" />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'global/index.css' %}"/>
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'global/testlib.css' %}" />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Montserrat" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+            />
+
+        <meta
+            http-equiv="Cache-Control"
+            content="no-cache, no-store, must-revalidate" />
+
+        <!-- Only objects that require data from the database should be in here -->
+        <style>
+            html * {
                 color: {{colour.font}}; /* THIS IS THE MAIN FONT COLOUR */
-                }
-    
-                /* The navigation menu links */
-                .sidenav a {
+            }
+
+            /* The navigation menu links */
+            .sidenav a {
                 color: #818181;
-                }
-    
-                /* When you mouse over the navigation links, change their color */
-                .sidenav a:hover {
+            }
+
+            /* When you mouse over the navigation links, change their color */
+            .sidenav a:hover {
                 color: #004d99;
-                }
-    
-                .icon-bar {
+            }
+
+            .icon-bar {
                 background-color: #555; /* Dark-grey background */
-                }
-    
-                .icon-bar a:hover {
+            }
+
+            .icon-bar a:hover {
                 background-color: red; /* Add a hover color - doesn't work */
-                }
-    
-                .active {
+            }
+
+            .active {
                 background-color: #4933b5; /* Add an active/current color */
-                }
-    
-                .sidebar {
+            }
+
+            .sidebar {
                 background: {{colour.icons}}; /* colour of fonts and icons */
-                }
-    
-                #main {
+            }
+
+            #main {
                 background-color: {{colour.background}}; /*main page colour*/
-                }
-    
-                .row {
-                    border-bottom: 1px solid #AFAFAF;
-                }
-                .row:nth-child(1) {
-                    background: gold;
-                }
+            }
+
+            .row {
+                border-bottom: 1px solid #AFAFAF;
+            }
+            .row:nth-child(1) {
+                background: gold;
+            }
+            
+            .row:nth-child(2) {
+                background: #c0c0c0;
+            }
+            
+            .row:nth-child(3) {
+                background: #cd7f32;
+            }
+            .user {
+                background-color: red;
+            }
+
+            .water-fountain-button {
+                background-color: blue;
+                color: white;
+            }
+
+            .bus-stop-button {
+                background-color: red;
+                color: white;
+            }
+
+            .bin-button {
+                background-color: green;
+                color: white;
+            }
+
+            .track-button {
+                background-color: white;
+                color: white;
+            }
+
+            .pathDiv {
+                background-color: rgba(0, 163, 255, 0.5);
+            }
+            .box{
+                color: white;
+                text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+                background-color: rgba(0, 163, 255, 0.5);
+            }
+
+            .message{
+                background-color: rgba(0, 163, 255, 1);
                 
-                .row:nth-child(2) {
-                    background: #c0c0c0;
-                }
-                
-                .row:nth-child(3) {
-                    background: #cd7f32;
-                }
-                .user {
-                    background-color: red;
-                }
-    
-                .water-fountain-button {
-                    background-color: blue;
-                    color: white;
-                }
-    
-                .bus-stop-button {
-                    background-color: red;
-                    color: white;
-                }
-    
-                .bin-button {
-                    background-color: green;
-                    color: white;
-                }
-    
-                .track-button {
-                    background-color: white;
-                    color: white;
-                }
-    
-                .pathDiv {
-                    background-color: rgba(0, 163, 255, 0.5);
-                }
-                .box{
-                    color: white;
-                    text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
-                    background-color: rgba(0, 163, 255, 0.5);
-                }
-    
-                .message{
-                    background-color: rgba(0, 163, 255, 1);
-                    
-                }
-    
-                .minigame-button{
-                    background-color: grey;
-                    color: white;
-                
-                }
-                .game{
-                    background-color: rgba(0, 163, 255, 1);
-                }
-                .start-button{
+            }
+
+            .minigame-button{
                 background-color: grey;
                 color: white;
-                }
+            }
+            .game{
+                background-color: rgba(0, 163, 255, 1);
+            }
+            .start-button{
+                background-color: grey;
+                color: white;
+            }
 
-                input[type='text'],
-                select, 
-                textarea {
+
+            input[type='text'],
+            select, 
+            textarea {
                 border: 1px solid #ccc;
                 color:black;
-                }
+            }
 
-                /* Style the submit button with a specific background color etc */
-                input[type='submit'] {
+            /* Style the submit button with a specific background color etc */
+            input[type='submit'] {
                 background-color: #049ada;
                 color: white;
-                }
+            }
 
-                /* When moving the mouse over the submit button, add a darker green color */
+            /* When moving the mouse over the submit button, add a darker green color */
                 input[type='submit']:hover {
                 background-color: #049ada;
-                }
+            }
 
-                .contentbox{
+            .contentbox{
                 background-color: {{colour.main}};
-                }
+            }
 
-                .bar{
+            .bar{
                 background-color: {{colour.main}};
-                }
+            }
 
-                .alt_text{
-                    color: black;
-                }
-                .subject{
-                    color: black;
-                }
-                .streaks {
+            .alt_text{
+                color: black;
+            }
+            .subject{
+                color: black;
+            }
+            .streaks {
                 background-color: #000000;
-                }
-
-                .help{
+            }
+            .help{
                     color: black;
-                }
-                .streaks_small{
+            }
+            .streaks_small{
                 background-color: #46ff46;
-                }
+            }
 
-                .streaks_small{
-                    width: {{streak}};
-                }
-            </style>
-        </head>
-        <body>
-            <!-- Icon Bar (Sidebar - hidden on small screens) -->
-            <nav class="sidebar bar-block small hide-small center">
+            .streaks_small{
+                width: {{streak}};
+            }
+            #location-form {
+                background-color: #f1f1f1;
+            }
+
+            #location-form label {
+                color:black;
+            }
+
+            #location-form input,
+            #location-form select {
+                border: 1px solid #ccc;
+                color:black;
+            }
+
+            #submit-location {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            #location-form input[type="checkbox"] {
+                background-color: #ccc;
+            }
+
+            #location-form input[type="checkbox"]:checked {
+                background-color: #4CAF50;
+            }
+
+        </style>
+        <div class="help alt_text">
+            <a href="/help"><h3 class = "help">Click here for help</h3></a>
+        </div>
+    </head>
+    <body>
+        <!-- Icon Bar (Sidebar - hidden on small screens) -->
+        <nav class="sidebar bar-block small hide-small center">
+            <a
+                href="#"
+                class="bar-icon button padding-large">
+                <i class="fa fa-home xxlarge"></i>
+                <p>Menu</p>
+            </a>
+            <a
+                href="#map_box"
+                class="bar-icon button padding-large">
+                <i class="fa fa-user xxlarge"></i>
+                <p>Map</p>
+            </a>
+            <a
+                href="#leaderboard_box"
+                class="bar-icon button padding-large">
+                <i class="fa fa-user xxlarge"></i>
+                <p>Leaderboard</p>
+            </a>
+            <a
+                href="#shop_box"
+                class="bar-icon button padding-large">
+                <i class="fa fa-user xxlarge"></i>
+                <p>You have {{ points_wallet }} credits</p>
+            </a>
+            <a
+                href="#report_box"
+                class="bar-icon button padding-large">
+                <i class="fa fa-user xxlarge"></i>
+                <p>Report</p>
+            </a>
+            <a
+                href="#settings_box"
+                class="bar-icon button padding-large">
+                <i class="fa fa-user xxlarge"></i>
+                <p>Settings</p>
+            </a>
+            <a
+                href="#contactus_box"
+                class="bar-icon button padding-large">
+                <i class="fa fa-user xxlarge"></i>
+                <p>Contact us</p>
+            </a>
+        </nav>
+        <!-- Navbar on small screens (Hidden on medium and large screens) -->
+        <div
+            class="top hide-large hide-medium"
+            id="myNavbar">
+            <div class="bar center small">
                 <a
                     href="#"
-                    class="bar-icon button padding-large">
-                    <i class="fa fa-home xxlarge"></i>
-                    <p>Menu</p>
-                </a>
-                <a
-                    href="#map_box"
-                    class="bar-icon button padding-large">
-                    <i class="fa fa-user xxlarge"></i>
-                    <p>Map</p>
-                </a>
-                <a
-                    href="#leaderboard_box"
-                    class="bar-icon button padding-large">
-                    <i class="fa fa-user xxlarge"></i>
-                    <p>Leaderboard</p>
-                </a>
-                <a
-                    href="#shop_box"
-                    class="bar-icon button padding-large">
-                    <i class="fa fa-user xxlarge"></i>
-                    <p>You have {{ points_wallet }} credits</p>
-                </a>
-                <a
-                    href="#report_box"
-                    class="bar-icon button padding-large">
-                    <i class="fa fa-user xxlarge"></i>
-                    <p>Report</p>
-                </a>
-                <a
-                    href="#settings_box"
-                    class="bar-icon button padding-large">
-                    <i class="fa fa-user xxlarge"></i>
-                    <p>Settings</p>
-                </a>
-                <a
-                    href="#contactus_box"
-                    class="bar-icon button padding-large">
-                    <i class="fa fa-user xxlarge"></i>
-                    <p>Contact us</p>
-                </a>
-            </nav>
-            <!-- Navbar on small screens (Hidden on medium and large screens) -->
-            <div
-                class="top hide-large hide-medium"
-                id="myNavbar">
-                <div class="bar center small">
+                    class="bar-item button">Menu</a>
+                <div id="myLinks">
                     <a
-                        href="#"
-                        class="bar-item button">Menu</a>
-                    <div id="myLinks">
-                        <a
-                            href="#map_box"
-                            class="bar-item button">Map</a>
-                        <a
-                            href="#leaderboard_box"
-                            class="bar-item button">Leaderboard</a>
-                        <a
-                            href="#shop_box"
-                            class="bar-item button">{{points_wallet}}#</a>
-                        <a
-                            href="#report_box"
-                            class="bar-item button">Report</a>
-                        <a
-                            href="#settings_box"
-                            class="bar-item button">Settings</a>
-                        <a
-                            href="#contactus_box"
-                            class="bar-item button">Contact us</a>
-                    </div>
+                        href="#map_box"
+                        class="bar-item button">Map</a>
+                    <a
+                        href="#leaderboard_box"
+                        class="bar-item button">Leaderboard</a>
+                    <a
+                        href="#shop_box"
+                        class="bar-item button">{{points_wallet}}#</a>
+                    <a
+                        href="#report_box"
+                        class="bar-item button">Report</a>
+                    <a
+                        href="#settings_box"
+                        class="bar-item button">Settings</a>
+                    <a
+                        href="#contactus_box"
+                        class="bar-item button">Contact us</a>
                 </div>
             </div>
+        </div>
 
-            <div class="help alt_text">
-                <a href="/help"><h3 class = "help">Click here for help</h3></a>
-            </div>
-
-            <!-- Page Content -->
-            <div
-                class="main-content padding-large"
-                id="main">
-                <!-- Header/Home -->
-                <header
-                    class="contentbox container padding-32 center"
-                    id="home">
-                    <h1 class="jumbo">
-                        <span class="hide-small">Welcome to </span>iWEB
-                        <h2>Hi, {{ display_name }}. You currently have {{ points_wallet }} credits to spend</h2>
-            <h2>This week you've earned {% if points_this_week %}{{ points_this_week }} {% else %} 0 {% endif %} points this week and over your entire time playing over you have earned {% if points_lifetime %}{{ points_lifetime }} {% else %} 0 {% endif %} credits</h2>
-                    </h1>
-                    <!-- Closest things parsed into the parameter closest_things-->
-                    <div
-                        class="centre"
-                        id="closest_things">
-                        <a>Your closest options are:</a>
-                        {% if closest_things %}
-                        <ol>
-                            {% for item in closest_things %}
-                            <li>
-                                {{item.type}}: {{item.building}},
-                                {{item.information}}
-                            </li>
-                            {% endfor %}
-                        </ol>
-                        {% else %}
-                        <p>No data found</p>
-                        {% endif %}
-                    </div>
-                </header>
-
-                <!-- Total Stats Section-->
-                <div class= "contentbox justify">
-                    <h2> Together everyone using this app has:</h2>
-                    <ul>
-                        <li>Saved {{ usage_data.fountains_used}} grams of carbon from not using single use bottles</li>
-                        <li>Taken {{ usage_data.bus_stops_used }} fewer car journeys</li>
-                        <li>Recycled {{ usage_data.bins_used }} times</li> 
-                        <li>In total used environmentally friendly campus services {{ usage_data.total_used }} times</li>
-                    </ul>
-                </div>
-                <!-- End Stats Section-->
-                
-                <!-- Map Section -->
+        <!-- Page Content -->
+        <div
+            class="main-content padding-large"
+            id="main">
+            <!-- Header/Home -->
+            <header
+                class="contentbox container padding-32 center"
+                id="home">
+                <h1 class="jumbo">
+                    <span class="hide-small">Welcome to </span>iWEB
+                    <h2>Hi, {{ display_name }}. You currently have {{ points_wallet }} credits to spend</h2>
+        <h2>This week you've earned {% if points_this_week %}{{ points_this_week }} {% else %} 0 {% endif %} points this week and over your entire time playing over you have earned {% if points_lifetime %}{{ points_lifetime }} {% else %} 0 {% endif %} credits</h2>
+                </h1>
+                <!-- Closest things parsed into the parameter closest_things-->
                 <div
-                    class="contentbox justify"
-                    id="map_box">
-                    <h2>Map</h2>
-                    <button class="water-fountain-button">
-                        <img
-                            src="{% static 'global/images/bottle.png' %}"
-                            alt="Water fountain icon" />
-                        Water Fountain Locations
-                    </button>
-                    <button class="bus-stop-button">
-                        <img
-                            src="{% static 'global/images/bus-stop.png' %}"
-                            alt="Bus stop icon" />
-                        Bus Stop Locations
-                    </button>
-                    <button class="bin-button">
-                        <img
-                            src="{% static 'global/images/recycling.png' %}"
-                            alt="Bin icon" />
-                        Bin Locations
-                    </button>
-                    <button class="track-button">
-                        <img
-                            src="{% static 'global/images/tracking.png' %}"
-                            alt="Track icon" />
-                        Tracking On
-                    </button>
-                    <div class="map">
-                        <div class="user">
-                            <script>
-                                    var user = document.querySelector(".user");
-                                    var map = document.querySelector(".map");
-                                    var mapWidth = map.offsetWidth;
-                                    var mapHeight = map.offsetHeight;
-
-                                    width_ratio = mapWidth / 1096;
-                                    height_ratio = mapHeight / 1266;
-                                    console.log(mapHeight);
-                                    createMaze({{maze|safe}});
-                            
-                                    // Converts from longitude and latitude to x and y coordinates
-                                    // The maths behind this function is explained in the documentation
-                                    function getCoordinates(lat, lng, map_width = mapWidth, map_height = mapHeight){
-                                        // The coordinates of the top left and bottom right corners of the map
-                                        var topLeft = {
-                                            lat: 50.7390069,
-                                            lng: -3.5379331
-                                        }			
-                                        var bottomRight = {
-                                            lat: 50.7322172,
-                                            lng: -3.52897
-                                        }
-                                        // Radius of the earth in km
-                                        const radius = 6371; 
-                            
-                                        // Calculates the coordinates for the top left and bottom right corners of the map
-                                        topLeftX = radius*topLeft.lng*Math.cos((topLeft.lat + bottomRight.lat)/2);
-                                        topLeftY = radius*topLeft.lat;
-                                        bottomRightX = radius*bottomRight.lng*Math.cos((topLeft.lat + bottomRight.lat)/2);
-                                        bottomRighty = radius*bottomRight.lat;
-                            
-                                        // Calculates the coordinates for the input latitude and longitude
-                                        posX = radius*lng*Math.cos((topLeft.lat + bottomRight.lat)/2);
-                                        posY = radius*lat;
-                            
-                                        // Calculates the percentage of the input latitude and longitude 
-                                        // relative to the top left and bottom right corners of the map
-                                        pos_perX = (posX - topLeftX )/(bottomRightX - topLeftX );
-                                        pos_perY = (posY - topLeftY )/(bottomRighty  - topLeftY );
-                                        
-                                        return {
-                                            x: 0 + (map_width - 0)*pos_perX+ "px",
-                                            y: 0 + (map_height - 0)*pos_perY+ "px"
-                                        }
-                                        
-                                    }
-
-                                    // Converts from x and y coordinates to longitude and latitude
-                                    function getLatLong(x, y, map_width = mapWidth, map_height = mapHeight){
-                                        // The coordinates of the top left and bottom right corners of the map
-                                        var topLeft = {
-                                            lat: 50.7390069,
-                                            lng: -3.5379331
-                                        }			
-                                        var bottomRight = {
-                                            lat: 50.7322172,
-                                            lng: -3.52897
-                                        }
-                                        // Radius of the earth in km
-                                        const radius = 6371; 
-                            
-                                        // Calculates the coordinates for the top left and bottom right corners of the map
-                                        topLeftX = radius*topLeft.lng*Math.cos((topLeft.lat + bottomRight.lat)/2);
-                                        topLeftY = radius*topLeft.lat;
-                                        bottomRightX = radius*bottomRight.lng*Math.cos((topLeft.lat + bottomRight.lat)/2);
-                                        bottomRighty = radius*bottomRight.lat;
-                            
-                                        // Calculates the percentage of the input x and y coordinates 
-                                        // relative to the top left and bottom right corners of the map
-                                        pos_perX = (x - 0 )/(map_width - 0);
-                                        pos_perY = (y - 0 )/(map_height - 0);
-                                        
-                                        // Calculates the coordinates for the input x and y coordinates
-                                        posX = topLeftX + (bottomRightX - topLeftX)*pos_perX;
-                                        posY = topLeftY + (bottomRighty - topLeftY)*pos_perY;
-                            
-                                        // Calculates the latitude and longitude for the input x and y coordinates
-                                        lat = posY/radius;
-                                        lng = posX/(radius*Math.cos((topLeft.lat + bottomRight.lat)/2));
-                            
-                                        return {
-                                            lat: lat,
-                                            lng: lng
-                                        }
-                                    }
-                            
-                                    // Get the user's location and sets the user's character to that location
-                                    function getLocation(track = false) {
-                                        function success(position) {
-                                            var latitude  = position.coords.latitude;
-                                            var longitude = position.coords.longitude;
-                                            var user = document.querySelector('.user');
-                                            user.longitude = longitude;
-                                            user.latitude = latitude;
-                                            y = getCoordinates(latitude, longitude).y;
-                                            x = getCoordinates(latitude, longitude).x;
-                                            user.style.top = y;
-                                            user.style.left = x;
-                                        }
-                                        function error() {
-                                            throw new Error('Unable to retrieve your location');
-                                        }
-                                        // Options for geolocation
-                                        var options = {
-                                            enableHighAccuracy: true,
-                                            timeout: 5000,
-                                            maximumAge: 0
-                                        };
-                                        // Check if geolocation is supported by the browser
-                                        if (navigator.geolocation) {
-                                            // If track is true, constantly update the user's location
-                                            if (track) {
-                                                watchID = navigator.geolocation.watchPosition(success, error, options)
-                                                return watchID;
-                                            } else {
-                                                navigator.geolocation.getCurrentPosition(success, error, options);
-                                            }
-                                        } else {
-                                            throw new Error('Geolocation is not supported by this browser.');
-                                        }
-                                    }
-                            
-                                    // Represents the text file of the map as divs on the page
-                                    function createMaze(map) {
-                                        // Removes all the previous maze divs if they exist
-                                        var blocks = document.querySelectorAll('.maze-square');
-                                        for (var i = 0; i < blocks.length; i++) {
-                                            blocks[i].parentNode.removeChild(blocks[i]);
-                                        }
-                            
-                                        // Creates the maze divs
-                                        var maze = map;
-                                        for (var i = 0; i < maze.length; i++) {
-                                            // Creates each row
-                                            var row = maze[i];
-                                            var maze_row = document.createElement('div');
-                                            maze_row.setAttribute('class', 'maze-row');
-                            
-                                            // Creates each square
-                                            for (var j = 0; j < row.length; j++) {
-                                                var square = row[j];
-                                                var maze_square = document.createElement('div');			
-                                                maze_square.setAttribute('class', 'maze-square');
-                                                maze_square.setAttribute('id', i + '-' + j);
-                                                // Sets the class of the square depending on whether it is a wall or a path
-                                                // Allows for the search algorithm to work by differentiating between the walls and paths
-                                                if (square == "#") {
-                                                    maze_square.setAttribute('class', 'maze-square wall');
-                                                }else {
-                                                    maze_square.setAttribute('class', 'maze-square path');
-                                                }
-                                                maze_row.appendChild(maze_square);
-                                            }
-                                            document.querySelector('.map').appendChild(maze_row);
-                                        }
-                                    }
-                            
-                            
-                                    // Creates the bottles on the map to represent the fountains
-                                    for (i in {{ fountain_locations|safe }}){
-                                        var bottle = document.createElement("div");
-                                        bottle.id = "bottle" + i;
-                                        bottle.className = "bottle";
-                                        map.appendChild(bottle);
-                                        
-                                        // Gets the x and y coordinates of the fountain
-                                        var x = getCoordinates(({{ fountain_locations|safe }})[i][0], ({{ fountain_locations|safe }})[i][1]).x;
-                                        var y = getCoordinates(({{ fountain_locations|safe }})[i][0], ({{ fountain_locations|safe }})[i][1]).y;
-                            
-                                        bottle.latitude = ({{ fountain_locations|safe }})[i][0];
-                                        bottle.longitude = ({{ fountain_locations|safe }})[i][1];
-                                        // Retrieves extra information about the fountain from the database
-                                        bottle.textContent = ({{ fountain_locations|safe }})[i][2] + " " + ({{ fountain_locations|safe }})[i][3];
-                                        bottle.style.left = x;
-                                        bottle.style.top = y;
-                                        // Makes the bottle invisible
-                                        bottle.style.display = "none";
-                                        bottle.style.fontSize = "0px";
-                            
-                                    }
-                            
-                                    // Creates the bus stops on the map to represent the bus stops
-                                    for (i in {{ bus_stop_locations|safe}}){
-                                        var bus_stop = document.createElement("div");
-                                        bus_stop.id = "bus_stop" + i;
-                                        bus_stop.className = "bus_stop";
-                                        map.appendChild(bus_stop);
-                                        
-                                        // Gets the x and y coordinates of the bus stop
-                                        var x = getCoordinates(({{ bus_stop_locations|safe }})[i][0], ({{ bus_stop_locations|safe }})[i][1]).x;
-                                        var y = getCoordinates(({{ bus_stop_locations|safe}})[i][0], ({{ bus_stop_locations|safe }})[i][1]).y;
-                            
-                                        bus_stop.latitude = ({{ bus_stop_locations|safe}})[i][0];
-                                        bus_stop.longitude = ({{ bus_stop_locations|safe}})[i][1];
-
-                                        // Retrieves extra information about the bus stop from the database
-                                        bus_stop.textContent = ({{ bus_stop_locations|safe}})[i][2] + " " + ({{ bus_stop_locations|safe}})[i][3];
-                                        bus_stop.style.left = x;
-                                        bus_stop.style.top = y;
-                            
-                                        // Makes the bus stop invisible
-                                        bus_stop.style.display = "none";
-                                        bus_stop.style.fontSize = "0px";
-                            
-                                    }
-                            
-                                    // Creates the bins on the map to represent the bins
-                                    for (i in {{ bin_locations|safe}}){
-                                        var bin = document.createElement("div");
-                                        bin.id = "bin" + i;
-                                        bin.className = "bin";
-                                        map.appendChild(bin);
-                                        
-                                        // Gets the x and y coordinates of the bin
-                                        var x = getCoordinates(({{ bin_locations|safe}})[i][0], ({{ bin_locations|safe }})[i][1]).x;
-                                        var y = getCoordinates(({{ bin_locations|safe}})[i][0], ({{ bin_locations|safe }})[i][1]).y;
-                                        
-                                        bin.latitude = ({{ bin_locations|safe}})[i][0];
-                                        bin.longitude = ({{ bin_locations|safe}})[i][1];
-                                        
-                                        // Retrieves extra information about the bin from the database
-                                        bin.textContent = ({{ bin_locations|safe }})[i][2] + " " + ({{ bin_locations|safe }})[i][3];
-                                        bin.style.left = x;
-                                        bin.style.top = y;
-                            
-                                        // Makes the bin invisible
-                                        bin.style.display = "none";
-                                        bin.style.fontSize = "0px";
-                            
-                                    }
-                            
-                                    var bottles = document.querySelectorAll('.bottle');
-                                    var bus_stops = document.querySelectorAll('.bus_stop');
-                                    var bins = document.querySelectorAll('.bin');
-                            
-                                    // Checks to see if the user has clicked on a bottle
-                                    for (var i = 0; i < bottles.length; i++) {
-                                        const x = bottle.offsetLeft;
-                                        const y = bottle.offsetTop
-                                        // When the user clicks on a bottle, a box appears with the information about the bottle
-                                        bottles[i].addEventListener('click', createBox );
-                            
-                                    }
-                            
-                                    // Checks to see if the user has clicked on a bus stop
-                                    for (var i = 0; i < bus_stops.length; i++) {
-                                        const x = bus_stop.offsetLeft;
-                                        const y = bus_stop.offsetTop
-                                        // When the user clicks on a bus stop, a box appears with the information about the bus stop
-                                        bus_stops[i].addEventListener('click', createBox );
-                            
-                                    }
-                            
-                                    // Checks to see if the user has clicked on a bin
-                                    for (var i = 0; i < bins.length; i++) {
-                                        const x = bin.offsetLeft;
-                                        const y = bin.offsetTop
-                                        // When the user clicks on a bin, a box appears with the information about the bin
-                                        bins[i].addEventListener('click', createBox );
-                            
-                                    }
-                            
-                                    // Creates a button that displays the bottles when clicked and hides them when clicked again
-                                    var waterButton = document.querySelector('.water-fountain-button');
-                                    waterButton.addEventListener('click', function() {
-                                        for (var i = 0; i < bottles.length; i++) {
-                                            console.log(bottles[i].style.display);
-                                            if (bottles[i].style.display == "none") {
-                                                bottles[i].style.display = "block";
-                                                waterButton.style.backgroundColor = "black";
-                                            } else {
-                                                bottles[i].style.display = "none";
-                                                waterButton.style.backgroundColor = "blue";
-                                            }
-                                        }
-                                    });
-                            
-                                    // Creates a button that displays the bus stops when clicked and hides them when clicked again
-                                    var busButton = document.querySelector('.bus-stop-button');
-                                    busButton.addEventListener('click', function() {
-                                        for (var i = 0; i < bus_stops.length; i++) {
-                                            console.log(bus_stops[i].style.display);
-                                            if (bus_stops[i].style.display == "none") {
-                                                bus_stops[i].style.display = "block";
-                                                busButton.style.backgroundColor = "black";
-                                            } else {
-                                                bus_stops[i].style.display = "none";
-                                                busButton.style.backgroundColor = "red";
-                                            }
-                                        }
-                                    });
-                            
-                                    // Creates a button that displays the bins when clicked and hides them when clicked again
-                                    var binButton = document.querySelector('.bin-button');
-                                    binButton.addEventListener('click', function() {
-                                        for (var i = 0; i < bins.length; i++) {
-                                            console.log(bins[i].style.display);
-                                            if (bins[i].style.display == "none") {
-                                                bins[i].style.display = "block";
-                                                binButton.style.backgroundColor = "black";
-                                            } else {
-                                                bins[i].style.display = "none";
-                                                binButton.style.backgroundColor = "green";
-                                            }
-                                        }
-                                    });
-                            
-                                    // Creates a button that tracks the user's location
-                                    var trackButton = document.querySelector('.track-button');
-                                    trackButton.addEventListener('click', function() {
-                                        if (trackButton.style.backgroundColor == "gray") {
-                                            trackButton.style.backgroundColor = "white";
-                                            trackButton.value = "Tracking: Off";
-                                            navigator.geolocation.clearWatch(watchID)
-                                        } else {
-                                            trackButton.style.backgroundColor = "gray";
-                                            trackButton.value = "Tracking: On";
-                                            watchID = getLocation(track = true)
-                                        }
-                                    });
-                            
-                                    function getCookie(name) {
-                                        var cookieValue = null;
-                                        if (document.cookie && document.cookie !== '') {
-                                            var cookies = document.cookie.split(';');
-                                            for (var i = 0; i < cookies.length; i++) {
-                                                var cookie = cookies[i].trim();
-                                                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                                                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        return cookieValue;
-                                    }
-                            
-                                    // Checks if the user has completed the challange
-                                    function checkLocation(e){
-                                        x = user.offsetLeft - this.Xcoordinates
-                                        y = user.offsetTop - this.Ycoordinates
-                                        console.log(x, y)
-                                        if ( x < 10 && x > -10 && y < 10 && y > -10){
-                                            // Creates a POST request to the server to update the database
-                                            var csrftoken = getCookie('csrftoken');
-                            
-                                            var request = new XMLHttpRequest();
-                                            request.open("POST", "/index", true);
-                                            request.setRequestHeader("Content-Type", "application/json");
-                                            request.setRequestHeader("X-CSRFToken", csrftoken);
-                                            request.send(JSON.stringify({points: 250}));
-                            
-                                            displayMessage(this)
-                                            
-                                        } else{
-                                            alert("You are not at the correct location");
-                                        }
-                            
-                                    }
-                            
-                            
-                                    // Displays a message to the user, telling them that they have completed the challange
-                                    // There is 2 buttons in the message, one allows the user to play a minigame and the other allows the user to go back to the map
-                                    function displayMessage(object){
-                                        // Sets the onject variable to the box, which is the parent of the object that the user clicked on
-                                        object = object.parentElement;
-                                        var message = document.createElement("div");
-                                        message.id = "message";
-                                        message.className = "message";
-                                        message.innerHTML = "Challange Completed!! <br> <button class='minigame-button'>Play minigame</button>";
-                            
-                                        //The coordinates to the bottle, bus stop or bin are stored in the pathButton
-                            
-                                        message.Xcoordinates = (object.offsetLeft);
-                                        message.Ycoordinates = (object.offsetTop);
-                                        // Sets the position of the message box
-                                        object.appendChild(message);
-                            
-                            
-                                        // Creates a button that allows the user to play the minigame
-                                        var minigameButton = document.querySelector('.minigame-button');
-                                        minigameButton.addEventListener('click', minigame)
-                                    }
-                            
-                                    // A function that creates a small game where the user has to click on the bottles
-                                    // The user has 10 seconds to click on as many garbages as possible
-                                    function minigame(){
-                                        // Creates a box that contains the game
-                                        var game = document.createElement("div");
-                                        game.id = "game";
-                                        game.className = "game";
-                                        game.innerHTML = "Click on the trashbags as fast as you can! <br> <button class='start-button'>Start</button>";
-                                        object = this.parentElement;
-                                        object.appendChild(game);
-                            
-                                        // Creates a button that starts the game
-                                        var startButton = document.querySelector('.start-button');
-                                        startButton.addEventListener('click', function() {
-                                            // Creates a timer that counts down from 10
-                                            var timer = document.createElement("div");
-                                            timer.id = "timer";
-                                            timer.className = "timer";
-                                            timer.innerHTML = "10";
-                                            game.appendChild(timer);
-                                            var time = 10;
-                                            var timerID = setInterval(function(){
-                                                time--;
-                                                timer.innerHTML = time;
-                                                if (time == 0){
-                                                    clearInterval(timerID);
-                                                    game.innerHTML = "Game Over! <br> You clicked on " + score + " trashbags! <br>";
-                                                    // Removes the garbage
-                                                    garbage.remove();
-                                                    var request = new XMLHttpRequest();
-                                                    request.open("POST", "/index", true);
-                                                    request.setRequestHeader("Content-Type", "application/json");
-                                                    request.setRequestHeader("X-CSRFToken", csrftoken);
-                                                    extra_points = score * 10 + 250;
-                                                    request.send(JSON.stringify({points: extra_points}));
-                                                }
-                                            }, 1000);
-                            
-                                            // Creates a score counter
-                                            var score = 0;
-                                            var scoreCounter = document.createElement("div");
-                                            scoreCounter.id = "scoreCounter";
-                                            scoreCounter.className = "scoreCounter";
-                                            scoreCounter.innerHTML = "Score: " + score;
-                                            game.appendChild(scoreCounter);
-                            
-                                            // Creates a button that allows the user to click on the garbages
-                                            var garbage = document.createElement("div");
-                                            garbage.id = "garbage";
-                                            garbage.className = "garbage";
-                                            garbage.style.left = Math.floor(Math.random() * mapWidth) + "px";
-                                            garbage.style.top = Math.floor(Math.random() * mapHeight) + "px";
-                                            garbage.addEventListener('click', function() {
-                                                score++;
-                                                scoreCounter.innerHTML = "Score: " + score;
-                                                garbage.style.left = Math.floor(Math.random() * mapWidth) + "px";
-                                                garbage.style.top = Math.floor(Math.random() * mapHeight) + "px";
-                                            });
-                                            map.appendChild(garbage);
-                                        });
-                            
-                                            
-                                    }
-                            
-                                    // The function that creates the box with the information about the bottle, bus stop or bin
-                                    function createBox(e){
-                                        var bottle_id = this.id;
-                                        // Creates the first box that isn't interactive but contains the information about the bottle, bus stop or bin
-                                        var box = document.createElement("div");
-                                        box.id = "box";
-                                        box.className = "box";
-                                        box.style.left = this.style.left;
-                                        box.style.top = this.style.top;
-                                        box.innerHTML = this.textContent;
-                                        // Stores the id of the bottle, bus stop or bin in the box
-                                        box.item_id = this.id;
-
-                                        // Changes the colour of the box depending on the type of object
-                                        if (this.className == "bottle"){
-                                            var color = "blue";
-                                            var color_light = "#ADD8E6";
-                                        } else if (this.className == "bus_stop"){
-                                            var color = "red";
-                                            var color_light = "pink";
-                                        } else if (this.className == "bin"){
-                                            var color = "green";
-                                            var color_light = "lightgreen";
-                                        }
-                                        box.style.backgroundColor = color_light;
-                            
-                                        // Adds the box to the map and displays it ontop of the bottle, bus stop or bin
-                                        var map = document.querySelector('.map');
-                                        map.appendChild(box);
-                                        
-                                        // Creates the second box that when clicked displays the shortest path to the bottle, bus stop or bin
-                                        var pathButton = document.createElement("button");
-                                        pathButton.id = "pathButton";
-                                        pathButton.className = "pathButton";
-                                        pathButton.style.left = '80px';
-                                        pathButton.style.top = '100px';
-                                        pathButton.innerHTML = "Find Shortest Path";
-                                        pathButton.style.fontSize = "30px";
-                                        pathButton.style.width = "280px";
-                                        pathButton.style.height = "80px";
-                                        pathButton.style.padding = '12px 24px';
-                                        pathButton.style.color = '#fff';
-                                        pathButton.style.backgroundColor = color;
-                                        pathButton.style.borderRadius = '6px';
-                                        pathButton.style.border = 'none';
-                                        pathButton.style.cursor = 'pointer';
-                            
-                                        //The coordinates to the bottle, bus stop or bin are stored in the pathButton
-                                        pathButton.Xcoordinates = (this.offsetLeft);
-                                        pathButton.Ycoordinates = (this.offsetTop);
-                            
-                                        box.appendChild(pathButton);
-                            
-                                        // Stops the box from being created multiple times
-                                        this.removeEventListener('click', createBox);
-                                        // When the path button is clicked the shortest path to the bottle, bus stop or bin is displayed
-                                        pathButton.addEventListener('click', displayPath);
-                            
-                                        // Creates a button that when pressed cheks to see if the user is at the bottle, bus stop or bin
-                                        var checkButton = document.createElement("button");
-                                        checkButton.id = "checkButton";
-                                        checkButton.className = "checkButton";
-                                        checkButton.style.left = '80px';
-                                        checkButton.style.top = '200px';
-                                        checkButton.innerHTML = "Verify Location";
-                                        checkButton.style.fontSize = "30px";
-                                        checkButton.style.width = "280px";
-                                        checkButton.style.height = "80px";
-                                        checkButton.style.padding = '12px 24px';
-                                        checkButton.style.color = '#fff';
-                                        checkButton.style.backgroundColor = 'brown';
-                                        checkButton.style.borderRadius = '6px';
-                                        checkButton.style.border = 'none';
-                                        checkButton.style.cursor = 'pointer';
-                                        checkButton.Xcoordinates = (this.offsetLeft);
-                                        checkButton.Ycoordinates = (this.offsetTop);
-                                        box.appendChild(checkButton);
-                            
-                                        // When the check button is pressed the user's location is checked
-                                        checkButton.addEventListener('click', checkLocation);
-                            
-                                        // Creates a red exit button that appears on the box and when pressed removes the box
-                                        var exitButton = document.createElement("button");
-                                        exitButton.id = "exitButton";
-                                        exitButton.className = "exitButton";
-                                        exitButton.style.left = '80px';
-                                        exitButton.style.top = '100px';
-                                        exitButton.innerHTML = "X";
-                                        exitButton.style.cursor = 'pointer';
-                                        exitButton.style.backgroundColor = "red";
-                                        exitButton.style.fontSize = "30px";
-                                        exitButton.style.width = "80px";
-                                        exitButton.style.height = "80px";
-                                        box.appendChild(exitButton);
-                                        // When the exit button is pressed the box is removed
-                                        exitButton.addEventListener('click', function() {
-                                            // All of the boxes are removed
-                                            pathButton.parentNode.removeChild(pathButton);
-                                            this.parentNode.removeChild(this);
-                                            box.parentNode.removeChild(box);
-                            
-                                            // An event listener is added to the bottle, bus stop or bin so that the box can be created again
-                                            var bottle = document.getElementById(bottle_id);
-                                            bottle.addEventListener("click", createBox);		
-                            
-                                            
-                                        });
-                                    }
-                            
-                                    // A function that displays the shortest path from the user to the bottle, bus stop or bin
-                                    function displayPath (e){
-                                        // Retrieves the coordinates of the user and converts them to the pixel equivilant
-                                        var user = document.querySelector(".user");
-
-
-                                        user_coordinates = getCoordinates(
-                                            user.latitude,
-                                            user.longitude,
-                                            map_width = 1096,
-                                            map_height = 1266);
-                                        // removes the px from the end of the string
-                                        user_coordinates_x = user_coordinates.x.slice(0, -2);
-                                        user_coordinates_y = user_coordinates.y.slice(0, -2);
-        
-                                        user_x = Math.floor(user_coordinates_x/18);
-                                        user_y = Math.floor(user_coordinates_y/18);
-
-                                        // Retrieves the id of the bottle, bus stop or bin
-                                        item_id = this.parentElement.item_id;
-                                        // Retrieves the item from the id of the bottle, bus stop or bin
-                                        var item = document.getElementById(item_id);
-                                        item_coordinates = getCoordinates(
-                                            item.latitude,
-                                            item.longitude,
-                                            map_width = 1096,
-                                            map_height = 1266);
-
-                                        // removes the px from the end of the string
-                                        item_coordinates_x = item_coordinates.x.slice(0, -2);
-                                        item_coordinates_y = item_coordinates.y.slice(0, -2);
-
-                                        console.log(item_coordinates_x, item_coordinates_y);
-                                        // Retrieves the coordinates of the bottle, bus stop or bin and converts them to the pixel equivilant
-                                        x = Math.floor(item_coordinates_x/18);
-                                        y = Math.floor(item_coordinates_y/18);
-                            
-                                        // Runs the A* algorithm to find the shortest path
-                                        maze = {{ maze|safe }};
-                                        var path = aStar(maze, [user_y, user_x], [y,x]);
-                            
-                                        // Displays the path on the map by chaning the background colour of the divs
-                                        createPath(path, this.style.backgroundColor);
-                                        createMaze(maze);
-                            
-                                    }
-                            
-                                    // A function that recieves the dictioniary of the shortest path and then turns the indexes into the correct coordinates and creates divs to represent the path
-                                    function createPath(path, color){
-                            
-                                        // Removes the previous path
-                                        var blocks = document.querySelectorAll('.pathDiv');
-                                        for (var i = 0; i < blocks.length; i++) {
-                                            blocks[i].parentNode.removeChild(blocks[i]);
-                                        }
-                                        for (i in path){
-                                            var pathDiv = document.createElement("div");
-                                            pathDiv.id = "path" + i;
-                                            pathDiv.className = "pathDiv";
-                                            pathDiv.style.backgroundColor = color;
-                                            pathDiv.style.opacity = "0.8";
-                                            
-                                            pathDiv.style.left = ('' + width_ratio*path[i][1]*18 + 'px');
-                                            pathDiv.style.top = ('' + height_ratio*path[i][0]*18 + 'px');
-                                            map.appendChild(pathDiv);
-                            
-                                        }
-                                    }
-                                    
-                                    // This represents each node in the grid for the A* algorithm
-                                    class Node {
-                                        constructor(parent = null,position) {
-                                            this.position = position;
-                                            this.parent = parent;
-                                            this.g = 0; // The shortes distance from the start node to the current node
-                                            this.h = 0; // An estimate of the distance to the end node
-                                            this.f = 0; // The sum of the g and h values
-                                        }
-                                    
-                                        isEqual(other) {
-                                            return this.position == other.position;
-                                        }
-                                    }
-                            
-                                    // This function runs the A* algorithm to find the shortest path
-                                    // It takes in the maze, the start and end coordinates and returns the shortest path
-                                    // The A* algorithm is explained better in the documentation
-                                    // The code for the A* algorithm was adapted from psuedo code from https://en.wikipedia.org/wiki/A*_search_algorithm
-                                    function aStar(map, start, end){
-                                        
-                                        // Creates the start and end node representations of the arguments passed in
-                                        var start = new Node(null,start);
-                                        start.g = start.f = start.h = 0;
-                                        var end = new Node(null,end);
-                                        end.g = end.f = end.h = 0;
-                                        
-                                        // The list of nodes that have been and haven't visited
-                                        var openList = [];
-                                        var closedList = [];
-                            
-                                        // Possible ways the node can move in
-                                        var positions = [
-                                        [0, -1],
-                                        [0, 1],
-                                        [-1, 0],
-                                        [1, 0],
-                                        [-1, -1],];
-                                    
-                                        openList.push(start);
-                            
-                                        // Loops until the end is found or openList is empty
-                                        while(openList.length > 0){
-                                            
-                                            var currentNode = openList[0];
-                                            var currentIndex = 0;
-                                            for (var index in openList) {
-                                                // Finds the node with the lowest f value in the openList(nodes that aren't discarded)
-                                                // Sets the current node to that node
-                                                if (openList[index].f < currentNode.f) {
-                                                    currentNode = openList[index];
-                                                    currentIndex = index;
-                                                }
-                                            }
-                                            // Removes the current node from the openList and adds it to the closedList(nodes that have been visited)
-                                            openList.splice(currentIndex, 1);
-                                            closedList.push(currentNode);
-                            
-                                            // If the current node is the end node then the path is found
-                                            if(currentNode.position[0] == end.position[0] && currentNode.position[1] == end.position[1]){
-                                                    
-                                                var path = [];
-                                                var current = currentNode;
-                                                
-                                                // Gets the positions of the nodes in the path
-                                                while(current != null){
-                                                    path.push(current.position);
-                                                    current = current.parent;
-                                                }
-                                                return path.reverse();
-                                            }
-                                    
-                                            var children = [];
-                            
-                                            for (var newPosition of positions){
-                                                var nodePosition = [
-                                                    currentNode.position[0] + newPosition[0],
-                                                    currentNode.position[1] + newPosition[1]
-                                                
-                                                ];
-                                    
-                                                // Checks if the node is in the map
-                                                if(nodePosition[0] > (map.length - 1) || nodePosition[0] < 0 || nodePosition[1] > (map.length - 1) || nodePosition[1] < 0){
-                                                    continue;
-                                                }
-                                                // Checks if the node is a wall
-                                                if(map[nodePosition[0]][nodePosition[1]] != '-'){
-                                                    continue;
-                                                }
-                            
-                                                // Create a new child node
-                                                var newNode = new Node(currentNode,nodePosition);
-                                                children.push(newNode);
-                                            }
-                            
-                                            // Looks thorugh the childer nodes
-                                            for(var child of children){
-                                                // Makes sure the child node isn't in the closedList
-                                                for(var closedChild of closedList){
-                                                    if(child.isEqual(closedChild)){
-                                                        continue;
-                                                    }
-                                                }
-                                    
-                                                // Adds the weight of the path from hte child node to the current node in our case it is 1 since every distance is the same
-                                                child.g = currentNode.g + 1;
-                                                // Calculates the heuristic value using uclidean distance
-                                                // TODO: Try different heuristics
-                                                child.h = Math.pow((child.position[0] - end.position[0]), 2) + Math.pow((child.position[1] - end.position[1]), 2);          
-                                                child.f = child.g + child.h;
-                                    
-                                                // Check to see if the child node is not further away from the end node than nodes in the openList
-                                                for(var openNode in openList){
-                                                    if(child.isEqual(openNode) && child.g > openNode.g){
-                                                        continue;
-                                                    }
-                                                }
-                                    
-                                                // Adds the child node to the openList
-                                                openList.push(child);
-                                                // Sets the child node to a wall for memory efficiency
-                                                // However makes the path less accurate but since the path is only used for visualisation it doesn't matter
-                                                // TODO: Try to find a way to make the path more accurate
-                                                maze[child.position[0]][child.position[1]] = "#";
-                                            }
-                                        }
-                                    }
-                                </script>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Map Section-->
-                <!-- Leaderboard Section -->
-                <div class="contentbox justify "
-                    id="leaderboard_box">
-                    <h2>Leaderboard</h2>
-                    <!-- Leaderboard content-->
-                    <div class="centre"
-                        id="container2">
-                        <h2> Top scores this week:</h2>
-                        {% if scores %}
-                        <ol>
-                            {% for item in scores %}
-                            <li>{{ item.username }} {{ item.points_this_week }} {{ item.streak }}</li>
-                            {% endfor %}
-                        </ol>
-                        {% else %}
-                        <p>No data found</p>
-                        {% endif %}
-                    </div>
-                </div>
-                <!-- End Leaderboard Section-->
-                <!-- Points/Shop Section -->
-                <div class="contentbox justify "
-                    id="shop_box">
-                    <h2>Shop</h2>
-                    <h3>You have {% if points_wallet %}{{ points_wallet }} {% else %} 0 {% endif %} credits to spend:</h3>
-                    {% if shop_list %}
-                    <h2>Items in the shop:</h2>
-                    <table class "item-table">
-                        <tr>
-                            <th>Item Name</th>
-                            <th>Description</th>
-                            <th>Price (WEBBS)</th>
-                        </tr>
-                        {% for item in shop_list %}
-                        <tr>
-                            <td>
-                                <button class= "alt_text" name="shopbutton" onClick="buyTheme( '{{ item.name }}', '{{item.price}}' )">
-                                    {{ item.name }}
-                                </button>
-                            </td>
-                            <td>{{ item.description }}</td>
-                            <td>{{ item.price }}</td>
-                        </tr>
+                    class="centre"
+                    id="closest_things">
+                    <a>Your closest options are:</a>
+                    {% if closest_things %}
+                    <ol>
+                        {% for item in closest_things %}
+                        <li>
+                            {{item.type}}: {{item.building}},
+                            {{item.information}}
+                        </li>
                         {% endfor %}
-                    </table>
-                    <script>
-                        // This is unfortunately the most reliable way to do this
-                        function buyTheme(purchase, price){
-                            if (price < {{ points_wallet }} ){
-                                points_cost = -price;
-                                var csrftoken = getCookie('csrftoken');
-                                var request = new XMLHttpRequest();
-                                request.open("POST", "/index", true);
-                                request.setRequestHeader("Content-Type", "application/json");
-                                request.setRequestHeader("X-CSRFToken", csrftoken);
-                                request.send(JSON.stringify({bought : purchase, points : points_cost}));
-                                location.reload();
+                    </ol>
+                    {% else %}
+                    <p>No data found</p>
+                    {% endif %}
+                </div>
+            </header>
+
+            <!-- Total Stats Section-->
+            <div class= "contentbox justify">
+                <h2> Together everyone using this app has:</h2>
+                <ul>
+                    <li>Saved {{ usage_data.fountains_used}} grams of carbon from not using single use bottles</li>
+                    <li>Taken {{ usage_data.bus_stops_used }} fewer car journeys</li>
+                    <li>Recycled {{ usage_data.bins_used }} times</li> 
+                    <li>In total used environmentally friendly campus services {{ usage_data.total_used }} times</li>
+                </ul>
+            </div>
+            <!-- End Stats Section-->
+            
+            <!-- Map Section -->
+            <div
+                class="contentbox justify"
+                id="map_box">
+                <h2>Map</h2>
+                {% if challenge_done %}
+                <h4>You have no uncomplete challenges</h4>
+                {% else %}
+                <h4>Your challenge is: {{current_challenge}}</h4>
+                {% endif %}
+                <button class="water-fountain-button">
+                    <img
+                        src="{% static 'global/images/bottle.png' %}"
+                        alt="Water fountain icon" />
+                    Water Fountain Locations
+                </button>
+                <button class="bus-stop-button">
+                    <img
+                        src="{% static 'global/images/bus-stop.png' %}"
+                        alt="Bus stop icon" />
+                    Bus Stop Locations
+                </button>
+                <button class="bin-button">
+                    <img
+                        src="{% static 'global/images/recycling.png' %}"
+                        alt="Bin icon" />
+                    Bin Locations
+                </button>
+                <button class="track-button">
+                    <img
+                        src="{% static 'global/images/tracking.png' %}"
+                        alt="Track icon" />
+                    Tracking On
+                </button>
+                <div class="map">
+                    <div class="user">
+                        <script src="{% static 'global/js/maze.js' %}"></script>
+                        <script type="module">
+
+                                //const { getCoordinates } = require('./maze.js');
+                                import { createItems, createMaze, startListeners} from "{% static 'global/js/maze.js' %}";
+                                
+
+                                  
+                                
+                                var user = document.querySelector(".user");
+                                var map = document.querySelector(".map");
+
+                                var mapWidth = map.offsetWidth;
+                                var mapHeight = map.offsetHeight;
+
+                                var width_ratio = mapWidth / 1096;
+                                var height_ratio = mapHeight / 1266;
+
+                                var maze_array = {{ maze|safe }};
+                                var maze = createMaze({{maze|safe}});
+                        
+                                createItems({{ fountain_locations|safe}}, 'bottle');
+                                createItems({{ bus_stop_locations|safe}}, 'bus_stop');
+                                createItems({{ bin_locations|safe}}, 'bin');
+                        
+                                var bottles = document.querySelectorAll('.bottle');
+                                var bus_stops = document.querySelectorAll('.bus_stop');
+                                var bins = document.querySelectorAll('.bin');
+                            
+
+                                startListeners(maze_array);
+                        
+                                function getCookie(name) {
+                                    var cookieValue = null;
+                                    if (document.cookie && document.cookie !== '') {
+                                        var cookies = document.cookie.split(';');
+                                        for (var i = 0; i < cookies.length; i++) {
+                                            var cookie = cookies[i].trim();
+                                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    return cookieValue;
+                                }
+                        
+                        
+                            </script>
+                    </div>
+                </div>
+            </div>
+            <!-- End Map Section-->
+            <!-- Leaderboard Section -->
+            <div
+                class="contentbox justify "
+                id="leaderboard_box">
+                <h2>Leaderboard</h2>
+                <!-- Leaderboard content-->
+                <div
+                    class="centre"
+                    id="container2">
+                    <h2> Top scores this week:</h2>
+                    {% if scores %}
+                    <ol>
+                        {% for item in scores %}
+                        <li>{{ item.username }} {{ item.points_this_week }} {{ item.streak }}</li>
+                        {% endfor %}
+                    </ol>
+                    {% else %}
+                    <p>No data found</p>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- End Leaderboard Section-->
+            <!-- Points/Shop Section -->
+            <div
+                class="contentbox justify "
+                id="shop_box">
+                <h2>Shop</h2>
+                {% if shop_list %}
+                <h2>Items in the shop:</h2>
+                <table class "item-table">
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                    </tr>
+                    {% for item in shop_list %}
+                    <tr>
+                        <td>
+                            <button class= "alt_text" name="shopbutton" onClick="buyTheme( '{{ item.name }}', '{{item.price}}' )">
+                                {{ item.name }}
+                            </button>
+                        </td>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.price }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <script>
+                    // This is unfortunately the most reliable way to do this
+                    function buyTheme(purchase, price){
+                        if (price < {{ points_wallet }} ){
+                            points_cost = -price;
+                            var csrftoken = getCookie('csrftoken');
+                            var request = new XMLHttpRequest();
+                            request.open("POST", "/index", true);
+                            request.setRequestHeader("Content-Type", "application/json");
+                            request.setRequestHeader("X-CSRFToken", csrftoken);
+                            request.send(JSON.stringify({bought : purchase, points : points_cost}));
+                            location.reload();
+                        }
+                    }
+
+                    function getCookie(name) {
+                        var cookieValue = null;
+                        if (document.cookie && document.cookie !== '') {
+                            var cookies = document.cookie.split(';');
+                            for (var i = 0; i < cookies.length; i++) {
+                                var cookie = cookies[i].trim();
+                                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                    break;
+                                }
                             }
                         }
-                    </script>
-                    {% else %}
-                    <p> The shop is empty right now </p>
-                    {% endif %}
+                        return cookieValue;
+                    }
+                </script>
+                {% else %}
+                <p> The shop is empty right now </p>
+                {% endif %}
+            </div>
+            <!-- End Points/Shop Section-->
+            <!-- Report Section -->
+            <div
+                class="contentbox justify"
+                id="report_box">
+                <h2>Report</h2>
+
+                <div id="location-form">
+                    {% csrf_token %}
+                    <label for="{{ location_form.latitude.auto_id }}">Latitude:</label>
+                    <input
+                        type="text"
+                        name="{{ location_form.latitude.html_name }}"
+                        id="{{ location_form.latitude.auto_id }}"
+                        value=""
+                        class="latitude-input"
+                    />
+                
+                    <label for="{{ location_form.longitude.auto_id }}">Longitude:</label>
+                    <input
+                        type="text"
+                        name="{{ location_form.longitude.html_name }}"
+                        id="{{ location_form.longitude.auto_id }}"
+                        value=""
+                        class="longitude-input"
+                    />
+                
+                    <label for="{{ location_form.type.auto_id }}">Type:</label>
+                    <select
+                        name="{{ location_form.type.html_name }}"
+                        id="{{ location_form.type.auto_id }}"
+                    >
+                        <option value="Fountain">Fountain</option>
+                        <option value="BusStop">BusStop</option>
+                        <option value="Bin">Bin</option>
+                    </select>
+                
+                    <label for="{{ location_form.building.auto_id }}">Building:</label>
+                    <input
+                        type="text"
+                        name="{{ location_form.building.html_name }}"
+                        id="{{ location_form.building.auto_id }}"
+                        value=""
+                    />
+                
+                    <label for="{{ location_form.information.auto_id }}">Information:</label>
+                    <input
+                        type="text"
+                        name="{{ location_form.information.html_name }}"
+                        id="{{ location_form.information.auto_id }}"
+                        value=""
+                    />
+                
+                    <label class="usable-label" for="{{ location_form.usable.auto_id }}">Usable</label>
+                    <input
+                        type="checkbox"
+                        name="{{ location_form.usable.html_name }}"
+                        id="{{ location_form.usable.auto_id }}"
+                        class="usable-input"
+                    />
                 </div>
-                <!-- End Points/Shop Section-->
-                <!-- Report Section -->
-                <div class="contentbox justify"
-                    id="report_box">
-                    <h2>Report</h2>
-                    {% if submitted %}
-                    <h1>Thank you for submitting your location!</h1>
-                    {% else %}
-                    <h1>Submit a location</h1>
-                    <form
-                        action=""
-                        method="POST">
-                        {% csrf_token%} {{ location_form.as_p }}
-                        <input
-                            type="submit"
-                            value="Add Location" />
-                    </form>
-                    {% endif %}
-                </div>
-                <!-- End Report Section-->
-                <!-- Settings Section -->
-                <div class="contentbox justify"
-                    id="settings_box">
-                    {% if is_staff %}
+                
+                <button id="submit-location">Submit Location</button>
+                
+                <script src="{% static 'global/js/maze.js' %}"></script>
+                <script type="module">
+                    import { getCookie } from "{% static 'global/js/maze.js' %}";
+
+                    function returnLocation(callback, track = false) {
+                        function success(position) {
+                            var latitude = position.coords.latitude;
+                            var longitude = position.coords.longitude;
+                
+                            // Call the callback function after retrieving the coordinates
+                            callback(latitude, longitude);
+                        }
+                
+                        function error() {
+                            throw new Error("Unable to retrieve your location");
+                        }
+                
+                        var options = {
+                            enableHighAccuracy: true,
+                            timeout: 5000,
+                            maximumAge: 0,
+                        };
+                
+                        if (navigator.geolocation) {
+                            if (track) {
+                                return navigator.geolocation.watchPosition(
+                                    success,
+                                    error,
+                                    options
+                                );
+                            } else {
+                                navigator.geolocation.getCurrentPosition(success, error, options);
+                            }
+                        } else {
+                            throw new Error("Geolocation is not supported by this browser.");
+                        }
+                    }
+
+                        // Define a callback function to update the latitude and longitude input fields
+                    function updateInputFields(latitude, longitude) {
+                        // Find the latitude and longitude input fields using their class names
+                        const latitudeInput = document.querySelector(".latitude-input");
+                        const longitudeInput = document.querySelector(".longitude-input");
+
+                        // Fill the input fields with the values returned by getLocation
+                        latitudeInput.value = latitude;
+                        longitudeInput.value = longitude;
+                    }
+
+                    // Pass the callback function to returnLocation
+                    returnLocation(updateInputFields);
+
+                    function submitLocationData() {
+                        const locationForm = document.getElementById("location-form");
+                
+                        // Collect the form data as an object
+                        const formData = {
+                            location: {
+                                latitude: locationForm.querySelector(".latitude-input").value,
+                                longitude: locationForm.querySelector(".longitude-input").value,
+                                type: locationForm.querySelector("#id_type").value,
+                                building: locationForm.querySelector("#id_building").value,
+                                information: locationForm.querySelector("#id_information").value,
+                                usable: locationForm.querySelector(".usable-input").checked,
+                            },
+                        };
+                
+                        // Send the form data as JSON to the main view
+                        const csrfToken = getCookie("csrftoken");
+                
+                        fetch(window.location.href, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRFToken": csrfToken,
+                            },
+                            body: JSON.stringify(formData),
+                        })
+                            .then((response) => {
+                                if (response.ok) {
+                                    window.location.href = window.location.href + "?submitted=True";
+                                } else {
+                                    console.error("Error submitting location.");
+                                }
+                            })
+                            .catch((error) => {
+                                console.error("Error submitting location: ", error);
+                            });
+                    }
+                
+                    document.getElementById("submit-location").addEventListener("click", submitLocationData);
+                </script>
+            </div>
+            <!-- End Report Section-->
+            <!-- Settings Section -->
+            <div
+                class="contentbox justify"
+                id="settings_box">
+                <h2>Settings</h2>
+                {% if is_staff %}
                     <div class = "justify right">
                         <button class="alt_text" onClick="resetUsers()">RESET WEEKLY STREAKS</button>
                         <script>
@@ -1225,94 +713,121 @@
                                 request.send(JSON.stringify({ leaderboard_reset : 0}));
                                 location.reload();
                             }
+                            function getCookie(name) {
+                                var cookieValue = null;
+                                if (document.cookie && document.cookie !== '') {
+                                    var cookies = document.cookie.split(';');
+                                    for (var i = 0; i < cookies.length; i++) {
+                                        var cookie = cookies[i].trim();
+                                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                            break;
+                                        }
+                                    }
+                                }
+                                return cookieValue;
+                            }
                         </script>
                     </div>
                     {% endif %}
-                    <h2>Settings</h2>
-                        <ul>
-                            {% for item in themes %}
-                            <button class= "alt_text" name="themebutton" onClick="setTheme( '{{ item }}' )">
-                            {{ item }}
-                            </button>
-                            {% endfor %}
-                        </ul>
-                        <script>
-                            // This is unfortunately the most reliable way to do this
-                            function setTheme(newTheme){
-                                var csrftoken = getCookie('csrftoken');
-                                var request = new XMLHttpRequest();
-                                request.open("POST", "/index", true);
-                                request.setRequestHeader("Content-Type", "application/json");
-                                request.setRequestHeader("X-CSRFToken", csrftoken);
-                                request.send(JSON.stringify({newtheme : newTheme}));
-                                location.reload();
+                    <ul>
+                        {% for item in themes %}
+                        <button class= "alt_text" name="themebutton" onClick="setTheme( '{{ item }}' )">
+                        {{ item }}
+                        </button>
+                        {% endfor %}
+                    </ul>
+                    <script>
+                        // This is unfortunately the most reliable way to do this
+                        function setTheme(newTheme){
+                            var csrftoken = getCookie('csrftoken');
+                            var request = new XMLHttpRequest();
+                            request.open("POST", "/index", true);
+                            request.setRequestHeader("Content-Type", "application/json");
+                            request.setRequestHeader("X-CSRFToken", csrftoken);
+                            request.send(JSON.stringify({newtheme : newTheme}));
+                            location.reload();
+                        }
+                        function getCookie(name) {
+                            var cookieValue = null;
+                            if (document.cookie && document.cookie !== '') {
+                                var cookies = document.cookie.split(';');
+                                for (var i = 0; i < cookies.length; i++) {
+                                    var cookie = cookies[i].trim();
+                                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                        break;
+                                    }
+                                }
                             }
-                        </script>
-                </div>
-                <!-- End Settings Section-->
-                <!-- Contact Section -->
-                <div class="contentbox justify"
-                    id="contactus_box">
-                    <h2>Contact Me</h2>
-                    <div class="container">
-                        <form
-                            action="https://formsubmit.co/exetertestcontacts@gmail.com"
-                            method="POST">
-                            <ul class="contact-list">
-                                <li>
-                                    <label for="fname">First Name</label>
-                                    <input
-                                        class="alt_text"
-                                        type="text"
-                                        id="fname"
-                                        name="firstname"
-                                        placeholder="Your name.."
-                                        required />
-                                </li>
-                                <li>
-                                    <label for="email">Email</label>
-                                    <input
-                                        class="alt_text"
-                                        type="text"
-                                        id="email"
-                                        name="email"
-                                        placeholder="Your email address.."
-                                        required />
-                                </li>
-                                <li>
-                                    <label for="subject">Report</label>
-                                </li>
-                                <li>
-                                    <textarea
-                                        class="alt_text"
-                                        id="subject"
-                                        class="subject"
-                                        name="subject"
-                                        placeholder="Report a change..."
-                                        required></textarea>
-                                </li>
-                                <li>
-                                    <button class = "alt_text" type="submit">Submit</button>
-                                </li>
-                            </ul>
-                        </form>
-                    </div>
-                </div>
-                <!-- End Contact Section -->
-    
-                <!-- Streaks large screen -->
-                <div class="streaks hide-small">
-                    <h1>{{streak}}</h1>
-                </div>
-                <!-- Streaks end -->
-    
-                <!-- Streaks Small screen-->
-                <div class="streaks_small hide-medium hide-large">
-                    <!-- Not much needs to be here -->
-                </div>
-                <!-- Streaks end -->
+                            return cookieValue;
+                        }
+                    </script>
             </div>
-            <!-- END PAGE CONTENT -->
-        </body>
-    </html>
-    
+            <!-- End Settings Section-->
+            <!-- Contact Section -->
+            <div
+                class="contentbox justify"
+                id="contactus_box">
+                <h2>Contact Me</h2>
+                <div class="container">
+                    <form
+                        action="https://formsubmit.co/exetertestcontacts@gmail.com"
+                        method="POST">
+                        <ul class="contact-list">
+                            <li>
+                                <label for="fname">First Name</label>
+                                <input
+                                    class="alt_text"
+                                    type="text"
+                                    id="fname"
+                                    name="firstname"
+                                    placeholder="Your name.."
+                                    required />
+                            </li>
+                            <li>
+                                <label for="email">Email</label>
+                                <input
+                                    class="alt_text"
+                                    type="text"
+                                    id="email"
+                                    name="email"
+                                    placeholder="Your email address.."
+                                    required />
+                            </li>
+                            <li>
+                                <label for="subject">Report</label>
+                            </li>
+                            <li>
+                                <textarea
+                                    class="alt_text"
+                                    id="subject"
+                                    class="subject"
+                                    name="subject"
+                                    placeholder="Report a change..."
+                                    required></textarea>
+                            </li>
+                            <li>
+                                <button class = "alt_text" type="submit">Submit</button>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+            <!-- End Contact Section -->
+
+            <!-- Streaks large screen -->
+            <div class="streaks hide-small">
+                <h1>{{streak}}</h1>
+            </div>
+            <!-- Streaks end -->
+
+            <!-- Streaks Small screen-->
+            <div class="streaks_small hide-medium hide-large">
+                <!-- Not much needs to be here -->
+            </div>
+            <!-- Streaks end -->
+        </div>
+        <!-- END PAGE CONTENT -->
+    </body>
+</html>
