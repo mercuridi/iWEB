@@ -136,6 +136,8 @@ def main(request):
         if item.name not in current_user_data.owned_templates:
             unowned_themes.append(item)
 
+    #themes by Dash and Jude
+
     themes = {
         'default':  {'main':'#3776ac', 'second':'#7a12dd', 'icons':'#3776ac', 'background':'#ffffff','font':'#ffffff'},
         'first':    {'main':'#ffcccc', 'second':'#993366', 'icons':'#ff9999', 'background':'#ffdddd','font':'#aa0000'},

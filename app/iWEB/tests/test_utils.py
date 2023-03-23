@@ -1,3 +1,4 @@
+#Kai and Beth: this file
 from app.models import Location
 from app.models import Item
 from app.models import Challenge
@@ -46,7 +47,7 @@ def populate_test_database():
         profile = new_user.profile
         # populate with "typical" values
         profile.streak = i
-        profile.score = i * 100
+        profile.points_this_week = i * 100
         if i % 2 == 0:
             profile.challenge_done = True
         profile.save()
